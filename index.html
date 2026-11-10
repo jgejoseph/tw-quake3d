@@ -16,6 +16,7 @@
   #panel header{display:flex;align-items:center;justify-content:space-between;gap:8px}
   #panel h1{font-size:15px;margin:0}
   #panel.collapsed #body{display:none}
+  #grip{display:none;text-align:center;color:var(--mute);font-size:11px;padding:6px 0 0}
   .row{margin-top:8px}
   .row label{cursor:pointer}
   .lbl{color:var(--mute);font-size:12px;margin-bottom:2px}
@@ -51,11 +52,13 @@
   #status{color:var(--mute);font-size:12px;margin-top:6px}
   @media (max-width:640px){
     #panel{left:8px;top:8px;width:auto;right:8px;max-height:52%}
+    #grip{display:block}
+    #panel header{touch-action:none}
     #rank{left:8px;right:8px;top:auto;bottom:78px;width:auto;max-height:45%}
     #timebar{bottom:8px;width:calc(100% - 16px)}
   }
 </style>
-  <script type="module" crossorigin src="./assets/index-BczWKX1G.js"></script>
+  <script type="module" crossorigin src="./assets/index-m0xYxq5k.js"></script>
 </head>
 <body>
 <div id="app"></div>
@@ -87,7 +90,7 @@
     <div class="row"><label><input id="ocean" type="checkbox" checked /> 海底地形</label></div>
     <div class="row"><label><input id="plates" type="checkbox" /> 板塊</label></div>
     <div id="platesLegend" style="display:none;margin-top:4px"></div>
-    <div class="row"><label><input id="sound" type="checkbox" /> 聲音與震動（播放時，規模 5 以上）</label></div>
+    <div class="row"><label><input id="sound" type="checkbox" /> 聲音與震動（播放時，規模 6 以上）</label></div>
     <div class="row"><label><input id="allData" type="checkbox" /> 顯示全部資料（1935 起，含規模 3 以下）</label></div>
     <div class="row"><button id="rankBtn" style="width:100%">規模最大前 10 名</button></div>
     <div id="status"></div>
@@ -96,12 +99,13 @@
       <summary>資料來源</summary>
       <p>地震：中央氣象署「地震活動彙整」，1935-02-10 至 2025-03-01（2025 年只有 1–2 月）。早年測站少，多半只記到規模 4 以上，不同年代的數量不能直接比較。</p>
       <p>預設只顯示 1990 年以後、規模 3 以上的地震。</p>
-      <p>地形：NOAA ETOPO 2022（含海底地形），約 1.85 公里一格；高度放大 5 倍，深度不放大。</p>
-      <p>地形高度放大 5 倍、地震深度沒有，所以一部分海域地震會看起來浮在海床上方。早年深度常記成整數，畫面會出現一層層橫條，這是原始資料本來的樣子。</p>
+      <p>地形：NOAA ETOPO 2022（含海底地形），約 1.85 公里一格；陸地高度放大 15 倍、海底放大 5 倍，地震深度不放大。</p>
+      <p>海底放大 5 倍、地震深度沒有放大，所以一部分海域地震會看起來浮在海床上方。早年深度常記成整數，畫面會出現一層層橫條，這是原始資料本來的樣子。</p>
       <p>縣市界：plotdb/pdmaptw（已簡化線條）。</p>
       <p>隱沒板塊：USGS Slab2（Hayes et al., 2018, <a href="https://doi.org/10.5066/F7PV6JNV" target="_blank" rel="noopener">doi:10.5066/F7PV6JNV</a>），公有領域。</p>
       <p>板塊邊界：PB2002（Bird, 2003, doi:10.1029/2001GC000252），GeoJSON 由 Hugo Ahlenius、Nordpil 與 Peter Bird 提供，<a href="https://github.com/fraxen/tectonicplates" target="_blank" rel="noopener">fraxen/tectonicplates</a>，授權 ODC-BY 1.0。全球尺度，台灣附近僅供示意。</p>
     </details>
+    <div id="grip">︿ 往上滑收合</div>
   </div>
 </div>
 
