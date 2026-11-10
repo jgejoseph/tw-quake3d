@@ -16,7 +16,7 @@
   #panel header{display:flex;align-items:center;justify-content:space-between;gap:8px}
   #panel h1{font-size:15px;margin:0}
   #panel.collapsed #body{display:none}
-  #grip{display:none;text-align:center;color:var(--mute);font-size:11px;padding:6px 0 0}
+  #grip{display:none;width:100%;margin-top:10px;padding:10px 0;text-align:center;font-size:14px;color:inherit;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:8px;cursor:pointer}
   .row{margin-top:8px}
   .row label{cursor:pointer}
   .lbl{color:var(--mute);font-size:12px;margin-bottom:2px}
@@ -58,7 +58,7 @@
     #timebar{bottom:8px;width:calc(100% - 16px)}
   }
 </style>
-  <script type="module" crossorigin src="./assets/index-m0xYxq5k.js"></script>
+  <script type="module" crossorigin src="./assets/index-MSI6Ni3s.js"></script>
 </head>
 <body>
 <div id="app"></div>
@@ -105,7 +105,7 @@
       <p>隱沒板塊：USGS Slab2（Hayes et al., 2018, <a href="https://doi.org/10.5066/F7PV6JNV" target="_blank" rel="noopener">doi:10.5066/F7PV6JNV</a>），公有領域。</p>
       <p>板塊邊界：PB2002（Bird, 2003, doi:10.1029/2001GC000252），GeoJSON 由 Hugo Ahlenius、Nordpil 與 Peter Bird 提供，<a href="https://github.com/fraxen/tectonicplates" target="_blank" rel="noopener">fraxen/tectonicplates</a>，授權 ODC-BY 1.0。全球尺度，台灣附近僅供示意。</p>
     </details>
-    <div id="grip">︿ 往上滑收合</div>
+    <button id="grip" type="button">︿ 收合</button>
   </div>
 </div>
 
