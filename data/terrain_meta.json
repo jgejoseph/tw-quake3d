@@ -1,0 +1,13 @@
+{
+ "source": "NOAA NCEI ETOPO 2022 v1 30 arc-second bedrock elevation (OPeNDAP subset, stride 2 = 60 arc-second spacing)",
+ "url": "https://www.ngdc.noaa.gov/thredds/dodsC/global/ETOPO2022/30s/30s_bed_elev_netcdf/ETOPO_2022_v1_30s_N90W180_bed.nc.ascii?z%5B13200:2:14040%5D%5B35760:2:36480%5D",
+ "rows": 421,
+ "cols": 361,
+ "dtype": "int16 little-endian, meters, row-major, row 0 = southernmost lat",
+ "lat_first": 20.004166666666663,
+ "lat_last": 27.004166666666663,
+ "lon_first": 118.00416666666666,
+ "lon_last": 124.00416666666666,
+ "zmin": -6838,
+ "zmax": 3624
+}

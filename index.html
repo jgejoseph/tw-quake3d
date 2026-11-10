@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<link rel="icon" href="data:," />
+<title>台灣地震 3D</title>
+<style>
+  :root{--bg:rgba(10,14,22,.88);--fg:#dde3ee;--mute:#8fa0b5;--acc:#ffb347}
+  html,body{margin:0;height:100%;background:#0b0f17;color:var(--fg);font-family:system-ui,"Noto Sans TC",sans-serif;overflow:hidden;-webkit-text-size-adjust:100%}
+  #app{position:fixed;inset:0}
+  button,select{font:inherit;color:var(--fg);background:#1c2433;border:1px solid #33405a;border-radius:6px;padding:4px 10px;cursor:pointer}
+  button:hover,select:hover{border-color:#5b6f94}
+  .card{position:fixed;background:var(--bg);border-radius:10px;font-size:13px;line-height:1.5;box-shadow:0 2px 12px rgba(0,0,0,.4)}
+  #panel{top:12px;left:12px;width:250px;max-height:calc(100% - 110px);overflow:auto;padding:10px 12px}
+  #panel header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  #panel h1{font-size:15px;margin:0}
+  #panel.collapsed #body{display:none}
+  .row{margin-top:8px}
+  .row label{cursor:pointer}
+  .lbl{color:var(--mute);font-size:12px;margin-bottom:2px}
+  input[type=range]{width:100%;accent-color:var(--acc)}
+  input[type=checkbox]{accent-color:var(--acc);vertical-align:-2px}
+  .sw{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+  .ln{display:inline-block;width:14px;height:3px;margin-right:6px;vertical-align:3px}
+  #legend div,#platesLegend div{font-size:12px}
+  .grad{height:10px;border-radius:3px}
+  .gl{display:flex;justify-content:space-between;font-size:11px;color:var(--mute)}
+  hr{border:0;border-top:1px solid #2a3446;margin:10px 0 4px}
+  details{font-size:11.5px;color:var(--mute);margin-top:8px}
+  details summary{cursor:pointer;color:var(--fg);font-size:12.5px}
+  details p{margin:4px 0}
+  details a{color:#9cc3ff}
+  #timebar{left:50%;transform:translateX(-50%);bottom:14px;width:min(640px,calc(100% - 24px));padding:8px 12px;display:flex;align-items:center;gap:10px;box-sizing:border-box}
+  #play{width:40px;flex:none;font-size:15px;padding:4px 0}
+  #timebar .mid{flex:1;min-width:0}
+  #yearText{font-size:15px;font-weight:600}
+  #countText{color:var(--mute);font-size:12px;margin-left:6px}
+  #rank{top:12px;right:12px;width:290px;max-height:calc(100% - 110px);overflow:auto;padding:10px 12px;display:none}
+  #rank.open{display:block}
+  #rank header{display:flex;justify-content:space-between;align-items:center}
+  #rank h2{font-size:14px;margin:0}
+  #rank .note{color:var(--mute);font-size:11.5px;margin:2px 0 6px}
+  #rank ol{margin:0;padding:0;list-style:none}
+  #rank li{display:flex;gap:8px;align-items:center;padding:5px 6px;border-radius:6px;cursor:pointer}
+  #rank li:hover{background:#1c2433}
+  #rank li.sel{background:#3a2b12;outline:1px solid var(--acc)}
+  #rank .m{font-size:16px;font-weight:700;color:var(--acc);width:34px;flex:none}
+  #rank .d{font-size:12px;line-height:1.35}
+  #rank .d span{color:var(--mute)}
+  #status{color:var(--mute);font-size:12px;margin-top:6px}
+  @media (max-width:640px){
+    #panel{left:8px;top:8px;width:auto;right:8px;max-height:52%}
+    #rank{left:8px;right:8px;top:auto;bottom:78px;width:auto;max-height:45%}
+    #timebar{bottom:8px;width:calc(100% - 16px)}
+  }
+</style>
+  <script type="module" crossorigin src="./assets/index-xfV3Z5Yk.js"></script>
+</head>
+<body>
+<div id="app"></div>
+
+<div id="panel" class="card">
+  <header>
+    <h1>台灣地震 3D</h1>
+    <button id="collapse" aria-label="收合或展開設定">收合</button>
+  </header>
+  <div id="body">
+    <div class="row">
+      <div class="lbl">點的顏色</div>
+      <select id="colorMode" style="width:100%">
+        <option value="depth">依深度</option>
+        <option value="depthCB">依深度（色弱友善）</option>
+        <option value="year">依年份</option>
+      </select>
+      <div id="legend" style="margin-top:4px"></div>
+      <div style="font-size:12px;color:var(--mute);margin-top:2px">點越大＝規模越大</div>
+    </div>
+    <div class="row">
+      <div class="lbl">地形透明度</div>
+      <input id="opacity" type="range" min="0" max="1" step="0.05" value="0.6" />
+    </div>
+    <div class="row">
+      <div class="lbl">掀開地形 <span id="liftv">0</span> 公里</div>
+      <input id="lift" type="range" min="0" max="80" step="1" value="0" />
+    </div>
+    <div class="row"><label><input id="plates" type="checkbox" /> 板塊</label></div>
+    <div id="platesLegend" style="display:none;margin-top:4px"></div>
+    <div class="row"><label><input id="sound" type="checkbox" /> 聲音（播放時，規模 5 以上發出低音）</label></div>
+    <div class="row"><label><input id="allData" type="checkbox" /> 顯示全部資料（1935 起，含規模 3 以下）</label></div>
+    <div class="row"><button id="rankBtn" style="width:100%">規模最大前 10 名</button></div>
+    <div id="status"></div>
+    <hr />
+    <details id="sources">
+      <summary>資料來源</summary>
+      <p>地震：中央氣象署「地震活動彙整」，1935-02-10 至 2025-03-01（2025 年只有 1–2 月）。早年測站少，多半只記到規模 4 以上，不同年代的數量不能直接比較。</p>
+      <p>預設只顯示 1990 年以後、規模 3 以上的地震。</p>
+      <p>地形：NOAA ETOPO 2022（含海底地形），約 1.85 公里一格；高度放大 5 倍，深度不放大。</p>
+      <p>地形高度放大 5 倍、地震深度沒有，所以一部分海域地震會看起來浮在海床上方。早年深度常記成整數，畫面會出現一層層橫條，這是原始資料本來的樣子。</p>
+      <p>縣市界：plotdb/pdmaptw（已簡化線條）。</p>
+      <p>隱沒板塊：USGS Slab2（Hayes et al., 2018, <a href="https://doi.org/10.5066/F7PV6JNV" target="_blank" rel="noopener">doi:10.5066/F7PV6JNV</a>），公有領域。</p>
+      <p>板塊邊界：PB2002（Bird, 2003, doi:10.1029/2001GC000252），GeoJSON 由 Hugo Ahlenius、Nordpil 與 Peter Bird 提供，<a href="https://github.com/fraxen/tectonicplates" target="_blank" rel="noopener">fraxen/tectonicplates</a>，授權 ODC-BY 1.0。全球尺度，台灣附近僅供示意。</p>
+    </details>
+  </div>
+</div>
+
+<div id="rank" class="card">
+  <header><h2>規模最大前 10 名</h2><button id="rankClose" aria-label="關閉">✕</button></header>
+  <div class="note">依「規模」排序（資料沒有震度）。範圍：<span id="rankScope"></span>。點一下可飛過去看。</div>
+  <ol id="rankList"></ol>
+</div>
+
+<div id="timebar" class="card">
+  <button id="play" aria-label="播放">▶</button>
+  <div class="mid">
+    <div><span id="yearText">載入中…</span><span id="countText"></span></div>
+    <input id="year" type="range" min="1990" max="2025" step="1" value="2025" />
+  </div>
+</div>
+
+</body>
+</html>
