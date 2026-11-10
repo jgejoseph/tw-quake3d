@@ -34,6 +34,7 @@
   details a{color:#9cc3ff}
   #timebar{left:50%;transform:translateX(-50%);bottom:14px;width:min(640px,calc(100% - 24px));padding:8px 12px;display:flex;align-items:center;gap:10px;box-sizing:border-box}
   #play{width:40px;flex:none;font-size:15px;padding:4px 0}
+  #speed{width:48px;flex:none;font-size:13px;padding:4px 0}
   #timebar .mid{flex:1;min-width:0}
   #yearText{font-size:15px;font-weight:600}
   #countText{color:var(--mute);font-size:12px;margin-left:6px}
@@ -56,9 +57,14 @@
     #panel header{touch-action:none}
     #rank{left:8px;right:8px;top:auto;bottom:78px;width:auto;max-height:45%}
     #timebar{bottom:8px;width:calc(100% - 16px)}
+    #timebar{gap:8px;padding:8px 10px}
+    #speed{width:42px}
+    #timebar .mid>div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    #yearText{font-size:14px}
+    #countText{font-size:11px;margin-left:4px}
   }
 </style>
-  <script type="module" crossorigin src="./assets/index-MSI6Ni3s.js"></script>
+  <script type="module" crossorigin src="./assets/index-DpinDxh6.js"></script>
 </head>
 <body>
 <div id="app"></div>
@@ -121,6 +127,7 @@
     <div><span id="yearText">載入中…</span><span id="countText"></span></div>
     <input id="year" type="range" min="1990" max="2025" step="1" value="2025" />
   </div>
+  <button id="speed" aria-label="播放速度 1 倍" title="播放速度">1x</button>
 </div>
 
 </body>
