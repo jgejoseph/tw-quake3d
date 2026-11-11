@@ -38,8 +38,11 @@
   #bigYear.on{display:block}
   .m7label{position:fixed;left:0;top:0;pointer-events:none;z-index:6;background:rgba(160,20,20,.85);color:#fff;border:1px solid #ff6b60;border-radius:6px;padding:3px 7px;font-size:12px;line-height:1.35;text-align:center;white-space:nowrap;box-shadow:0 0 12px rgba(255,59,48,.6)}
   .m7label b{font-size:14px}
-  #m7toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-150%);z-index:7;pointer-events:none;background:rgba(180,20,20,.92);color:#fff;font-size:14px;font-weight:600;padding:7px 14px;border-radius:8px;box-shadow:0 0 16px rgba(255,59,48,.7);transition:transform .2s;white-space:nowrap;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis}
-  #m7toast.show{transform:translate(-50%,0)}
+  #m7toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-150%);z-index:7;pointer-events:none;background:rgba(180,20,20,.92);color:#fff;font-size:14px;font-weight:600;padding:7px 14px;border-radius:8px;box-shadow:0 0 16px rgba(255,59,48,.7);opacity:0;visibility:hidden;transition:transform .2s,opacity .2s,visibility .2s;white-space:nowrap;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis}
+  .peakTag{position:fixed;left:0;top:0;z-index:4;pointer-events:none;color:#fff;font-size:12px;line-height:1.3;text-align:center;text-shadow:0 0 3px #0b0f17,0 0 3px #0b0f17;padding-bottom:10px;background:linear-gradient(#fff,#fff) no-repeat bottom center/1px 10px}
+  .peakTag span{color:#cfd8e6;font-size:11px}
+  .rulerTag{position:fixed;left:0;top:0;z-index:4;pointer-events:none;color:#fff;font-size:12px;font-weight:700;text-shadow:0 0 3px #0b0f17,0 0 3px #0b0f17}
+  #m7toast.show{transform:translate(-50%,0);opacity:1;visibility:visible}
   #speed{width:48px;flex:none;font-size:13px;padding:4px 0}
   #timebar .mid{flex:1;min-width:0}
   #yearText{font-size:15px;font-weight:600}
@@ -58,11 +61,25 @@
   #rank .d{font-size:12px;line-height:1.35}
   #rank .d span{color:var(--mute)}
   #status{color:var(--mute);font-size:12px;margin-top:6px}
+  .cityTag{position:fixed;left:0;top:0;z-index:3;pointer-events:none;color:#e8eef8;font-size:12px;line-height:1;white-space:nowrap;text-shadow:0 0 3px #0b0f17,0 0 3px #0b0f17;padding-bottom:9px;background:radial-gradient(circle,#fff 0 2.5px,#0b0f17 3px 4px,transparent 4.5px) no-repeat bottom center/9px 9px}
+  #timebar .trow{display:flex;align-items:baseline;gap:6px}
+  #timebar .trow>span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #soloL{flex:none;font-size:12px;color:var(--mute);cursor:pointer;white-space:nowrap}
+  #yearBars{display:flex;align-items:flex-end;height:36px;margin:3px 0 4px;padding:0 7px;box-sizing:border-box;cursor:pointer}
+  #yearBars i{flex:1;min-width:0;margin:0 .5px;background:#5b6f94;border-radius:1px 1px 0 0;min-height:1px}
+  #yearBars i.fut{opacity:.35}
+  #yearBars i.cur{background:var(--acc);opacity:1}
+  #qcard{z-index:8;padding:8px 30px 8px 11px;min-width:170px;max-width:240px;display:none;border:1px solid #33405a}
+  #qcard.show{display:block}
+  #qcard .x{position:absolute;top:4px;right:4px;padding:0 6px;font-size:12px;line-height:20px}
+  #qcard .qn{font-weight:700;color:#ff8a80}
+  #qcard .qm{font-size:18px;font-weight:700;color:var(--acc)}
+  #qcard .qs{color:var(--mute);font-size:12px}
   @media (max-width:640px){
     #panel{left:8px;top:8px;width:auto;right:8px;max-height:52%}
     #grip{display:block}
     #panel header{touch-action:none}
-    #rank{left:8px;right:8px;top:auto;bottom:78px;width:auto;max-height:45%}
+    #rank{left:8px;right:8px;top:auto;bottom:122px;width:auto;max-height:45%}
     #timebar{bottom:8px;width:calc(100% - 16px)}
     #timebar{gap:8px;padding:8px 10px}
     #speed{width:42px}
@@ -71,9 +88,10 @@
     #timebar .mid>div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     #yearText{font-size:14px}
     #countText{font-size:11px;margin-left:4px}
+    #soloL .long{display:none}
   }
 </style>
-  <script type="module" crossorigin src="./assets/index-BrAoqWFF.js"></script>
+  <script type="module" crossorigin src="./assets/index-DqecyFpn.js"></script>
 </head>
 <body>
 <div id="app"></div>
@@ -93,6 +111,7 @@
       </select>
       <div id="legend" style="margin-top:4px"></div>
       <div style="font-size:12px;color:var(--mute);margin-top:2px">點越大＝規模越大</div>
+      <div style="font-size:12px;color:var(--mute);margin-top:2px;line-height:1.4">為方便觀察，地形高度有放大：陸地 ×15、海底 ×5（可勾「原始高度」看 1:1）；震源深度未放大</div>
     </div>
     <div class="row">
       <div class="lbl">地形透明度</div>
@@ -103,6 +122,9 @@
       <input id="lift" type="range" min="0" max="80" step="1" value="0" />
     </div>
     <div class="row"><label><input id="ocean" type="checkbox" checked /> 海底地形</label></div>
+    <div class="row"><label><input id="realH" type="checkbox" /> 原始高度（地形不放大）</label></div>
+    <div class="row"><label><input id="ruler" type="checkbox" checked /> 深度尺</label></div>
+    <div class="row"><label><input id="cities" type="checkbox" checked /> 城市名稱</label></div>
     <div class="row"><label><input id="plates" type="checkbox" /> 板塊</label></div>
     <div id="platesLegend" style="display:none;margin-top:4px"></div>
     <div class="row"><label><input id="sound" type="checkbox" /> 聲音與震動（播放時，規模 6 以上）</label></div>
@@ -132,10 +154,12 @@
 
 <div id="bigYear"></div>
 <div id="m7toast"></div>
+<div id="qcard" class="card" role="dialog" aria-label="地震資料"><button class="x" aria-label="關閉">✕</button><div id="qbody"></div></div>
 <div id="timebar" class="card">
   <button id="play" aria-label="播放">▶</button>
   <div class="mid">
-    <div><span id="yearText">載入中…</span><span id="countText"></span></div>
+    <div class="trow"><span><span id="yearText">載入中…</span><span id="countText"></span></span><label id="soloL" title="只顯示單一年份"><input id="solo" type="checkbox" /> <span class="long">只顯示</span>單一年份</label></div>
+    <div id="yearBars" aria-label="每年地震數"></div>
     <input id="year" type="range" min="1990" max="2026" step="1" value="2026" />
   </div>
   <button id="speed" aria-label="播放速度 1 倍" title="播放速度">1x</button>
