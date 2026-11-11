@@ -11,7 +11,7 @@
   #app{position:fixed;inset:0}
   button,select{font:inherit;color:var(--fg);background:#1c2433;border:1px solid #33405a;border-radius:6px;padding:4px 10px;cursor:pointer}
   button:hover,select:hover{border-color:#5b6f94}
-  .card{position:fixed;background:var(--bg);border-radius:10px;font-size:13px;line-height:1.5;box-shadow:0 2px 12px rgba(0,0,0,.4)}
+  .card{position:fixed;background:var(--bg);border-radius:10px;font-size:13px;line-height:1.5;box-shadow:0 2px 12px rgba(0,0,0,.4);z-index:9}
   #panel{top:12px;left:12px;width:250px;max-height:calc(100% - 110px);overflow:auto;padding:10px 12px}
   #panel header{display:flex;align-items:center;justify-content:space-between;gap:8px}
   #panel h1{font-size:15px;margin:0}
@@ -34,6 +34,12 @@
   details a{color:#9cc3ff}
   #timebar{left:50%;transform:translateX(-50%);bottom:14px;width:min(640px,calc(100% - 24px));padding:8px 12px;display:flex;align-items:center;gap:10px;box-sizing:border-box}
   #play{width:40px;flex:none;font-size:15px;padding:4px 0}
+  #compass{position:fixed;right:14px;top:14px;z-index:5;width:76px;height:76px;padding:0;border:0;background:none;cursor:pointer;display:grid;place-items:center}
+  #compass svg{filter:drop-shadow(0 2px 6px rgba(0,0,0,.6))}
+  #cN{position:absolute;left:50%;top:50%;margin:-8px 0 0 -6px;width:12px;text-align:center;font:700 13px/16px system-ui,sans-serif;color:#fff;text-shadow:0 0 3px #000}
+  #homeBtn{position:fixed;right:96px;top:30px;z-index:5;display:flex;align-items:center;gap:6px;padding:7px 11px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(15,20,30,.72);color:#fff;font:13px system-ui,sans-serif;cursor:pointer}
+  #homeBtn:hover{background:rgba(40,50,70,.85)}
+  @media (min-width:641px){ body:has(#rank.open) #compass{right:316px} body:has(#rank.open) #homeBtn{right:398px} }
   #bigYear{position:fixed;left:286px;top:10px;z-index:4;pointer-events:none;font-size:46px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.92);text-shadow:0 2px 10px rgba(0,0,0,.8);font-variant-numeric:tabular-nums;display:none}
   #bigYear.on{display:block}
   .m7label{position:fixed;left:0;top:0;pointer-events:none;z-index:6;background:rgba(160,20,20,.85);color:#fff;border:1px solid #ff6b60;border-radius:6px;padding:3px 7px;font-size:12px;line-height:1.35;text-align:center;white-space:nowrap;box-shadow:0 0 12px rgba(255,59,48,.6)}
@@ -44,6 +50,8 @@
   .rulerTag{position:fixed;left:0;top:0;z-index:4;pointer-events:none;color:#fff;font-size:12px;font-weight:700;text-shadow:0 0 3px #0b0f17,0 0 3px #0b0f17}
   #m7toast.show{transform:translate(-50%,0);opacity:1;visibility:visible}
   #speed{width:48px;flex:none;font-size:13px;padding:4px 0}
+  #loop{width:40px;flex:none;padding:4px 0;display:grid;place-items:center;color:#9aa6b8}
+  #loop[aria-pressed="true"]{color:#ffb547;border-color:#ffb547;background:rgba(255,181,71,.15)}
   #timebar .mid{flex:1;min-width:0}
   #yearText{font-size:15px;font-weight:600}
   #countText{color:var(--mute);font-size:12px;margin-left:6px}
@@ -69,12 +77,30 @@
   #yearBars i{flex:1;min-width:0;margin:0 .5px;background:#5b6f94;border-radius:1px 1px 0 0;min-height:1px}
   #yearBars i.fut{opacity:.35}
   #yearBars i.cur{background:var(--acc);opacity:1}
-  #qcard{z-index:8;padding:8px 30px 8px 11px;min-width:170px;max-width:240px;display:none;border:1px solid #33405a}
+  #qcard{z-index:10;padding:8px 30px 8px 11px;min-width:170px;max-width:240px;display:none;border:1px solid #33405a}
   #qcard.show{display:block}
   #qcard .x{position:absolute;top:4px;right:4px;padding:0 6px;font-size:12px;line-height:20px}
   #qcard .qn{font-weight:700;color:#ff8a80}
   #qcard .qm{font-size:18px;font-weight:700;color:var(--acc)}
   #qcard .qs{color:var(--mute);font-size:12px}
+  .ei{display:inline-grid;place-items:center;width:18px;height:18px;padding:0;margin-left:6px;border-radius:50%;border:1px solid var(--acc);background:rgba(255,179,71,.12);color:var(--acc);font:700 11px/1 Georgia,serif;vertical-align:1px;flex:none;cursor:pointer}
+  .ei.wide{width:auto;padding:0 7px 0 5px;border-radius:9px;gap:3px;display:inline-flex;align-items:center;font:12px/16px system-ui,sans-serif;margin:4px 0 0}
+  .ei.wide b{font:700 11px/1 Georgia,serif}
+  .ei:hover{background:rgba(255,179,71,.28);border-color:var(--acc)}
+  #eduList .eh{color:var(--acc);font-size:12px;margin:8px 0 3px}
+  #eduList .et{display:flex;align-items:center;gap:7px;width:100%;text-align:left;margin:3px 0;padding:5px 8px;font-size:12.5px;background:#1c2433}
+  #eduList .et b{display:inline-grid;place-items:center;width:16px;height:16px;flex:none;border-radius:50%;border:1px solid var(--acc);color:var(--acc);font:700 10px/1 Georgia,serif}
+  #eduList .en{font-size:11px}
+  #eduPop{position:fixed;inset:0;z-index:11;background:rgba(5,8,14,.45);display:grid;place-items:center;padding:12px;box-sizing:border-box}
+  #eduPop[hidden]{display:none}
+  #eduPop .box{position:relative;width:min(360px,100%);max-height:calc(100% - 24px);overflow:auto;box-sizing:border-box;background:rgba(14,19,29,.97);border:1px solid var(--acc);border-radius:12px;padding:14px 16px 12px;box-shadow:0 6px 24px rgba(0,0,0,.6);font-size:14.5px;line-height:1.65}
+  #eduPop h3{margin:0 26px 8px 0;font-size:16px;color:var(--acc)}
+  #eduPop p{margin:0 0 7px}
+  #eduPop .x{position:absolute;top:8px;right:8px;padding:0 8px;line-height:24px}
+  #eduPop .ef{border-top:1px solid #2a3446;margin-top:8px;padding-top:8px;font-size:12px;color:var(--mute)}
+  #eduPop .ef a{display:inline-block;color:#1a1206;background:var(--acc);font-weight:700;font-size:13.5px;text-decoration:none;padding:5px 12px;border-radius:7px;margin:0 0 5px}
+  #eduPop .ef span{display:block}
+  #timebar .trow .ei{margin-left:0}
   @media (max-width:640px){
     #panel{left:8px;top:8px;width:auto;right:8px;max-height:52%}
     #grip{display:block}
@@ -83,15 +109,20 @@
     #timebar{bottom:8px;width:calc(100% - 16px)}
     #timebar{gap:8px;padding:8px 10px}
     #speed{width:42px}
+    #loop{width:36px}
     #bigYear{left:14px;top:60px;font-size:34px}
+    #compass{top:58px;right:6px;transform:scale(.85)}
+    #homeBtn{top:128px;right:12px;padding:7px;}
+    #homeBtn span{display:none}
     #m7toast{top:62px;font-size:13px;padding:6px 12px}
     #timebar .mid>div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     #yearText{font-size:14px}
     #countText{font-size:11px;margin-left:4px}
-    #soloL .long{display:none}
+    #soloL .long,#countText .long{display:none}
+    #timebar .trow .ei{position:absolute;left:20px;top:6px;margin:0} /* 手機：放在播放鍵上方空白處，不擠掉年份與筆數 */
   }
 </style>
-  <script type="module" crossorigin src="./assets/index-DqecyFpn.js"></script>
+  <script type="module" crossorigin src="./assets/index-C1AgyqjD.js"></script>
 </head>
 <body>
 <div id="app"></div>
@@ -103,14 +134,14 @@
   </header>
   <div id="body">
     <div class="row">
-      <div class="lbl">點的顏色</div>
+      <div class="lbl">點的顏色<button type="button" class="ei" data-edu="2" aria-label="小知識：顏色代表什麼？" title="顏色代表什麼？震源和震央有什麼不同？"><b>i</b></button></div>
       <select id="colorMode" style="width:100%">
         <option value="depth">依深度</option>
         <option value="depthCB">依深度（色弱友善）</option>
         <option value="year">依年份</option>
       </select>
       <div id="legend" style="margin-top:4px"></div>
-      <div style="font-size:12px;color:var(--mute);margin-top:2px">點越大＝規模越大</div>
+      <div style="font-size:12px;color:var(--mute);margin-top:2px">點越大＝規模越大<button type="button" class="ei" data-edu="1" aria-label="小知識：點有大有小，是什麼意思？" title="點有大有小，是什麼意思？"><b>i</b></button></div>
       <div style="font-size:12px;color:var(--mute);margin-top:2px;line-height:1.4">為方便觀察，地形高度有放大：陸地 ×15、海底 ×5（可勾「原始高度」看 1:1）；震源深度未放大</div>
     </div>
     <div class="row">
@@ -122,16 +153,20 @@
       <input id="lift" type="range" min="0" max="80" step="1" value="0" />
     </div>
     <div class="row"><label><input id="ocean" type="checkbox" checked /> 海底地形</label></div>
-    <div class="row"><label><input id="realH" type="checkbox" /> 原始高度（地形不放大）</label></div>
+    <div class="row"><label><input id="realH" type="checkbox" /> 原始高度（地形不放大）</label><button type="button" class="ei" data-edu="8" aria-label="小知識：山怎麼這麼高？" title="山怎麼這麼高？"><b>i</b></button></div>
     <div class="row"><label><input id="ruler" type="checkbox" checked /> 深度尺</label></div>
     <div class="row"><label><input id="cities" type="checkbox" checked /> 城市名稱</label></div>
-    <div class="row"><label><input id="plates" type="checkbox" /> 板塊</label></div>
+    <div class="row"><label><input id="plates" type="checkbox" /> 板塊</label><button type="button" class="ei" data-edu="3" aria-label="小知識：為什麼台灣這麼多地震？" title="為什麼台灣這麼多地震？"><b>i</b></button></div>
     <div id="platesLegend" style="display:none;margin-top:4px"></div>
     <div class="row"><label><input id="sound" type="checkbox" /> 聲音與震動（播放時，規模 6 以上）</label></div>
     <div class="row"><label><input id="allData" type="checkbox" /> 顯示全部資料（1935 起，含規模 3 以下）</label></div>
     <div class="row"><button id="rankBtn" style="width:100%">規模最大前 10 名</button></div>
     <div id="status"></div>
     <hr />
+    <details id="edu">
+      <summary>地震小知識</summary>
+      <div id="eduList"></div>
+    </details>
     <details id="sources">
       <summary>資料來源</summary>
       <p>地震：中央氣象署「地震活動彙整」1935-02-10 至 2025-03-01；之後到 2026-09-30 來自氣象資料開放平台「地震目錄」（只有規模 3 以上）。早年測站少，多半只記到規模 4 以上，不同年代的數量不能直接比較。</p>
@@ -158,11 +193,12 @@
 <div id="timebar" class="card">
   <button id="play" aria-label="播放">▶</button>
   <div class="mid">
-    <div class="trow"><span><span id="yearText">載入中…</span><span id="countText"></span></span><label id="soloL" title="只顯示單一年份"><input id="solo" type="checkbox" /> <span class="long">只顯示</span>單一年份</label></div>
+    <div class="trow"><span><span id="yearText">載入中…</span><span id="countText"></span></span><button type="button" class="ei" data-edu="5" aria-label="小知識：主震和餘震是什麼？" title="主震和餘震是什麼？（為什麼有些年份特別多）"><b>i</b></button><label id="soloL" title="只顯示單一年份"><input id="solo" type="checkbox" /> <span class="long">只顯示</span>單一年份</label></div>
     <div id="yearBars" aria-label="每年地震數"></div>
     <input id="year" type="range" min="1990" max="2026" step="1" value="2026" />
   </div>
   <button id="speed" aria-label="播放速度 1 倍" title="播放速度">1x</button>
+  <button id="loop" aria-label="循環播放" aria-pressed="false" title="循環播放：播到最後一年自動從頭開始"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l3 3-3 3"/><path d="M4 11V9a4 4 0 0 1 4-4h12"/><path d="M7 22l-3-3 3-3"/><path d="M20 13v2a4 4 0 0 1-4 4H4"/></svg></button>
 </div>
 
 </body>
