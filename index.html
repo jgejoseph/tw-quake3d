@@ -101,6 +101,12 @@
   #eduPop .ef a{display:inline-block;color:#1a1206;background:var(--acc);font-weight:700;font-size:13.5px;text-decoration:none;padding:5px 12px;border-radius:7px;margin:0 0 5px}
   #eduPop .ef span{display:block}
   #timebar .trow .ei{margin-left:0}
+  .peakTag .ei{pointer-events:auto;margin-left:4px;width:16px;height:16px;font-size:10px;background:rgba(14,19,29,.75)}
+  #platesLegend .ei{margin-left:5px}
+  #platesLegend .ei.wide{margin:0 0 0 5px;vertical-align:1px}
+  #eduPop .ef span.more{margin-top:3px}
+  #eduPop .ef span.more a{display:inline;background:none;color:var(--acc);font-weight:400;font-size:12px;padding:0;text-decoration:underline}
+  #eduPop .ef span.src{margin-top:6px;font-size:11px}
   @media (max-width:640px){
     #panel{left:8px;top:8px;width:auto;right:8px;max-height:52%}
     #grip{display:block}
@@ -122,7 +128,7 @@
     #timebar .trow .ei{position:absolute;left:20px;top:6px;margin:0} /* 手機：放在播放鍵上方空白處，不擠掉年份與筆數 */
   }
 </style>
-  <script type="module" crossorigin src="./assets/index-C1AgyqjD.js"></script>
+  <script type="module" crossorigin src="./assets/index-D6SCx9-U.js"></script>
 </head>
 <body>
 <div id="app"></div>
@@ -155,7 +161,8 @@
     <div class="row"><label><input id="ocean" type="checkbox" checked /> 海底地形</label></div>
     <div class="row"><label><input id="realH" type="checkbox" /> 原始高度（地形不放大）</label><button type="button" class="ei" data-edu="8" aria-label="小知識：山怎麼這麼高？" title="山怎麼這麼高？"><b>i</b></button></div>
     <div class="row"><label><input id="ruler" type="checkbox" checked /> 深度尺</label></div>
-    <div class="row"><label><input id="cities" type="checkbox" checked /> 城市名稱</label></div>
+    <div class="row"><label><input id="cities" type="checkbox" checked /> 縣市名稱</label></div>
+    <div class="row"><label><input id="county" type="checkbox" checked /> 縣市邊界</label></div>
     <div class="row"><label><input id="plates" type="checkbox" /> 板塊</label><button type="button" class="ei" data-edu="3" aria-label="小知識：為什麼台灣這麼多地震？" title="為什麼台灣這麼多地震？"><b>i</b></button></div>
     <div id="platesLegend" style="display:none;margin-top:4px"></div>
     <div class="row"><label><input id="sound" type="checkbox" /> 聲音與震動（播放時，規模 6 以上）</label></div>
