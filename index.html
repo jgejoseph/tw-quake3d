@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <link rel="icon" href="data:," />
-<title>台灣地震 3D</title>
+<title>3D 台灣地震時空圖譜</title>
 <style>
   :root{--bg:rgba(10,14,22,.88);--fg:#dde3ee;--mute:#8fa0b5;--acc:#ffb347}
   html,body{margin:0;height:100%;background:#0b0f17;color:var(--fg);font-family:system-ui,"Noto Sans TC",sans-serif;overflow:hidden;-webkit-text-size-adjust:100%}
@@ -103,6 +103,7 @@
   #platesLegend .ei.wide{margin:0 0 0 5px;vertical-align:1px}
   .hint{color:var(--mute);font-size:11px;margin-left:2px}
   #fcard{z-index:10;padding:8px 11px;min-width:160px;max-width:240px;display:none;border:1px solid #33405a;pointer-events:none}
+  #fcard{background:rgba(10,14,22,.5);text-shadow:0 0 3px #0b0f17,0 1px 2px #0b0f17}
   #fcard.show{display:block}
   #fcard .fn{font-weight:700;color:#ff8a80;font-size:14px}
   #fcard .fk{font-size:12px;margin:1px 0 4px}
@@ -199,14 +200,14 @@
     #timebar .trow .ei{position:absolute;left:20px;top:6px;margin:0} /* 手機：放在播放鍵上方空白處，不擠掉年份與筆數 */
   }
 </style>
-  <script type="module" crossorigin src="./assets/index-BJcxll58.js"></script>
+  <script type="module" crossorigin src="./assets/index-CbGRHqSL.js"></script>
 </head>
 <body>
 <div id="app"></div>
 
 <div id="panel" class="card">
   <header id="phead">
-    <div class="tt"><h1>台灣地震 3D</h1><div class="sub">個人製作的教育視覺化・非官方</div></div>
+    <div class="tt"><h1>3D 台灣地震時空圖譜</h1><div class="sub">個人製作的教育視覺化・非官方</div></div>
     <button id="collapse" aria-label="收合或展開設定">收合</button>
   </header>
   <div id="body">
@@ -268,14 +269,16 @@
         <p>本站為個人獨立製作的教育用視覺化，非官方服務，不提供即時地震資訊或預警；即時資訊請見<a href="https://scweb.cwa.gov.tw/" target="_blank" rel="noopener">中央氣象署地震測報中心</a>。</p>
         <p>靈感來自 101事務所的<a href="https://www.youtube.com/watch?v=AB3mBFUOFk4" target="_blank" rel="noopener">影片</a>，本站為獨立開發，與其無合作或背書。</p>
       </div>
-      <p><b>地震目錄</b>：交通部中央氣象署（<a href="https://scweb.cwa.gov.tw/zh-tw/history" target="_blank" rel="noopener">地震活動彙整</a> 1935-02-10 至 2025-03-01；氣象資料開放平台 E-A0073-001、E-A0073-002，至 2026-09-30，只有規模 3 以上）。此開放資料依政府資料開放授權條款 (Open Government Data License) 進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。本站已重新整理、篩選並轉換格式。</p>
+      <p><b>地震目錄（1935-02-10 至 2025-03-01 06:36）</b>：交通部中央氣象署地震測報中心「地震活動彙整」網頁（<a href="https://scweb.cwa.gov.tw/zh-tw/history" target="_blank" rel="noopener">https://scweb.cwa.gov.tw/zh-tw/history</a>，取得日期 2026-11-10），依中央氣象署<a href="https://scweb.cwa.gov.tw/zh-tw/page/intro/79" target="_blank" rel="noopener">政府網站資料開放宣告</a>利用（查核日期 2026-11-11）。</p>
+      <p><b>地震目錄（2025-03-01 06:36 之後至 2026-09-30，僅規模 3 以上）</b>：提供機關／交通部中央氣象署 地震目錄-本年度地震目錄（E-A0073-001）、地震目錄-歷史地震目錄（E-A0073-002）（<a href="https://opendata.cwa.gov.tw/" target="_blank" rel="noopener">氣象資料開放平臺</a>，取得日期 2026-11-11）。此開放資料依政府資料開放授權條款 (Open Government Data License) 進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。授權依據：<a href="https://opendata.cwa.gov.tw/about/rules" target="_blank" rel="noopener">氣象資料開放平臺使用規範</a>、<a href="https://data.gov.tw/license" target="_blank" rel="noopener">政府資料開放授權條款</a>（查核日期 2026-11-11）。</p>
+      <p>以上地震資料經本站重新整理、篩選、合併並轉換格式，可能與氣象署公布內容有差異，正式資料以中央氣象署公布者為準；本站內容未經中央氣象署審閱，不代表其建議、認可或贊同。</p>
       <p>早年測站少，多半只記到規模 4 以上，不同年代的數量不能直接比較。預設只顯示 1990 年以後、規模 3 以上的地震。早年深度常記成整數，畫面會出現一層層橫條，這是原始資料本來的樣子。</p>
+      <p><b>縣市界</b>：內政部國土測繪中心 2025 <a href="https://data.gov.tw/dataset/7442" target="_blank" rel="noopener">直轄市、縣市界線(TWD97經緯度)</a>（2025-03-18 版），經 <a href="https://github.com/plotdb/pdmaptw" target="_blank" rel="noopener">plotdb/pdmaptw</a>（MIT）整理並簡化線條。</p>
+      <p><b>活動斷層</b>：經濟部地質調查及礦業管理中心 2021 <a href="https://data.gov.tw/dataset/6697" target="_blank" rel="noopener">活動斷層分布圖</a>（WMS 圖層「1/25,000_臺灣活動斷層分布圖(含名稱)_2021」），本站依其影像描繪簡化示意，非精確位置。</p>
+      <p>以上縣市界與活動斷層資料，依政府資料開放授權條款 (Open Government Data License) 進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。政府資料開放授權條款：<a href="https://data.gov.tw/license" target="_blank" rel="noopener">https://data.gov.tw/license</a></p>
       <p><b>地形</b>：NOAA NCEI (2022) ETOPO 2022 15 Arc-Second Global Relief Model，<a href="https://doi.org/10.25921/fd45-gt74" target="_blank" rel="noopener">doi:10.25921/fd45-gt74</a>（CC0；不可用於導航）。約 1.85 公里一格；陸地高度放大 15 倍、海底放大 5 倍，地震深度不放大，所以一部分海域地震會看起來浮在海床上方。</p>
-      <p><b>縣市界</b>：內政部國土測繪中心（<a href="https://data.gov.tw/dataset/7442" target="_blank" rel="noopener">直轄市、縣市界線</a>，政府資料開放授權條款第 1 版），經 <a href="https://github.com/plotdb/pdmaptw" target="_blank" rel="noopener">plotdb/pdmaptw</a>（MIT）整理並簡化線條。</p>
       <p><b>隱沒板塊</b>：USGS Slab2（Hayes et al., 2018, <a href="https://doi.org/10.5066/F7PV6JNV" target="_blank" rel="noopener">doi:10.5066/F7PV6JNV</a>），公有領域。</p>
       <p><b>板塊邊界</b>：PB2002（Bird, 2003, doi:10.1029/2001GC000252），GeoJSON 由 Hugo Ahlenius、Nordpil 與 Peter Bird 提供，<a href="https://github.com/fraxen/tectonicplates" target="_blank" rel="noopener">fraxen/tectonicplates</a>，授權 ODC-BY 1.0。全球尺度，台灣附近僅供示意。</p>
-      <p><b>活動斷層</b>：經濟部地質調查及礦業管理中心 2021 1/25,000_臺灣活動斷層分布圖(含名稱)_2021（WMS），本站依其影像描繪簡化示意。此開放資料依政府資料開放授權條款 (Open Government Data License) 進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。</p>
-      <p>政府資料開放授權條款：<a href="https://data.gov.tw/license" target="_blank" rel="noopener">https://data.gov.tw/license</a></p>
       <p><b>程式庫</b>：three.js（MIT）。</p>
     </details>
     <div id="status"></div>
