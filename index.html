@@ -86,7 +86,17 @@
   .ei:hover{background:rgba(255,179,71,.28);border-color:var(--acc)}
   #eduList .eh{color:var(--acc);font-size:12px;margin:8px 0 3px}
   #eduList .et{display:flex;align-items:center;gap:7px;width:100%;text-align:left;margin:3px 0;padding:5px 8px;font-size:12.5px;background:#1c2433}
-  #eduList .et b{display:inline-grid;place-items:center;width:16px;height:16px;flex:none;border-radius:50%;border:1px solid var(--acc);color:var(--acc);font:700 10px/1 Georgia,serif}
+  #eduList .et{position:relative;transition:border-color .18s,background-color .18s,box-shadow .18s,color .18s,transform .18s}
+  #eduList .et:hover,#eduList .et:focus-visible{outline:none;border-color:#6fd3ff;background:linear-gradient(90deg,rgba(64,170,255,.2),rgba(28,36,51,.92) 70%);color:#fff;box-shadow:0 0 0 1px rgba(111,211,255,.35),0 0 12px rgba(64,170,255,.45),inset 0 0 10px rgba(64,170,255,.15);transform:translateX(2px)}
+  #eduList .et:hover b,#eduList .et:focus-visible b{border-color:#6fd3ff;color:#bfeaff;box-shadow:0 0 6px rgba(111,211,255,.7)}
+  #eduList .et b{transition:border-color .18s,color .18s,box-shadow .18s;display:inline-grid;place-items:center;width:16px;height:16px;flex:none;border-radius:50%;border:1px solid var(--acc);color:var(--acc);font:700 10px/1 Georgia,serif}
+  #eduList .eh:first-child{display:flex;align-items:center;justify-content:space-between}
+  #eduList .snd{display:inline-flex;align-items:center;gap:4px;padding:1px 7px;font-size:11px;line-height:16px;color:var(--mute);background:transparent;border-color:#2e3a50}
+  #eduList .snd .m{display:none}
+  #eduList .snd.off .w{display:none}
+  #eduList .snd.off .m{display:inline}
+  #eduList .snd:not(.off){color:#9fdcff}
+  @media (hover:none){ #eduList .snd{display:none} }
   #eduList .en{font-size:11px}
   #eduPop{position:fixed;inset:0;z-index:11;background:rgba(5,8,14,.45);display:grid;place-items:center;padding:12px;box-sizing:border-box}
   #eduPop[hidden]{display:none}
@@ -200,7 +210,7 @@
     #timebar .trow .ei{position:absolute;left:20px;top:6px;margin:0} /* 手機：放在播放鍵上方空白處，不擠掉年份與筆數 */
   }
 </style>
-  <script type="module" crossorigin src="./assets/index-CbGRHqSL.js"></script>
+  <script type="module" crossorigin src="./assets/index-YM15-ZcC.js"></script>
 </head>
 <body>
 <div id="app"></div>
