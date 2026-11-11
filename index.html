@@ -41,7 +41,7 @@
   #m7toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-150%);z-index:7;pointer-events:none;background:rgba(180,20,20,.92);color:#fff;font-size:14px;font-weight:600;padding:7px 14px;border-radius:8px;box-shadow:0 0 16px rgba(255,59,48,.7);opacity:0;visibility:hidden;transition:transform .2s,opacity .2s,visibility .2s;white-space:nowrap;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis}
   .peakTag{position:fixed;left:0;top:0;z-index:4;pointer-events:none;color:#fff;font-size:12px;line-height:1.3;text-align:center;text-shadow:0 0 3px #0b0f17,0 0 3px #0b0f17;padding-bottom:10px;background:linear-gradient(#fff,#fff) no-repeat bottom center/1px 10px}
   .peakTag span{color:#cfd8e6;font-size:11px}
-  .peakLine{position:fixed;left:0;top:0;z-index:4;pointer-events:none;width:1px;margin-left:-0.5px;background:rgba(255,255,255,.85);transform-origin:0 0;box-shadow:0 0 2px #0b0f17}
+  .peakLine{position:fixed;left:0;top:0;z-index:4;pointer-events:none;width:1.5px;margin-left:-0.75px;background:#fff;transform-origin:0 0;box-shadow:0 0 0 1px rgba(11,15,23,.75),0 0 3px #0b0f17}
   .peakLine::after{content:"";position:absolute;left:-2.5px;bottom:-3px;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 3px #0b0f17}
   .rulerTag{position:fixed;left:0;top:0;z-index:4;pointer-events:none;color:#fff;font-size:12px;font-weight:700;text-shadow:0 0 3px #0b0f17,0 0 3px #0b0f17}
   #m7toast.show{transform:translate(-50%,0);opacity:1;visibility:visible}
@@ -210,7 +210,7 @@
     #timebar .trow .ei{position:absolute;left:20px;top:6px;margin:0} /* 手機：放在播放鍵上方空白處，不擠掉年份與筆數 */
   }
 </style>
-  <script type="module" crossorigin src="./assets/index-YM15-ZcC.js"></script>
+  <script type="module" crossorigin src="./assets/index-CXH7n0Fs.js"></script>
 </head>
 <body>
 <div id="app"></div>
@@ -246,6 +246,7 @@
       <div class="opt"><label class="tg"><input id="plates" type="checkbox" /><span>板塊</span></label><button type="button" class="ei" data-edu="3" aria-label="小知識：為什麼台灣這麼多地震？" title="為什麼台灣這麼多地震？"><b>i</b></button></div>
       <div class="opt"><label class="tg"><input id="faults" type="checkbox" /><span>活動斷層</span></label><span class="hint">（示意位置）</span><button type="button" class="ei" data-edu="fault" aria-label="小知識：活動斷層" title="活動斷層"><b>i</b></button></div>
       <div class="opt"><label class="tg"><input id="ruler" type="checkbox" checked /><span>深度尺</span></label></div>
+      <div class="opt"><label class="tg"><input id="frameBox" type="checkbox" checked /><span>方框格線</span></label></div>
     </details>
     <details class="acc" open>
       <summary>圖例</summary>
