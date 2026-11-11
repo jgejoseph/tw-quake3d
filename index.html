@@ -34,6 +34,8 @@
   details a{color:#9cc3ff}
   #timebar{left:50%;transform:translateX(-50%);bottom:14px;width:min(640px,calc(100% - 24px));padding:8px 12px;display:flex;align-items:center;gap:10px;box-sizing:border-box}
   #play{width:40px;flex:none;font-size:15px;padding:4px 0}
+  #bigYear{position:fixed;left:286px;top:10px;z-index:4;pointer-events:none;font-size:46px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.92);text-shadow:0 2px 10px rgba(0,0,0,.8);font-variant-numeric:tabular-nums;display:none}
+  #bigYear.on{display:block}
   .m7label{position:fixed;left:0;top:0;pointer-events:none;z-index:6;background:rgba(160,20,20,.85);color:#fff;border:1px solid #ff6b60;border-radius:6px;padding:3px 7px;font-size:12px;line-height:1.35;text-align:center;white-space:nowrap;box-shadow:0 0 12px rgba(255,59,48,.6)}
   .m7label b{font-size:14px}
   #m7toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-150%);z-index:7;pointer-events:none;background:rgba(180,20,20,.92);color:#fff;font-size:14px;font-weight:600;padding:7px 14px;border-radius:8px;box-shadow:0 0 16px rgba(255,59,48,.7);transition:transform .2s;white-space:nowrap;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis}
@@ -63,13 +65,14 @@
     #timebar{bottom:8px;width:calc(100% - 16px)}
     #timebar{gap:8px;padding:8px 10px}
     #speed{width:42px}
+    #bigYear{left:14px;top:60px;font-size:34px}
     #m7toast{top:62px;font-size:13px;padding:6px 12px}
     #timebar .mid>div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     #yearText{font-size:14px}
     #countText{font-size:11px;margin-left:4px}
   }
 </style>
-  <script type="module" crossorigin src="./assets/index-BIvMQvM7.js"></script>
+  <script type="module" crossorigin src="./assets/index-Z_gFZEzT.js"></script>
 </head>
 <body>
 <div id="app"></div>
@@ -126,6 +129,7 @@
   <ol id="rankList"></ol>
 </div>
 
+<div id="bigYear"></div>
 <div id="m7toast"></div>
 <div id="timebar" class="card">
   <button id="play" aria-label="播放">▶</button>
