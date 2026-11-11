@@ -34,7 +34,7 @@
   #homeBtn{position:fixed;right:96px;top:30px;z-index:5;display:flex;align-items:center;gap:6px;padding:7px 11px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(15,20,30,.72);color:#fff;font:13px system-ui,sans-serif;cursor:pointer}
   #homeBtn:hover{background:rgba(40,50,70,.85)}
   @media (min-width:641px){ body:has(#rank.open) #compass{right:316px} body:has(#rank.open) #homeBtn{right:398px} }
-  #bigYear{position:fixed;left:298px;top:10px;z-index:4;pointer-events:none;font-size:46px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.92);text-shadow:0 2px 10px rgba(0,0,0,.8);font-variant-numeric:tabular-nums;display:none}
+  #bigYear{position:fixed;left:304px;top:10px;z-index:4;pointer-events:none;font-size:46px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.92);text-shadow:0 2px 10px rgba(0,0,0,.8);font-variant-numeric:tabular-nums;display:none}
   #bigYear.on{display:block}
   .m7label{position:fixed;left:0;top:0;pointer-events:none;z-index:6;background:rgba(160,20,20,.85);color:#fff;border:1px solid #ff6b60;border-radius:6px;padding:3px 7px;font-size:12px;line-height:1.35;text-align:center;white-space:nowrap;box-shadow:0 0 12px rgba(255,59,48,.6)}
   .m7label b{font-size:14px}
@@ -64,6 +64,7 @@
   #rank .m{font-size:16px;font-weight:700;color:var(--acc);width:34px;flex:none}
   #rank .d{font-size:12px;line-height:1.35}
   #rank .d span{color:var(--mute)}
+  #rank .d i,#rank .d b{font-style:normal;font-weight:400}
   #status{color:var(--mute);font-size:12px;margin-top:6px}
   .cityTag{position:fixed;left:0;top:0;z-index:3;pointer-events:none;color:#e8eef8;font-size:12px;line-height:1;white-space:nowrap;text-shadow:0 0 3px #0b0f17,0 0 3px #0b0f17;padding-bottom:9px;background:radial-gradient(circle,#fff 0 2.5px,#0b0f17 3px 4px,transparent 4.5px) no-repeat bottom center/9px 9px}
   #timebar .trow{display:flex;align-items:baseline;gap:6px}
@@ -112,34 +113,40 @@
   #eduPop .ef span.more a{display:inline;background:none;color:var(--acc);font-weight:400;font-size:12px;padding:0;text-decoration:underline}
   #eduPop .ef span.src{margin-top:6px;font-size:11px}
 
-  /* ---- 控制面板：分區卡片 ---- */
-  #panel{top:12px;left:12px;width:272px;max-height:calc(100% - 110px);overflow:auto;padding:0;box-sizing:border-box;scrollbar-width:thin;scrollbar-color:#33405a transparent}
-  #phead{position:sticky;top:0;z-index:2;background:rgba(10,14,22,.97);border-radius:10px 10px 0 0;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px}
+  /* ---- 控制面板：單一抽屜＋可收合段落 ---- */
+  #panel{top:12px;left:12px;width:276px;max-height:calc(100% - 110px);overflow:auto;padding:0;box-sizing:border-box;scrollbar-width:thin;scrollbar-color:#33405a transparent}
+  #phead{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px 9px;background:rgba(12,16,25,.98);border-bottom:1px solid rgba(255,255,255,.08)}
   #phead h1{font-size:16px;margin:0;letter-spacing:.5px}
-  #phead .sub{font-size:11.5px;color:var(--mute);margin-top:1px}
+  #phead .sub{font-size:11px;color:var(--mute);margin-top:1px}
   #collapse{flex:none;font-size:12.5px;padding:4px 10px}
   #panel.collapsed #body{display:none}
-  #body{display:flex;flex-direction:column}
-  .side{display:flex;flex-direction:column;gap:8px;padding:0 10px 10px}
-  .sec{background:rgba(255,255,255,.035);border:1px solid #243049;border-radius:10px;padding:10px 11px 11px}
-  .sh{font-size:13px;font-weight:700;margin:0 0 8px;padding-left:8px;border-left:3px solid var(--acc);line-height:1.15;letter-spacing:.5px}
-  .sec .lbl{display:flex;align-items:center;margin:0 0 4px}
-  .sec .lbl.sl{margin-top:8px;margin-bottom:0}
-  .sec .lbl .val{margin-left:auto;color:var(--fg);font-variant-numeric:tabular-nums}
-  .sec select{width:100%}
+  #panel.collapsed #phead{border-bottom:0}
+  #body{padding:0 12px 10px}
+  .acc{margin:0;font-size:inherit;color:inherit}
+  .acc+.acc{border-top:1px solid rgba(255,255,255,.08)}
+  .acc>summary{list-style:none;display:flex;align-items:center;gap:7px;padding:9px 0;cursor:pointer;font-size:13px;font-weight:600;color:var(--fg);user-select:none}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc>summary::before{content:"";width:6px;height:6px;border-right:1.6px solid var(--mute);border-bottom:1.6px solid var(--mute);transform:rotate(-45deg);transition:transform .15s;margin:0 3px 0 1px}
+  .acc[open]>summary::before{transform:rotate(45deg) translate(-2px,-1px)}
+  .acc>summary:hover{color:#fff}
+  .acc[open]{padding-bottom:10px}
+  .acc .lbl{display:flex;align-items:center;margin:0 0 4px}
+  .acc .lbl.sl{margin-top:6px;margin-bottom:0}
+  .acc .lbl .val{margin-left:auto;color:var(--fg);font-variant-numeric:tabular-nums}
+  .acc select{width:100%}
   .note{font-size:11.5px;color:var(--mute);line-height:1.45;margin-top:5px;display:flex;align-items:center;flex-wrap:wrap}
   #legend{display:grid;grid-template-columns:1fr 1fr;gap:1px 6px;margin:6px 0 2px}
   #legend .grad,#legend .gl{grid-column:1/-1}
-  #platesLegend{margin-top:8px;padding-top:8px;border-top:1px solid #243049}
+  #platesLegend{margin-top:8px;padding-top:6px;border-top:1px dashed rgba(255,255,255,.1)}
   #platesLegend div{line-height:1.7}
-  .views{display:grid;gap:6px}
-  .vb{display:flex;align-items:center;gap:8px;width:100%;padding:7px 10px;text-align:left;border-radius:8px;background:#1a2231;transition:background .15s,border-color .15s}
-  .vb svg{flex:none;color:var(--mute)}
-  .vb.on{background:rgba(255,179,71,.16);border-color:var(--acc);color:#fff}
-  .vb.on svg{color:var(--acc)}
-  .seg{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-  .seg button{padding:5px 0;border-radius:7px;background:#1a2231;font-size:13px;font-variant-numeric:tabular-nums}
-  .seg button.on{background:var(--acc);border-color:var(--acc);color:#1a1206;font-weight:700}
+  .views{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .vb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px 6px;border-radius:9px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);font-size:12px;line-height:1.25;text-align:center}
+  .vb svg{color:#9cc3ff;margin-bottom:1px}
+  .vb small{font-size:10.5px;color:var(--mute)}
+  .vb.on{background:rgba(156,195,255,.16);border-color:#9cc3ff;color:#fff}
+  #magMin{margin:4px 0 0}
+  .ticks{display:flex;justify-content:space-between;font-size:10.5px;color:var(--mute);padding:0 3px;font-variant-numeric:tabular-nums}
+  #magVal{color:var(--acc);font-weight:700}
   .opt{display:flex;align-items:center;min-height:28px;margin-top:2px}
   .tg{display:flex;align-items:center;gap:9px;cursor:pointer;line-height:1.3}
   .tg small{display:block;font-size:11px;color:var(--mute)}
@@ -151,33 +158,29 @@
   .opt .ei{margin-left:6px}
   .opt .hint{margin-left:4px}
   button.wide{width:100%;margin-top:8px;padding:6px 0;border-radius:8px}
-  .sec details{margin-top:0}
-  .sec details+details{margin-top:6px}
+  #sources p{font-size:11.5px;color:var(--mute);margin:0 0 6px;line-height:1.5}
+  #sources p b{color:var(--fg);font-weight:600}
+  #sources .about{border-left:2px solid rgba(255,255,255,.18);padding-left:8px;margin-bottom:8px}
+  #sources .about p{color:#c6d0de}
   #status:empty{display:none}
-  /* 寬螢幕：左邊圖例與說明、右邊操作，標題獨立一張小卡 */
-  @media (min-width:1100px){
-    #panel{display:contents}
-    #phead{position:fixed;top:12px;left:12px;width:272px;height:58px;box-sizing:border-box;z-index:9;background:var(--bg);border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.4)}
-    #body{display:contents}
-    .side{position:fixed;top:78px;width:272px;max-height:calc(100% - 90px);overflow:auto;box-sizing:border-box;z-index:9;background:var(--bg);border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.4);padding:10px;scrollbar-width:thin;scrollbar-color:#33405a transparent}
-    #pL{left:12px}
-    #pR{right:12px;top:12px;max-height:calc(100% - 24px)}
-    #pR::before{content:"操作";font-size:12px;color:var(--mute);letter-spacing:1px;margin:0 0 -2px 2px}
-    #timebar{width:min(640px,calc(100% - 600px))}
-    #compass{right:298px}
-    #homeBtn{right:380px}
-    #rank{right:298px}
-    body:has(#rank.open) #compass{right:600px} body:has(#rank.open) #homeBtn{right:682px}
-  }
+  .foot{font-size:10.5px;color:#6f7f95;padding-top:8px;border-top:1px solid rgba(255,255,255,.08);text-align:center}
   @media (max-width:640px){
-    #grip{display:block;width:auto;margin:0 10px 10px}
+    #grip{display:block;width:100%;margin:8px 0 0}
     #panel{left:8px;top:8px;width:auto;right:8px;max-height:52%}
-    #phead{position:sticky;top:0;z-index:2;background:rgba(10,14,22,.97);padding:8px 10px}
-    #phead .sub{display:none}
-    .views{grid-template-columns:repeat(3,1fr)}
-    .vb{flex-direction:column;gap:3px;padding:6px 2px;text-align:center;font-size:11.5px;line-height:1.25}
+    #phead{padding:8px 10px}
+    #body{padding:0 10px 10px}
+    #phead .sub{font-size:10.5px}
     #panel header{touch-action:none}
-    #rank{left:8px;right:8px;top:auto;bottom:122px;width:auto;max-height:45%}
+    #rank{left:8px;right:8px;top:auto;bottom:122px;width:auto;max-height:30%;padding:6px 8px 8px}
+    #rank h2{font-size:13px}
+    #rank header button{padding:0 9px;line-height:24px;font-size:12px}
+    #rank .note{display:none}
+    #rank ol{display:grid;grid-template-columns:1fr 1fr;gap:3px 6px;margin-top:5px}
+    #rank li{gap:5px;padding:3px 5px;min-width:0}
+    #rank .m{font-size:14px;width:26px}
+    #rank .d{font-size:11px;line-height:1.3;min-width:0}
+    #rank .d .sp,#rank .d .xb,#rank .d span{display:none}
+    #rank .d .pl{display:block;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     #timebar{bottom:8px;width:calc(100% - 16px)}
     #timebar{gap:8px;padding:8px 10px}
     #speed{width:38px}
@@ -196,92 +199,87 @@
     #timebar .trow .ei{position:absolute;left:20px;top:6px;margin:0} /* 手機：放在播放鍵上方空白處，不擠掉年份與筆數 */
   }
 </style>
-  <script type="module" crossorigin src="./assets/index-CU-XwUZC.js"></script>
+  <script type="module" crossorigin src="./assets/index-BJcxll58.js"></script>
 </head>
 <body>
 <div id="app"></div>
 
 <div id="panel" class="card">
   <header id="phead">
-    <div class="tt"><h1>台灣地震 3D</h1><div class="sub">3D 震源分布・資料：中央氣象署</div></div>
+    <div class="tt"><h1>台灣地震 3D</h1><div class="sub">個人製作的教育視覺化・非官方</div></div>
     <button id="collapse" aria-label="收合或展開設定">收合</button>
   </header>
   <div id="body">
-    <section id="pR" class="side" aria-label="操作">
-      <div class="sec">
-        <h2 class="sh">視角</h2>
-        <div class="views">
-          <button type="button" class="vb" data-view="top"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 5l3 7h-6z" fill="currentColor"/></svg>俯視（北朝上）</button>
-          <button type="button" class="vb" data-view="east"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18"/><path d="M21 8 9 20"/><path d="M5 13l4-1"/></svg>從東側看（隱沒帶）</button>
-          <button type="button" class="vb" data-view="south"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 19l6-9 4 5 3-4 7 8z"/></svg>從南側看（碰撞帶）</button>
-        </div>
+    <details class="acc" open>
+      <summary>視角</summary>
+      <div class="views" role="group" aria-label="視角">
+        <button type="button" class="vb" data-view="top" title="從正上方看整個台灣，北方朝上"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c2 3 3 6 2 10-1 4-3 6-4 8"/><path d="M4 12h3M17 12h3M12 1v1"/></svg><span>台灣鳥瞰</span></button>
+        <button type="button" class="vb" data-view="south" title="由南往北看地底，觀察震源的深度分布"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18"/><circle cx="8" cy="11" r="1"/><circle cx="13" cy="14" r="1"/><circle cx="16" cy="18" r="1"/><circle cx="10" cy="17" r="1"/></svg><span>地底剖面</span><small>由南往北</small></button>
+        <button type="button" class="vb" data-view="east" title="由東往西看，觀察琉球隱沒帶往北斜插的震源"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18"/><path d="M5 8l12 12"/></svg><span>琉球隱沒帶</span><small>由東往西</small></button>
       </div>
-      <div class="sec">
-        <h2 class="sh">規模與資料</h2>
-        <div class="lbl">規模篩選</div>
-        <div class="seg" id="magSeg" role="group" aria-label="規模篩選">
-          <button type="button" data-m="0" class="on" aria-pressed="true">全部</button>
-          <button type="button" data-m="4" aria-pressed="false">≥ 4</button>
-          <button type="button" data-m="5" aria-pressed="false">≥ 5</button>
-          <button type="button" data-m="6" aria-pressed="false">≥ 6</button>
-        </div>
-        <div class="note" id="magNote">全部＝規模 3 以上</div>
-        <div class="opt"><label class="tg"><input id="allData" type="checkbox" /><span>顯示全部資料<small>1935 起，含規模 3 以下</small></span></label></div>
-        <div class="opt"><label class="tg"><input id="sound" type="checkbox" /><span>聲音與震動<small>播放時，規模 6 以上</small></span></label></div>
-        <button id="rankBtn" class="wide">規模最大前 10 名</button>
+    </details>
+    <details class="acc" open>
+      <summary>規模與資料</summary>
+      <div class="lbl sl">最小規模<span class="val" id="magVal">M3.0 以上</span></div>
+      <input id="magMin" type="range" min="3" max="7" step="0.5" value="3" aria-label="最小規模" />
+      <div class="ticks" id="magTicks"><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>
+      <div class="note" id="magNote">目前顯示 75,147 筆</div>
+      <div class="opt"><label class="tg"><input id="allData" type="checkbox" /><span>顯示全部資料<small>1935 起，含規模 3 以下</small></span></label></div>
+      <div class="opt"><label class="tg"><input id="sound" type="checkbox" /><span>聲音與震動<small>播放時，規模 6 以上</small></span></label></div>
+      <button id="rankBtn" class="wide">規模最大前 10 名</button>
+    </details>
+    <details class="acc" open>
+      <summary>地圖圖層</summary>
+      <div class="opt"><label class="tg"><input id="cities" type="checkbox" checked /><span>縣市名稱</span></label></div>
+      <div class="opt"><label class="tg"><input id="county" type="checkbox" checked /><span>縣市邊界</span></label></div>
+      <div class="opt"><label class="tg"><input id="plates" type="checkbox" /><span>板塊</span></label><button type="button" class="ei" data-edu="3" aria-label="小知識：為什麼台灣這麼多地震？" title="為什麼台灣這麼多地震？"><b>i</b></button></div>
+      <div class="opt"><label class="tg"><input id="faults" type="checkbox" /><span>活動斷層</span></label><span class="hint">（示意位置）</span><button type="button" class="ei" data-edu="fault" aria-label="小知識：活動斷層" title="活動斷層"><b>i</b></button></div>
+      <div class="opt"><label class="tg"><input id="ruler" type="checkbox" checked /><span>深度尺</span></label></div>
+    </details>
+    <details class="acc" open>
+      <summary>圖例</summary>
+      <div class="lbl">點的顏色<button type="button" class="ei" data-edu="2" aria-label="小知識：顏色代表什麼？" title="顏色代表什麼？震源和震央有什麼不同？"><b>i</b></button></div>
+      <select id="colorMode">
+        <option value="depth">依深度</option>
+        <option value="depthCB">依深度（色弱友善）</option>
+        <option value="year">依年份</option>
+      </select>
+      <div id="legend"></div>
+      <div class="note">點越大＝規模越大<button type="button" class="ei" data-edu="1" aria-label="小知識：點有大有小，是什麼意思？" title="點有大有小，是什麼意思？"><b>i</b></button></div>
+      <div id="platesLegend" style="display:none"></div>
+    </details>
+    <details class="acc">
+      <summary>地形</summary>
+      <div class="note" style="margin-top:0">為方便觀察，地形高度有放大：陸地 ×15、海底 ×5（可開「原始高度」看 1:1）；震源深度未放大</div>
+      <div class="lbl sl">地形透明度</div>
+      <input id="opacity" type="range" min="0" max="1" step="0.05" value="0.6" />
+      <div class="lbl sl">掀開地形<span class="val"><span id="liftv">0</span> 公里</span></div>
+      <input id="lift" type="range" min="0" max="80" step="1" value="0" />
+      <div class="opt"><label class="tg"><input id="ocean" type="checkbox" checked /><span>海底地形</span></label></div>
+      <div class="opt"><label class="tg"><input id="realH" type="checkbox" /><span>原始高度（地形不放大）</span></label><button type="button" class="ei" data-edu="8" aria-label="小知識：山怎麼這麼高？" title="山怎麼這麼高？"><b>i</b></button></div>
+    </details>
+    <details class="acc" id="edu">
+      <summary>地震小知識</summary>
+      <div id="eduList"></div>
+    </details>
+    <details class="acc" id="sources">
+      <summary>關於與資料來源</summary>
+      <div class="about">
+        <p>本站為個人獨立製作的教育用視覺化，非官方服務，不提供即時地震資訊或預警；即時資訊請見<a href="https://scweb.cwa.gov.tw/" target="_blank" rel="noopener">中央氣象署地震測報中心</a>。</p>
+        <p>靈感來自 101事務所的<a href="https://www.youtube.com/watch?v=AB3mBFUOFk4" target="_blank" rel="noopener">影片</a>，本站為獨立開發，與其無合作或背書。</p>
       </div>
-      <div class="sec">
-        <h2 class="sh">地圖圖層</h2>
-        <div class="opt"><label class="tg"><input id="cities" type="checkbox" checked /><span>縣市名稱</span></label></div>
-        <div class="opt"><label class="tg"><input id="county" type="checkbox" checked /><span>縣市邊界</span></label></div>
-        <div class="opt"><label class="tg"><input id="plates" type="checkbox" /><span>板塊</span></label><button type="button" class="ei" data-edu="3" aria-label="小知識：為什麼台灣這麼多地震？" title="為什麼台灣這麼多地震？"><b>i</b></button></div>
-        <div class="opt"><label class="tg"><input id="faults" type="checkbox" /><span>活動斷層</span></label><span class="hint">（示意位置）</span><button type="button" class="ei" data-edu="fault" aria-label="小知識：活動斷層" title="活動斷層"><b>i</b></button></div>
-        <div class="opt"><label class="tg"><input id="ruler" type="checkbox" checked /><span>深度尺</span></label></div>
-      </div>
-    </section>
-    <section id="pL" class="side" aria-label="圖例與說明">
-      <div class="sec">
-        <h2 class="sh">圖例</h2>
-        <div class="lbl">點的顏色<button type="button" class="ei" data-edu="2" aria-label="小知識：顏色代表什麼？" title="顏色代表什麼？震源和震央有什麼不同？"><b>i</b></button></div>
-        <select id="colorMode">
-          <option value="depth">依深度</option>
-          <option value="depthCB">依深度（色弱友善）</option>
-          <option value="year">依年份</option>
-        </select>
-        <div id="legend"></div>
-        <div class="note">點越大＝規模越大<button type="button" class="ei" data-edu="1" aria-label="小知識：點有大有小，是什麼意思？" title="點有大有小，是什麼意思？"><b>i</b></button></div>
-        <div class="note">為方便觀察，地形高度有放大：陸地 ×15、海底 ×5（可開「原始高度」看 1:1）；震源深度未放大</div>
-        <div id="platesLegend" style="display:none"><div class="lbl">板塊</div></div>
-      </div>
-      <div class="sec">
-        <h2 class="sh">地形</h2>
-        <div class="lbl sl">地形透明度</div>
-        <input id="opacity" type="range" min="0" max="1" step="0.05" value="0.6" />
-        <div class="lbl sl">掀開地形<span class="val"><span id="liftv">0</span> 公里</span></div>
-        <input id="lift" type="range" min="0" max="80" step="1" value="0" />
-        <div class="opt"><label class="tg"><input id="ocean" type="checkbox" checked /><span>海底地形</span></label></div>
-        <div class="opt"><label class="tg"><input id="realH" type="checkbox" /><span>原始高度（地形不放大）</span></label><button type="button" class="ei" data-edu="8" aria-label="小知識：山怎麼這麼高？" title="山怎麼這麼高？"><b>i</b></button></div>
-      </div>
-      <div class="sec">
-        <h2 class="sh">說明</h2>
-        <details id="edu">
-          <summary>地震小知識</summary>
-          <div id="eduList"></div>
-        </details>
-        <details id="sources">
-          <summary>資料來源</summary>
-      <p>地震：中央氣象署「地震活動彙整」1935-02-10 至 2025-03-01；之後到 2026-09-30 來自氣象資料開放平台「地震目錄」（只有規模 3 以上）。早年測站少，多半只記到規模 4 以上，不同年代的數量不能直接比較。</p>
-      <p>預設只顯示 1990 年以後、規模 3 以上的地震。</p>
-      <p>地形：NOAA ETOPO 2022（含海底地形），約 1.85 公里一格；陸地高度放大 15 倍、海底放大 5 倍，地震深度不放大。</p>
-      <p>海底放大 5 倍、地震深度沒有放大，所以一部分海域地震會看起來浮在海床上方。早年深度常記成整數，畫面會出現一層層橫條，這是原始資料本來的樣子。</p>
-      <p>縣市界：plotdb/pdmaptw（已簡化線條）。</p>
-      <p>隱沒板塊：USGS Slab2（Hayes et al., 2018, <a href="https://doi.org/10.5066/F7PV6JNV" target="_blank" rel="noopener">doi:10.5066/F7PV6JNV</a>），公有領域。</p>
-      <p>板塊邊界：PB2002（Bird, 2003, doi:10.1029/2001GC000252），GeoJSON 由 Hugo Ahlenius、Nordpil 與 Peter Bird 提供，<a href="https://github.com/fraxen/tectonicplates" target="_blank" rel="noopener">fraxen/tectonicplates</a>，授權 ODC-BY 1.0。全球尺度，台灣附近僅供示意。</p>
-      <p>活動斷層：經濟部地質調查及礦業管理中心 2021 1/25,000_臺灣活動斷層分布圖(含名稱)_2021（WMS），本站依其影像描繪簡化示意。此開放資料依政府資料開放授權條款 (Open Government Data License) 進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。<a href="https://data.gov.tw/license" target="_blank" rel="noopener">https://data.gov.tw/license</a></p>
-        </details>
-        <div id="status"></div>
-      </div>
-    </section>
+      <p><b>地震目錄</b>：交通部中央氣象署（<a href="https://scweb.cwa.gov.tw/zh-tw/history" target="_blank" rel="noopener">地震活動彙整</a> 1935-02-10 至 2025-03-01；氣象資料開放平台 E-A0073-001、E-A0073-002，至 2026-09-30，只有規模 3 以上）。此開放資料依政府資料開放授權條款 (Open Government Data License) 進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。本站已重新整理、篩選並轉換格式。</p>
+      <p>早年測站少，多半只記到規模 4 以上，不同年代的數量不能直接比較。預設只顯示 1990 年以後、規模 3 以上的地震。早年深度常記成整數，畫面會出現一層層橫條，這是原始資料本來的樣子。</p>
+      <p><b>地形</b>：NOAA NCEI (2022) ETOPO 2022 15 Arc-Second Global Relief Model，<a href="https://doi.org/10.25921/fd45-gt74" target="_blank" rel="noopener">doi:10.25921/fd45-gt74</a>（CC0；不可用於導航）。約 1.85 公里一格；陸地高度放大 15 倍、海底放大 5 倍，地震深度不放大，所以一部分海域地震會看起來浮在海床上方。</p>
+      <p><b>縣市界</b>：內政部國土測繪中心（<a href="https://data.gov.tw/dataset/7442" target="_blank" rel="noopener">直轄市、縣市界線</a>，政府資料開放授權條款第 1 版），經 <a href="https://github.com/plotdb/pdmaptw" target="_blank" rel="noopener">plotdb/pdmaptw</a>（MIT）整理並簡化線條。</p>
+      <p><b>隱沒板塊</b>：USGS Slab2（Hayes et al., 2018, <a href="https://doi.org/10.5066/F7PV6JNV" target="_blank" rel="noopener">doi:10.5066/F7PV6JNV</a>），公有領域。</p>
+      <p><b>板塊邊界</b>：PB2002（Bird, 2003, doi:10.1029/2001GC000252），GeoJSON 由 Hugo Ahlenius、Nordpil 與 Peter Bird 提供，<a href="https://github.com/fraxen/tectonicplates" target="_blank" rel="noopener">fraxen/tectonicplates</a>，授權 ODC-BY 1.0。全球尺度，台灣附近僅供示意。</p>
+      <p><b>活動斷層</b>：經濟部地質調查及礦業管理中心 2021 1/25,000_臺灣活動斷層分布圖(含名稱)_2021（WMS），本站依其影像描繪簡化示意。此開放資料依政府資料開放授權條款 (Open Government Data License) 進行公眾釋出，使用者於遵守本條款各項規定之前提下，得利用之。</p>
+      <p>政府資料開放授權條款：<a href="https://data.gov.tw/license" target="_blank" rel="noopener">https://data.gov.tw/license</a></p>
+      <p><b>程式庫</b>：three.js（MIT）。</p>
+    </details>
+    <div id="status"></div>
+    <footer class="foot">個人教育作品・非官方・不提供即時地震資訊</footer>
     <button id="grip" type="button">︿ 收合</button>
   </div>
 </div>
