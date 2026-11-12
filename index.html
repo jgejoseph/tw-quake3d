@@ -200,7 +200,7 @@
     #compass{top:58px;right:6px;transform:scale(.85)}
     #homeBtn{top:128px;right:12px;padding:7px;}
     #homeBtn span{display:none}
-    #m7toast{top:62px;font-size:13px;padding:6px 12px}
+    #m7toast{top:112px;font-size:13px;padding:6px 12px;white-space:normal;text-align:center;max-width:calc(100% - 160px)} /* v0.5.10：放到大年份下方、避開指北針，不再蓋住年份 */
     #timebar .mid>div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     #countText{font-size:11px;margin-left:5px}
     #yearText{font-size:13px}
@@ -209,6 +209,36 @@
     #soloL .long,#countText .long{display:none}
     #timebar .trow .ei{position:absolute;left:20px;top:6px;margin:0} /* 手機：放在播放鍵上方空白處，不擠掉年份與筆數 */
   }
+  /* ---- v0.5.10 電腦版：地圖上方工具列（視角／顯示全部資料／聲音與震動）；手機維持在設定面板 ---- */
+  #mapbar{display:none}
+  .sndI{display:none}
+  @media (min-width:641px){
+    #mapbar{position:fixed;top:12px;left:300px;right:220px;z-index:6;display:flex;justify-content:center;pointer-events:none}
+    body:has(#rank.open) #mapbar{right:532px}
+    #mapbar .in{pointer-events:auto;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 8px;padding:6px 8px;background:rgba(10,14,22,.82);border:1px solid rgba(255,255,255,.1);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.4);backdrop-filter:blur(4px)}
+    #mapbar .views{display:flex;gap:4px}
+    #mapbar .vb{flex-direction:row;gap:6px;padding:5px 10px;border-radius:8px;font-size:12.5px;white-space:nowrap}
+    #mapbar .vb svg{margin:0;width:16px;height:16px}
+    #mapbar .vb small{display:none}
+    #mapbar .sep{width:1px;align-self:stretch;margin:2px 2px;background:rgba(255,255,255,.12)}
+    #mapbar .opt{margin:0;min-height:0}
+    #mapbar .tg{gap:8px;padding:4px 9px 4px 7px;border-radius:8px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);font-size:12.5px;white-space:nowrap}
+    #mapbar .tg:hover{border-color:#5b6f94}
+    #mapbar .tg:has(input:checked){border-color:rgba(255,179,71,.7);background:rgba(255,179,71,.1)}
+    #mapbar .tg small{font-size:10.5px}
+    #mapbar .sndI{display:block;flex:none;color:#9cc3ff}
+    #mapbar .tg:has(#sound:checked) .sndI.off,#mapbar .tg:not(:has(#sound:checked)) .sndI.on{display:none}
+    #mapbar .tg:has(#sound:checked) .sndI.on{color:var(--acc)}
+    #body>.acc[hidden]+.acc{border-top:0}
+    /* 大年份：畫面水平置中、工具列下方，放大；M7／前 10 名紅色提示放在年份下方，兩者都看得到 */
+    #bigYear{left:50%;transform:translateX(-50%);top:calc(var(--barB,66px) + 4px);font-size:60px;line-height:1.1;letter-spacing:2px}
+    #m7toast{top:calc(var(--barB,66px) + 82px)}
+    /* 右側前 10 名打開時，指北針與回預設視角往左讓開（原本與面板重疊約 10px） */
+    body:has(#rank.open) #compass{right:332px} body:has(#rank.open) #homeBtn{right:414px}
+  }
+  /* 空間不夠時（較窄的電腦視窗或右側排行榜打開）：先收起小字說明，再把視角鈕縮成圖示（滑過仍有說明） */
+  @media (min-width:641px) and (max-width:1199px){ #mapbar .tg small,#mapbar .vb span{display:none} }
+  @media (min-width:641px) and (max-width:1599px){ body:has(#rank.open) #mapbar .tg small,body:has(#rank.open) #mapbar .vb span{display:none} }
   #intro{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:#0b0f17;transition:opacity 1.2s ease;pointer-events:none}
   #intro.hide{opacity:0}
   #intro canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;animation:introIn 2s ease .4s forwards}
@@ -219,7 +249,7 @@
   @keyframes introIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   @keyframes introDot{0%,100%{opacity:.15}50%{opacity:1}}
 </style>
-  <script type="module" crossorigin src="./assets/index-BZmBWKCq.js"></script>
+  <script type="module" crossorigin src="/assets/index-DsUjCtdn.js"></script>
 </head>
 <body>
 <div id="app"></div>
@@ -237,7 +267,7 @@ raf=requestAnimationFrame(draw)}
 raf=requestAnimationFrame(draw);
 // 開場結束：資料就緒（至少顯示 3.2 秒）、載入失敗（立刻）、或 15 秒保底；淡出後停動畫並整個移除，不擋任何點擊
 var done=false,fb=0;function kill(){run=false;if(raf){cancelAnimationFrame(raf);raf=0}removeEventListener('resize',fit);var e=document.getElementById('intro');if(e){e.style.display='none';e.remove()}window.__introState='removed'}
-window.__introDone=function(fail){if(done)return;done=true;clearTimeout(fb);window.__introState='hiding';var w=fail?0:Math.max(0,3200-(performance.now()-t0));setTimeout(function(){var e=document.getElementById('intro');if(!e){kill();return}e.style.pointerEvents='none';e.classList.add('hide');setTimeout(kill,fail?400:1300)},w)};
+window.__introDone=function(fail){if(done)return;done=true;clearTimeout(fb);window.__introState='hiding';var w=fail?0:Math.max(0,3200-(performance.now()-t0));setTimeout(function(){var e=document.getElementById('intro');if(!e){kill();return}e.style.pointerEvents='none';e.classList.add('hide');if(!fail){window.__introFaded=true;dispatchEvent(new Event('introfade'))}setTimeout(kill,fail?400:1300)},w)};
 window.__introState='showing';fb=setTimeout(function(){window.__introDone()},15000)})();</script>
 
 
@@ -262,7 +292,7 @@ window.__introState='showing';fb=setTimeout(function(){window.__introDone()},150
       <div class="ticks" id="magTicks"><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>
       <div class="note" id="magNote">目前顯示 75,147 筆</div>
       <div class="opt"><label class="tg"><input id="allData" type="checkbox" /><span>顯示全部資料<small>1935 起，含規模 3 以下</small></span></label></div>
-      <div class="opt"><label class="tg"><input id="sound" type="checkbox" /><span>聲音與震動<small>播放時，規模 6 以上</small></span></label></div>
+      <div class="opt"><label class="tg" title="聲音與震動（規模 6 以上）"><input id="sound" type="checkbox" /><svg class="sndI off" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M22 9l-6 6M16 9l6 6"/></svg><svg class="sndI on" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg><span>聲音與震動<small>播放時，規模 6 以上</small></span></label></div>
       <button id="rankBtn" class="wide">規模最大前 10 名</button>
     </details>
     <details class="acc" open>
@@ -330,6 +360,7 @@ window.__introState='showing';fb=setTimeout(function(){window.__introDone()},150
   <ol id="rankList"></ol>
 </div>
 
+<div id="mapbar" role="toolbar" aria-label="地圖工具列"><div class="in"></div></div>
 <div id="bigYear"></div>
 <div id="m7toast"></div>
 <div id="qcard" class="card" role="dialog" aria-label="地震資料"><button class="x" aria-label="關閉">✕</button><div id="qbody"></div></div>
