@@ -1,0 +1,8 @@
+FAIL cold fault load respects on-off AssertionError [ERR_ASSERTION]: loaded layer visibility must match latest checkbox: {"checked":false,"point":[254.38130626149282,141.46390917282403]}
+
+true !== false
+
+PASS cold fault load respects on-off-on {"checked":true,"point":[254.38130626149282,141.46390917282403],"requests":1,"warmToggle":"on/off matched"}
+FAIL WebGL creation failure reports error and ends loading AssertionError [ERR_ASSERTION]: The input did not match the regular expression /WebGL2/. Input:
+
+''

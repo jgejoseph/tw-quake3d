@@ -1,0 +1,97 @@
+
+> tw-quake3d@0.2.0 test
+> node scripts/run-tests.mjs
+
+serving /workspace/tw-quake3d-phase2a/dist at http://127.0.0.1:4173/tw-quake3d/
+PASS source and built data: all 8 baseline SHA-256 values
+PASS build rejects symlink materialized as a text file
+PASS build rejects missing output data even with intact source
+PASS data guard rejects corrupt binary content
+PASS binTotalBytes 與檔案大小一致（18666132）
+--- 舊 CSV 解析 vs 新 bin 解析 ---
+PASS n 933305 vs 933305
+PASS pos 前 2799915 個值相同
+PASS size 前 933305 個值相同
+PASS yearA 前 933305 個值相同
+PASS magA 前 933305 個值相同
+PASS depA 前 933305 個值相同
+PASS lonA 前 933305 個值相同
+PASS latA 前 933305 個值相同
+PASS ymdA 前 933305 個值相同
+PASS hmsA 前 933305 個值相同
+PASS big（M≥6，含 dt 字串）245 筆相同
+PASS m5（M≥5）2574 筆相同
+PASS hist 92 個年份（1935–2026）相同
+--- 舊 CSV 解析 vs 新 csv 備援 解析 ---
+PASS n 933305 vs 933305
+PASS pos 前 2799915 個值相同
+PASS size 前 933305 個值相同
+PASS yearA 前 933305 個值相同
+PASS magA 前 933305 個值相同
+PASS depA 前 933305 個值相同
+PASS lonA 前 933305 個值相同
+PASS latA 前 933305 個值相同
+PASS ymdA 前 933305 個值相同
+PASS hmsA 前 933305 個值相同
+PASS big（M≥6，含 dt 字串）245 筆相同
+PASS m5（M≥5）2574 筆相同
+PASS hist 92 個年份（1935–2026）相同
+舊版陣列長度 933306（多 1 個從未使用的尾端空格，因 CSV 最後一行是空行）；bin 版長度 933305
+結果：全部相同
+PASS independent world-space project and pick at lift=0
+PASS independent world-space project and pick at lift=35
+PASS independent world-space project and pick at lift=80
+PASS nested parent translation and rotation
+PASS hidden faults cannot be projected or picked
+STEP QUAKE_READY PASS
+STEP slider counts M3-M7 PASS
+STEP 顯示全部資料 count PASS
+STEP back to default PASS
+STEP cities PASS
+STEP plates load PASS
+STEP view buttons PASS
+STEP timeline play advances PASS
+STEP top-10 list PASS
+STEP fault select/grey + clear PASS
+STEP sources text (06:36, 2021) PASS
+STEP mobile panel open/close PASS
+STEP mobile tap-close PASS
+STEP mobile top-10 PASS
+STEP no console/page errors PASS
+[["QUAKE_READY","PASS","{\"quakes\":933305,\"years\":[1935,2026],\"visible\":75147}"],["slider counts M3-M7","PASS","{\"3\":75147,\"4\":10634,\"5\":1338,\"6\":146,\"7\":6}"],["顯示全部資料 count","PASS","{\"all\":933305,\"text\":\"933,305 筆\"}"],["back to default","PASS","75147"],["cities","PASS","{\"n\":22,\"shown\":10}"],["plates load","PASS","{\"slabs\":[{\"id\":\"ryu\",\"valid\":2811,\"dmax\":363.7},{\"id\":\"man\",\"valid\":13550,\"dmax\":170.7}],\"boundaries\":[\"YA-SU\",\"PS-YA\",\"PS/SU\",\"ON-PS\",\"YA-ON\"]}"],["view buttons","PASS","{\"top\":\"top\",\"south\":\"south\",\"east\":\"east\"}"],["timeline play advances","PASS","{\"y0\":2026,\"y1\":1994,\"now0\":-1,\"now1\":1994}"],["top-10 list","PASS","{\"open\":true,\"n\":10,\"items\":10}"],["fault select/grey + clear","PASS","{\"sel\":\"車籠埔斷層\",\"card\":\"車籠埔斷層\",\"bg\":\"rgba(10, 14, 22, 0.5)\",\"after\":null}"],["sources text (06:36, 2021)","PASS","{\"b\":true,\"f\":true}"],["mobile panel open/close","PASS","{\"c0\":true,\"c1\":false,\"c2\":true}"],["mobile tap-close","PASS","{\"collapsedAfterTap\":true}"],["mobile top-10","PASS","{\"h\":230,\"n\":10}"],["no console/page errors","PASS","[]"]]
+PASS | autoplay starts at 1990, muted | {"pre":{"playing":true,"year":1990,"intro":"hiding"},"ap":{"started":4597.300000000745,"year0":1990,"sound":false},"year":1990,"scope":{"y0":1990,"mMin":3},"yearText":"1990 年"}
+PASS | desktop 1280: top-10 open by default with 10 rows for 1990 range | {"open":true,"n":10,"scope":"1990–2026 年"}
+PASS | autoplay advances | {"y0":1990,"y1":1994,"text":"1990–1994 年 　9,951 筆，亮點＝1994 年"}
+PASS | desktop: toggles in map toolbar, not left panel | {"soundInPanel":false,"allInPanel":false,"viewsInPanel":false,"bar":[303,12,745,54],"compass":[872,14,948,90],"home":[753,30,866,65],"panel":[12,12,288,702],"bigYear":[567,58,713,124],"title":"聲音與震動（規模 6 以上）","icon":["block","none"]}
+PASS | toolbar sound toggle drives audio.on | {"s1":{"on":true,"tones":1,"icon":["none","block"]},"off":false}
+PASS | top-10 click during autoplay: stops play, flies, marks, opens card | {"flyPre":true,"playing":false,"selected":0,"marker":true,"card":true}
+PASS | ✕ closes, left button reopens | {"afterClose":false,"afterReopen":true}
+PASS | rank open: toolbar clear of home/compass | {"bar":[303,12,745,54],"home":[753,30,866,65],"compass":[872,14,948,90],"rank":[954,12,1268,527]}
+PASS | 顯示全部資料 in toolbar restores 1935 range | {"scope":{"y0":1935,"mMin":-1},"playing":false,"text":"1935–2026 年"}
+FAIL | resize across breakpoint moves controls back/forth | {"narrow":{"sp":false,"vp":false},"desktopAgain":false}
+PASS | mobile: loads, autoplays from 1990 muted, advances; controls stay in panel | {"year0":1990,"y1":1996,"bar":"none","soundInPanel":true,"icons":["none","none"]}
+PASS | mobile: top-10 closed by default | {"rankOpen":false}
+PASS | mobile panel sound switch still works | {"on":true}
+PASS | mobile: big year and red banner both visible, no overlap | {"year":[14,60,96,106],"yearText":"1996","toast":[98,112,293,162],"toastText":"⚠ 1996 年　1996 臺東縣外海地震　M7.1","bar":[0,0,0,0],"rank":null,"compass":[314,64,378,128],"home":[344,128,378,162],"labels":[],"live":1,"hits":{"yearToast":false,"yearBar":false,"yearRank":false,"toastBar":false,"toastRank":false,"yearLabel":false,"toastLabel":false,"toastCompass":false,"toastHome":false,"yearCompass":false}}
+PASS | desktop 1920: top-10 open by default | {}
+PASS | desktop 1920: big year and red banner both visible, no overlap | {"year":[887,70,1033,136],"yearText":"1996","toast":[815,148,1105,182],"toastText":"⚠ 1996 年　1996 臺東縣外海地震　M7.1","bar":[498,12,1190,66],"rank":[1594,12,1908,527],"compass":[1512,14,1588,90],"home":[1393,30,1506,65],"labels":[],"live":1,"hits":{"yearToast":false,"yearBar":false,"yearRank":false,"toastBar":false,"toastRank":false,"yearLabel":false,"toastLabel":false,"toastCompass":false,"toastHome":false,"yearCompass":false}}
+PASS | desktop 1280: top-10 open by default | {}
+PASS | desktop 1280: big year and red banner both visible, no overlap | {"year":[567,58,713,124],"yearText":"1996","toast":[495,136,785,170],"toastText":"⚠ 1996 年　1996 臺東縣外海地震　M7.1","bar":[303,12,745,54],"rank":[954,12,1268,527],"compass":[872,14,948,90],"home":[753,30,866,65],"labels":[],"live":1,"hits":{"yearToast":false,"yearBar":false,"yearRank":false,"toastBar":false,"toastRank":false,"yearLabel":false,"toastLabel":false,"toastCompass":false,"toastHome":false,"yearCompass":false}}
+PASS | no console/page errors | []
+PASS | mobile panel background differs from v0.5.10 and from map | {"bg":"rgb(32, 43, 64)","border":"1px rgba(156, 195, 255, 0.32)","shadow":"rgba(0, 0, 0, 0.65) 0px 8px 24px 0px, rgba(0, 0, 0, 0.35) 0px 0px 0px 1px","head":"rgb(40, 54, 80)","fg":"rgb(221, 227, 238)","mapBg":"rgb(11, 15, 23)"}
+PASS | mobile data unchanged (933305 / 75147) | {"quakes":933305,"years":[1935,2026],"visible":75147}
+PASS | mobile panel opens | {"wasCollapsed":true}
+PASS | desktop panel unchanged (v0.5.10 values) | {"bg":"rgba(10, 14, 22, 0.88)","border":"0px rgb(221, 227, 238)","shadow":"rgba(0, 0, 0, 0.4) 0px 2px 12px 0px","head":"rgba(12, 16, 25, 0.98)","fg":"rgb(221, 227, 238)","mapBg":"rgb(11, 15, 23)"}
+PASS | no console/page errors | []
+PASS cold fault load respects on-off {"checked":false,"point":null,"requests":1,"warmToggle":"on/off matched"}
+PASS cold fault load respects on-off-on {"checked":true,"point":[254.38130626149282,141.46390917282403],"requests":1,"warmToggle":"on/off matched"}
+PASS WebGL creation failure reports error and ends loading {"status":"無法啟動 3D 地圖：WebGL2 無法建立。請重新整理，或使用支援 WebGL2 的瀏覽器。","role":"alert","year":"WebGL2 啟動失敗，請重新整理或更換瀏覽器","ready":{"error":"無法啟動 3D 地圖：WebGL2 無法建立。請重新整理，或使用支援 WebGL2 的瀏覽器。"},"canvases":0,"errors":["Error creating WebGL context."]}
+scripts/test_data_integrity.mjs: PASS 4, FAIL 0, exit 0
+scripts/test_quakedata.mjs: PASS 27, FAIL 0, exit 0
+scripts/test_fault_world.mjs: PASS 5, FAIL 0, exit 0
+reg56.mjs: PASS 15, FAIL 0, exit 0
+v0510_check.mjs: PASS 18, FAIL 1, exit 1
+mobile_panel_check.mjs: PASS 5, FAIL 0, exit 0
+scripts/test_stability.mjs: PASS 3, FAIL 0, exit 0
+
+COMMAND_EXIT_CODE=1

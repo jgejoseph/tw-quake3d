@@ -33,7 +33,18 @@ const $ = id => document.getElementById(id);
 const statusEl = $('status');
 const setStatus = s => { statusEl.textContent = s; };
 
-const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+} catch (error) {
+  const message = '無法啟動 3D 地圖：WebGL2 無法建立。請重新整理，或使用支援 WebGL2 的瀏覽器。';
+  setStatus(message);
+  statusEl.setAttribute('role', 'alert');
+  $('yearText').textContent = 'WebGL2 啟動失敗，請重新整理或更換瀏覽器';
+  window.__QUAKE_READY__ = { error: message };
+  window.__introDone?.(true);
+  throw error; // Stop startup: scene/controls must not use a missing renderer.
+}
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 $('app').appendChild(renderer.domElement);
@@ -936,20 +947,24 @@ var faultPick = null, faultTick = null, showFaultTip = () => {}, closeFaultTip =
   closeFaultTip = () => { cur = null; sticky = false; tip.classList.remove('show'); faults?.setSelected(null); };
   const load = async () => {
     if (faults) return faults;
-    loading ||= initFaults({ scene, lid, toX, toZ, DEPTH_SCALE, TERRAIN_EXAG, LAND_EXAG }).catch(e => { console.error(e); setStatus('斷層資料載入失敗：' + e.message); });
-    faults = await loading; if (!faults) return null;
-    faults.setReal(terrainCtl.real); terrainCtl.onReal.push(r => faults.setReal(r));
-    faultPick = (x, y) => faults.pick(x, y, camera);
-    faultTick = t => faults.tick(t);
-    window.__faultSel = () => faults.selected();
-    window.__FAULTS_READY__ = { names: faults.names, count: faults.count };
-    window.__faultPoint = name => { camera.updateMatrixWorld(); return faults.project(name, camera); };
-    return faults;
+    // Share initialization as well as the fetch: pending toggles must not
+    // register terrain callbacks repeatedly when the same load completes.
+    loading ||= initFaults({ scene, lid, toX, toZ, DEPTH_SCALE, TERRAIN_EXAG, LAND_EXAG }).then(f => {
+      faults = f;
+      faults.setReal(terrainCtl.real); terrainCtl.onReal.push(r => faults.setReal(r));
+      faultPick = (x, y) => faults.pick(x, y, camera);
+      faultTick = t => faults.tick(t);
+      window.__faultSel = () => faults.selected();
+      window.__FAULTS_READY__ = { names: faults.names, count: faults.count };
+      window.__faultPoint = name => { camera.updateMatrixWorld(); return faults.project(name, camera); };
+      return faults;
+    }).catch(e => { console.error(e); setStatus('斷層資料載入失敗：' + e.message); });
+    return loading;
   };
   cb.addEventListener('change', async () => {
     if (!cb.checked) { if (faults) faults.setVisible(false); closeFaultTip(); return; }
     const f = await load(); if (!f) { cb.checked = false; return; }
-    f.setVisible(true);
+    f.setVisible(cb.checked); // Use the latest intent, not the pre-await state.
   });
   // 桌面：滑過就顯示（拖曳旋轉時不跳）
   renderer.domElement.addEventListener('pointermove', e => {
