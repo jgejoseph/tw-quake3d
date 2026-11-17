@@ -22,7 +22,10 @@ results.push(await run('reg56.mjs'));
 results.push(await run('v0510_check.mjs'));
 results.push(await run('mobile_panel_check.mjs', [(process.env.SHOT_DIR || 'test-results') + '/v0511']));
 if (!process.env.BASE) results.push(await run('scripts/test_stability.mjs'));
+// Diagnostic observations are reported separately and never counted as assertions.
+const diagnostic = await run('scripts/diag_year_sync.mjs');
 if (server) server.kill();
 let fail = 0;
 for (const r of results) { const n = (r.out.match(/FAIL/g) || []).length, p = (r.out.match(/PASS/g) || []).length; if (n || r.code) fail++; console.log(`${r.f}: PASS ${p}, FAIL ${n}, exit ${r.code}`); }
+console.log(`DIAG: 1 run, ${diagnostic.code === 0 ? 'completed' : 'unavailable (see diagnostic file/log)'}, exit ${diagnostic.code}`);
 process.exit(fail ? 1 : 0);

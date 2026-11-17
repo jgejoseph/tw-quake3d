@@ -53,7 +53,7 @@ await m.tap('#collapse'); await m.waitForTimeout(300); await m.tap('#sound'); aw
 ok('mobile: top-10 closed by default',m0.s.rankOpen===false,{rankOpen:m0.s.rankOpen});
 ok('mobile panel sound switch still works',ms===true,{on:ms}); await m.screenshot({path:(process.env.SHOT_DIR||'test-results')+'/v0510_mobile_panel.png'});
 await m.context().close();
-// 大年份 vs 紅色提示（M7／前 10 名）：等自動播放播到第一個 M7（1999 集集），量測框是否重疊
+// 大年份 vs 紅色提示（M7／前 10 名）：1990 年後第一個 M7 為 1996-09-06 臺東外海 M7.07，量測框是否重疊
 const banner=async(pg,label,shot)=>{ const g=await (await pg.waitForFunction(()=>{const t=document.getElementById('m7toast'); if(!t.classList.contains('show')||getComputedStyle(t).visibility!=='visible'||+getComputedStyle(t).opacity<0.9) return false;const R=e=>{if(!e||getComputedStyle(e).display==='none'||getComputedStyle(e).visibility==='hidden')return null;const b=e.getBoundingClientRect();return [Math.round(b.left),Math.round(b.top),Math.round(b.right),Math.round(b.bottom)]};
   return {year:R(document.getElementById('bigYear')),yearText:bigYear.textContent,toast:R(document.getElementById('m7toast')),toastText:m7toast.textContent,bar:R(document.querySelector('#mapbar .in')),rank:R(document.getElementById('rank').classList.contains('open')?document.getElementById('rank'):null),compass:R(document.getElementById('compass')),home:R(document.getElementById('homeBtn')),labels:[...document.querySelectorAll('.m7label')].map(R).filter(Boolean),live:document.querySelectorAll('#rankList li.live').length}},null,{timeout:90000,polling:100})).jsonValue();
  const X=(a,b)=>!!(a&&b&&a[0]<b[2]&&b[0]<a[2]&&a[1]<b[3]&&b[1]<a[3]);
