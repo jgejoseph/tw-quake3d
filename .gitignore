@@ -1,0 +1,17 @@
+# [新建 / NEW in handoff]
+node_modules/
+dist/
+test-results/
+# 原始下載資料（約 67 MB，用 scripts/ 重新取得，不進版控）
+data/raw/
+# 備份、截圖、媒體與本機暫存
+*.bak_*
+backup_v0.1/
+screenshots/
+media/
+# 機密：任何金鑰、憑證、環境設定都不得進版控
+.env
+.env.*
+*.pem
+*.key
+cj.txt

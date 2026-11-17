@@ -1,6 +1,6 @@
 import { chromium } from 'playwright-core';
 const BASE=process.argv[2]; const R=[]; const ok=(n,c,v)=>R.push([c?'PASS':'FAIL',n,JSON.stringify(v)]);
-const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--no-sandbox','--autoplay-policy=user-gesture-required']});
+const b=await chromium.launch({executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--no-sandbox','--autoplay-policy=user-gesture-required']});
 const errs=[]; const hook=p=>{p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});};
 // desktop
 const d=await (await b.newContext({viewport:{width:1280,height:800}})).newPage(); hook(d);
@@ -17,11 +17,11 @@ const lay=await d.evaluate(()=>{const r=e=>{const b=document.querySelector(e).ge
  bar:r('#mapbar .in'),compass:r('#compass'),home:r('#homeBtn'),panel:r('#panel'),bigYear:r('#bigYear'),title:document.getElementById('sound').closest('label').title,
  icon:[...document.querySelectorAll('.sndI')].map(e=>getComputedStyle(e).display)}});
 ok('desktop: toggles in map toolbar, not left panel',!lay.soundInPanel&&!lay.allInPanel&&!lay.viewsInPanel&&lay.bar[2]<lay.home[0]&&lay.bar[0]>lay.panel[2],lay);
-await d.screenshot({path:'/workspace/deploy/v0510_desktop.png'});
+await d.screenshot({path:(process.env.SHOT_DIR||'test-results')+'/v0510_desktop.png'});
 await d.click('#sound'); await d.waitForTimeout(600); const s1=await d.evaluate(()=>({on:__state().sound,tones:__state().tones,icon:[...document.querySelectorAll('.sndI')].map(e=>getComputedStyle(e).display)}));
 await d.click('#sound'); await d.waitForTimeout(300); const s2=await d.evaluate(()=>__state().sound);
 ok('toolbar sound toggle drives audio.on',s1.on===true&&s1.tones>=1&&s2===false,{s1,off:s2});
-await d.click('#sound'); await d.waitForTimeout(300); await d.screenshot({path:'/workspace/deploy/v0510_desktop_soundon.png'}); await d.click('#sound');
+await d.click('#sound'); await d.waitForTimeout(300); await d.screenshot({path:(process.env.SHOT_DIR||'test-results')+'/v0510_desktop_soundon.png'}); await d.click('#sound');
 const flyPre=await d.evaluate(()=>__state().playing); await d.click('#rankList li:nth-child(1)'); await d.waitForTimeout(1200);
 const fl=await d.evaluate(()=>({playing:__state().playing,selected:__state().selected,marker:!!__state().marker,card:__card()?.shown}));
 ok('top-10 click during autoplay: stops play, flies, marks, opens card',flyPre&&!fl.playing&&fl.selected===0&&fl.marker&&fl.card,{flyPre,...fl});
@@ -29,7 +29,7 @@ await d.click('#rankClose'); await d.waitForTimeout(300); const cl=await d.evalu
 await d.click('#rankBtn'); await d.waitForTimeout(500); const ro=await d.evaluate(()=>__state().rankOpen);
 ok('✕ closes, left button reopens',cl===false&&ro===true,{afterClose:cl,afterReopen:ro});
 const lr=await d.evaluate(()=>{const r=e=>{const b=document.querySelector(e).getBoundingClientRect();return [Math.round(b.left),Math.round(b.top),Math.round(b.right),Math.round(b.bottom)]};return {bar:r('#mapbar .in'),home:r('#homeBtn'),compass:r('#compass'),rank:r('#rank')}});
-ok('rank open: toolbar clear of home/compass',lr.bar[2]<lr.home[0],lr); await d.screenshot({path:'/workspace/deploy/v0510_desktop_rank.png'}); await d.click('#rankClose');
+ok('rank open: toolbar clear of home/compass',lr.bar[2]<lr.home[0],lr); await d.screenshot({path:(process.env.SHOT_DIR||'test-results')+'/v0510_desktop_rank.png'}); await d.click('#rankClose');
 await d.click('#allData'); await d.waitForTimeout(500); const all=await d.evaluate(()=>({scope:__state().scope,playing:__state().playing,text:yearText.textContent}));
 ok('顯示全部資料 in toolbar restores 1935 range',all.scope.y0===1935,all); await d.click('#allData');
 // resize to narrow and back
@@ -42,10 +42,10 @@ await m.goto(BASE,{timeout:120000,waitUntil:'domcontentloaded'}); await m.waitFo
 const m0=await m.evaluate(()=>({ap:window.__autoplay,s:__state(),bar:getComputedStyle(document.getElementById('mapbar')).display,soundInPanel:document.getElementById('panel').contains(document.getElementById('sound')),icons:[...document.querySelectorAll('.sndI')].map(e=>getComputedStyle(e).display)}));
 await m.waitForTimeout(5000); const m1=await m.evaluate(()=>__state());
 ok('mobile: loads, autoplays from 1990 muted, advances; controls stay in panel',m0.ap.year0===1990&&!m0.s.sound&&m1.playing&&m1.year>m0.s.year&&m0.bar==='none'&&m0.soundInPanel,{year0:m0.ap.year0,y1:m1.year,bar:m0.bar,soundInPanel:m0.soundInPanel,icons:m0.icons});
-await m.screenshot({path:'/workspace/deploy/v0510_mobile.png'});
+await m.screenshot({path:(process.env.SHOT_DIR||'test-results')+'/v0510_mobile.png'});
 await m.tap('#collapse'); await m.waitForTimeout(300); await m.tap('#sound'); await m.waitForTimeout(400); const ms=await m.evaluate(()=>__state().sound);
 ok('mobile: top-10 closed by default',m0.s.rankOpen===false,{rankOpen:m0.s.rankOpen});
-ok('mobile panel sound switch still works',ms===true,{on:ms}); await m.screenshot({path:'/workspace/deploy/v0510_mobile_panel.png'});
+ok('mobile panel sound switch still works',ms===true,{on:ms}); await m.screenshot({path:(process.env.SHOT_DIR||'test-results')+'/v0510_mobile_panel.png'});
 await d.close(); await m.close();
 // 大年份 vs 紅色提示（M7／前 10 名）：等自動播放播到第一個 M7（1999 集集），量測框是否重疊
 const banner=async(pg,label,shot)=>{ const g=await (await pg.waitForFunction(()=>{const t=document.getElementById('m7toast'); if(!t.classList.contains('show')||getComputedStyle(t).visibility!=='visible'||+getComputedStyle(t).opacity<0.9) return false;const R=e=>{if(!e||getComputedStyle(e).display==='none'||getComputedStyle(e).visibility==='hidden')return null;const b=e.getBoundingClientRect();return [Math.round(b.left),Math.round(b.top),Math.round(b.right),Math.round(b.bottom)]};
@@ -54,9 +54,9 @@ const banner=async(pg,label,shot)=>{ const g=await (await pg.waitForFunction(()=
  const hits={yearToast:X(g.year,g.toast),yearBar:X(g.year,g.bar),yearRank:X(g.year,g.rank),toastBar:X(g.toast,g.bar),toastRank:X(g.toast,g.rank),yearLabel:g.labels.some(l=>X(g.year,l)),toastLabel:g.labels.some(l=>X(g.toast,l)),toastCompass:X(g.toast,g.compass),toastHome:X(g.toast,g.home),yearCompass:X(g.year,g.compass)};
  ok(label+': big year and red banner both visible, no overlap',g.year&&g.toast&&!Object.values(hits).some(Boolean),{...g,hits});
  await pg.screenshot({path:shot}); };
-{ const q=await (await b.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:2})).newPage(); hook(q); await q.goto(BASE,{timeout:120000}); await q.waitForFunction(()=>window.__autoplay,null,{timeout:180000}); await banner(q,'mobile','/workspace/deploy/v0510b_banner_mobile.png'); await q.close(); }
+{ const q=await (await b.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:2})).newPage(); hook(q); await q.goto(BASE,{timeout:120000}); await q.waitForFunction(()=>window.__autoplay,null,{timeout:180000}); await banner(q,'mobile',(process.env.SHOT_DIR||'test-results')+'/v0510b_banner_mobile.png'); await q.close(); }
 for(const w of [1920,1280]){ const q=await (await b.newContext({viewport:{width:w,height:w===1920?1080:800}})).newPage(); hook(q); await q.goto(BASE,{timeout:120000}); await q.waitForFunction(()=>window.__autoplay,null,{timeout:180000});
  ok(`desktop ${w}: top-10 open by default`,await q.evaluate(()=>__state().rankOpen),{});
- await banner(q,`desktop ${w}`,`/workspace/deploy/v0510b_banner_${w}.png`); await q.close(); }
+ await banner(q,`desktop ${w}`,(process.env.SHOT_DIR||'test-results')+`/v0510b_banner_${w}.png`); await q.close(); }
 ok('no console/page errors',errs.length===0,errs);
 for(const r of R) console.log(r.join(' | ')); await b.close();

@@ -1,7 +1,7 @@
 // v0.5.11：手機版下拉設定面板需與地圖背景有明顯區隔；電腦版面板外觀不變
 import { chromium } from 'playwright-core';
 const BASE=process.argv[2]; const SHOT=process.argv[3]||''; const R=[]; const ok=(n,c,v)=>R.push([c?'PASS':'FAIL',n,JSON.stringify(v)]);
-const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--no-sandbox']});
+const b=await chromium.launch({executablePath:process.env.CHROME_PATH||'/usr/bin/google-chrome',args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--no-sandbox']});
 const errs=[]; const hook=p=>{p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});};
 const OLD='rgba(10, 14, 22, 0.88)';
 const sty=p=>p.evaluate(()=>{const c=getComputedStyle(panel),h=getComputedStyle(phead);return {bg:c.backgroundColor,border:c.borderTopWidth+' '+c.borderTopColor,shadow:c.boxShadow,head:h.backgroundColor,fg:getComputedStyle(document.querySelector('#phead h1')).color,mapBg:getComputedStyle(document.body).backgroundColor}});
