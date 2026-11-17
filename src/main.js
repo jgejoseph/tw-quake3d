@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { initPlates, PLATE_COLORS } from './plates.js';
+import { initPlates, PLATE_COLORS, PLATE_TRANSFORM } from './plates.js';
 import { initFaults } from './faults.js';
 import { initEdu, eduBtn } from './edu.js';
 import { parseQuakesBin, parseQuakesCSV, fetchBytes, binTotalBytes } from './quakedata.js';
@@ -905,8 +905,9 @@ var platePick = null;  // 板塊載入後：點 3D 標籤 → 小卡代號
   const cb = $('plates'), lg = $('platesLegend');
   const sw = (c, t) => `<div><span class="sw" style="background:${c};opacity:.8"></span>${t}</div>`;
   const ln = (c, t) => `<div><span class="ln" style="background:${c}"></span>${t}</div>`;
+  const lnDash = (c, t) => `<div><span class="ln dash" style="border-top-color:${c}"></span>${t}</div>`;
   lg.innerHTML = '<div class="lbl">板塊</div>' + sw(PLATE_COLORS.PS, '菲律賓海板塊' + eduBtn('ps')) + sw(PLATE_COLORS.EU, '歐亞板塊' + eduBtn('eu'))
-    + ln('#ffffff', '海溝' + eduBtn('ryu', '琉球') + eduBtn('man', '馬尼拉')) + ln('#b6ff7a', '沖繩海槽' + eduBtn('oki')) + ln('#ffd166', '碰撞帶（示意）' + eduBtn('col'))
+    + ln('#ffffff', '海溝' + eduBtn('ryu', '琉球') + eduBtn('man', '馬尼拉')) + lnDash(PLATE_TRANSFORM.color, PLATE_TRANSFORM.label) + ln('#b6ff7a', '沖繩海槽' + eduBtn('oki')) + ln('#ffd166', '碰撞帶（示意）' + eduBtn('col'))
     + '<div><span class="sw" style="background:linear-gradient(135deg,' + PLATE_COLORS.PS + ',' + PLATE_COLORS.EU + ');opacity:.45"></span>地下半透明的面＝往下插的板塊' + eduBtn('slab') + '</div>';
   let plates = null, loading = null;
   cb.addEventListener('change', async () => {

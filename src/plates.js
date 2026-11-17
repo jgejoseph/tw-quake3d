@@ -3,6 +3,8 @@
 import * as THREE from 'three';
 
 export const PLATE_COLORS = { PS: '#ff6fd8', EU: '#33d6e8' };  // 菲律賓海板塊 / 歐亞板塊（含 PB2002 的揚子、巽他、沖繩微板塊）
+// ON-PS 西段在 PB2002 是轉形斷層（CTF、OTF），不是海溝。圖例與此線共用顏色與名稱。
+export const PLATE_TRANSFORM = { color: '#8d98a8', label: '轉形斷層' };
 const LINE_STYLE = {
   'ON-PS': { color: '#ffffff', label: '琉球海溝', at: [123.6, 23.45], edu: 'ryu' },
   'PS/SU': { color: '#ffffff', label: '馬尼拉海溝', at: [120.32, 21.05], edu: 'man' },  // 依 Jo 要求北移以利辨識；線本身沿用 PB2002
@@ -77,8 +79,13 @@ export async function initPlates({ scene, lid, toX, toZ, DEPTH_SCALE, TERRAIN_EX
   }
 
   // 2) PB2002 板塊邊界線（貼地形）＋標籤
+  // 琉球海溝（ON-PS）西段的 CTF／OTF 依資料裡的 cls 與原步驟端點分開，不改座標、也不重畫 OCB 海溝段。
   const byId = {}, labels = [];  // labels：可點的 3D 標籤（點了打開對應的 (i) 小卡）
-  for (const s of doc.boundaries) (byId[s.id] ||= []).push(s.coords);
+  const transformParts = [];
+  for (const s of doc.boundaries) {
+    if (s.id === 'ON-PS' && (s.cls === 'CTF' || s.cls === 'OTF')) transformParts.push(s.coords);
+    else (byId[s.id] ||= []).push(s.coords);
+  }
   for (const [id, parts] of Object.entries(byId)) {
     const st = LINE_STYLE[id] || { color: '#8899aa' };
     const pts = [], raw = [];
@@ -97,6 +104,31 @@ export async function initPlates({ scene, lid, toX, toZ, DEPTH_SCALE, TERRAIN_EX
     l.renderOrder = 5; surface.add(l);
     refits.push(() => { const P = g.attributes.position; for (let i = 0; i < raw.length; i++) P.array[i * 3 + 1] = hY(raw[i]) + 1.2; P.needsUpdate = true; });
     if (st.label) { const s = makeLabel(st.label, st.color, 0.85); s.userData.edu = st.edu; labels.push(s); s.position.set(toX(st.at[0]), 22, toZ(st.at[1])); surface.add(s); refits.push(() => { s.position.y = real ? 6 : 22; }); }
+  }
+  // 轉形斷層：相接的步驟合成一條灰虛線。端點沿用 plates.json，不另切經度。
+  {
+    const chains = [];
+    for (const cs of transformParts) {
+      const prev = chains[chains.length - 1];
+      const join = prev && prev[prev.length - 1][0] === cs[0][0] && prev[prev.length - 1][1] === cs[0][1];
+      if (join) prev.push(...cs.slice(1));
+      else chains.push(cs.slice());
+    }
+    for (const cs of chains) {
+      const seq = [], raw = [];
+      for (let i = 0; i < cs.length - 1; i++) {
+        const [x0, y0] = cs[i], [x1, y1] = cs[i + 1];
+        const n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0) / 0.02));
+        for (let j = i === 0 ? 0 : 1; j <= n; j++) {
+          const t = j / n, lon = x0 + (x1 - x0) * t, lat = y0 + (y1 - y0) * t, h = rawAt(lon, lat);
+          raw.push(h); seq.push(toX(lon), hY(h) + 1.2, toZ(lat));
+        }
+      }
+      const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(seq, 3));
+      const mat = new THREE.LineDashedMaterial({ color: PLATE_TRANSFORM.color, dashSize: 18, gapSize: 12, transparent: true, opacity: 0.95, depthWrite: false });
+      const l = new THREE.Line(g, mat); l.computeLineDistances(); l.renderOrder = 5; surface.add(l);
+      refits.push(() => { const P = g.attributes.position; for (let i = 0; i < raw.length; i++) P.array[i * 3 + 1] = hY(raw[i]) + 1.2; P.needsUpdate = true; l.computeLineDistances(); });
+    }
   }
   for (const [name, color, lon, lat, key] of [['菲律賓海板塊', PLATE_COLORS.PS, 123.0, 21.6, 'ps'], ['歐亞板塊', PLATE_COLORS.EU, 119.2, 25.9, 'eu']]) {
     const s = makeLabel(name, color, 1.3); s.userData.edu = key; labels.push(s); s.position.set(toX(lon), 30, toZ(lat)); surface.add(s); refits.push(() => { s.position.y = real ? 8 : 30; });
