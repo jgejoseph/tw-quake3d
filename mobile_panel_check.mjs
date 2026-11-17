@@ -1,0 +1,22 @@
+// v0.5.11：手機版下拉設定面板需與地圖背景有明顯區隔；電腦版面板外觀不變
+import { chromium } from 'playwright-core';
+const BASE=process.argv[2]; const SHOT=process.argv[3]||''; const R=[]; const ok=(n,c,v)=>R.push([c?'PASS':'FAIL',n,JSON.stringify(v)]);
+const b=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--no-sandbox']});
+const errs=[]; const hook=p=>{p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});};
+const OLD='rgba(10, 14, 22, 0.88)';
+const sty=p=>p.evaluate(()=>{const c=getComputedStyle(panel),h=getComputedStyle(phead);return {bg:c.backgroundColor,border:c.borderTopWidth+' '+c.borderTopColor,shadow:c.boxShadow,head:h.backgroundColor,fg:getComputedStyle(document.querySelector('#phead h1')).color,mapBg:getComputedStyle(document.body).backgroundColor}});
+const m=await (await b.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:2})).newPage(); hook(m);
+await m.goto(BASE,{timeout:120000}); await m.waitForFunction(()=>window.__QUAKE_READY__,null,{timeout:180000}); await m.waitForFunction(()=>window.__autoplay,null,{timeout:20000});
+const ms=await sty(m); const rd=await m.evaluate(()=>window.__QUAKE_READY__);
+ok('mobile panel background differs from v0.5.10 and from map',ms.bg!==OLD&&ms.bg==='rgb(32, 43, 64)'&&ms.bg!==ms.mapBg&&ms.border.startsWith('1px'),ms);
+ok('mobile data unchanged (933305 / 75147)',rd.quakes===933305&&rd.visible===75147,rd);
+await m.waitForTimeout(4000); if(SHOT) await m.screenshot({path:SHOT+'_mobile.png'});
+const collapsed=await m.evaluate(()=>panel.classList.contains('collapsed'));
+if(collapsed) await m.tap('#collapse'); await m.waitForTimeout(400);
+const op=await m.evaluate(()=>!panel.classList.contains('collapsed')); ok('mobile panel opens',op,{wasCollapsed:collapsed});
+if(SHOT) await m.screenshot({path:SHOT+'_mobile_panel.png'});
+const d=await (await b.newContext({viewport:{width:1280,height:800}})).newPage(); hook(d);
+await d.goto(BASE,{timeout:120000}); await d.waitForFunction(()=>window.__QUAKE_READY__,null,{timeout:180000});
+const ds=await sty(d); ok('desktop panel unchanged (v0.5.10 values)',ds.bg===OLD&&ds.head==='rgba(12, 16, 25, 0.98)'&&ds.border.startsWith('0px'),ds);
+ok('no console/page errors',errs.length===0,errs);
+for(const r of R) console.log(r.join(' | ')); await b.close();
