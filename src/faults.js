@@ -127,7 +127,8 @@ export async function initFaults({ lid, toX, toZ, DEPTH_SCALE, TERRAIN_EXAG, LAN
   const pick = (cx, cy, camera, maxPx = 14) => {
     if (!group.visible) return null;
     camera.updateMatrixWorld();
-    _m.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+    group.updateWorldMatrix(true, false);
+    _m.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse).multiply(group.matrixWorld);
     const e = _m.elements, W = innerWidth, H = innerHeight;
     const proj = (x, y, z) => {
       const w = e[3] * x + e[7] * y + e[11] * z + e[15]; if (w <= 0) return null;
@@ -153,7 +154,8 @@ export async function initFaults({ lid, toX, toZ, DEPTH_SCALE, TERRAIN_EXAG, LAN
   const project = (name, camera) => {
     if (!group.visible) return null;
     camera.updateMatrixWorld();
-    _m.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+    group.updateWorldMatrix(true, false);
+    _m.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse).multiply(group.matrixWorld);
     const e = _m.elements, W = innerWidth, H = innerHeight;
     const it = items.find(x => x.name === name) || items[0];
     if (!it) return null;

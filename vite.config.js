@@ -2,4 +2,5 @@
 // 這裡把 base 固定為 './'，讓 `npm run build` 與正式版建置結果逐位元組相同。
 // 不要改成 '/'：GitHub Pages 網址在子路徑 /tw-quake3d/ 底下，用絕對路徑會讓網站卡在「載入中…」（v0.5.10 曾發生）。
 import { defineConfig } from 'vite';
-export default defineConfig({ base: './' });
+import { dataIntegrityPlugin } from './scripts/verify-data.mjs';
+export default defineConfig({ base: './', plugins: [dataIntegrityPlugin()] });

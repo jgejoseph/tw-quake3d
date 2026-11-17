@@ -1,0 +1,263 @@
+{
+  "baseline": "588cf4a4e3cefc535696fa7facc907d41ed91ede",
+  "branch": "codex/phase2a-stability-fixes",
+  "environment": {
+    "node": "24.22.1",
+    "npm": "11.9.0",
+    "browser": "Chromium 156.0.8078.79",
+    "gpu": "SwiftShader; no physical Safari/Android validation"
+  },
+  "final": {
+    "npm_ci_exit": 0,
+    "build_exit": 0,
+    "npm_test_exit": 0,
+    "pass": 78,
+    "fail": 0,
+    "groups": [
+      {
+        "name": "scripts/test_data_integrity.mjs",
+        "pass": 4,
+        "fail": 0,
+        "exit": 0
+      },
+      {
+        "name": "scripts/test_quakedata.mjs",
+        "pass": 27,
+        "fail": 0,
+        "exit": 0
+      },
+      {
+        "name": "scripts/test_fault_world.mjs",
+        "pass": 5,
+        "fail": 0,
+        "exit": 0
+      },
+      {
+        "name": "reg56.mjs",
+        "pass": 15,
+        "fail": 0,
+        "exit": 0
+      },
+      {
+        "name": "v0510_check.mjs",
+        "pass": 19,
+        "fail": 0,
+        "exit": 0
+      },
+      {
+        "name": "mobile_panel_check.mjs",
+        "pass": 5,
+        "fail": 0,
+        "exit": 0
+      },
+      {
+        "name": "scripts/test_stability.mjs",
+        "pass": 3,
+        "fail": 0,
+        "exit": 0
+      }
+    ]
+  },
+  "historical_failures": {
+    "baseline_concurrent_tap": {
+      "status": "FAIL retained; collapse action timed out before sound in this reproduction",
+      "sequence_ms": 33018,
+      "observed_long_tasks_ms": [
+        12412,
+        12740
+      ]
+    },
+    "baseline_release_desktop_only": {
+      "status": "PASS controlled comparison",
+      "sequence_ms": 17216,
+      "sound": true,
+      "tones": 2,
+      "max_observed_long_task_ms": 3340
+    },
+    "first_full_candidate": {
+      "pass": 77,
+      "fail": 1,
+      "exit": 1,
+      "failed_case": "resize across breakpoint: narrow sound/views still outside panel after fixed 1500ms"
+    }
+  },
+  "before": {
+    "browser": [
+      {
+        "name": "cold fault load respects on-off",
+        "passed": false,
+        "error": "AssertionError [ERR_ASSERTION]: loaded layer visibility must match latest checkbox: {\"checked\":false,\"point\":[254.38130626149282,141.46390917282403]}\n\ntrue !== false\n"
+      },
+      {
+        "name": "cold fault load respects on-off-on",
+        "passed": true,
+        "evidence": {
+          "checked": true,
+          "point": [
+            254.38130626149282,
+            141.46390917282403
+          ],
+          "requests": 1,
+          "warmToggle": "on/off matched"
+        }
+      },
+      {
+        "name": "WebGL creation failure reports error and ends loading",
+        "passed": false,
+        "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /WebGL2/. Input:\n\n''\n"
+      }
+    ],
+    "world": "FAIL at lift=35; original projection differs from independent oracle"
+  },
+  "after": {
+    "browser": [
+      {
+        "name": "cold fault load respects on-off",
+        "passed": true,
+        "evidence": {
+          "checked": false,
+          "point": null,
+          "requests": 1,
+          "warmToggle": "on/off matched"
+        }
+      },
+      {
+        "name": "cold fault load respects on-off-on",
+        "passed": true,
+        "evidence": {
+          "checked": true,
+          "point": [
+            254.38130626149282,
+            141.46390917282403
+          ],
+          "requests": 1,
+          "warmToggle": "on/off matched"
+        }
+      },
+      {
+        "name": "WebGL creation failure reports error and ends loading",
+        "passed": true,
+        "evidence": {
+          "status": "無法啟動 3D 地圖：WebGL2 無法建立。請重新整理，或使用支援 WebGL2 的瀏覽器。",
+          "role": "alert",
+          "year": "WebGL2 啟動失敗，請重新整理或更換瀏覽器",
+          "ready": {
+            "error": "無法啟動 3D 地圖：WebGL2 無法建立。請重新整理，或使用支援 WebGL2 的瀏覽器。"
+          },
+          "canvases": 0,
+          "errors": [
+            "Error creating WebGL context."
+          ]
+        }
+      }
+    ],
+    "world": "5 PASS; lifts 0/35/80, nested transform, hidden state"
+  },
+  "remaining_timeline_observation": {
+    "year": [
+      14,
+      60,
+      96,
+      106
+    ],
+    "yearText": "1997",
+    "toast": [
+      98,
+      112,
+      293,
+      162
+    ],
+    "toastText": "⚠ 1996 年　1996 臺東縣外海地震　M7.1",
+    "bar": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "rank": null,
+    "compass": [
+      314,
+      64,
+      378,
+      128
+    ],
+    "home": [
+      344,
+      128,
+      378,
+      162
+    ],
+    "labels": [],
+    "live": 1,
+    "hits": {
+      "yearToast": false,
+      "yearBar": false,
+      "yearRank": false,
+      "toastBar": false,
+      "toastRank": false,
+      "yearLabel": false,
+      "toastLabel": false,
+      "toastCompass": false,
+      "toastHome": false,
+      "yearCompass": false
+    }
+  },
+  "hash_verification": {
+    "data": {
+      "county-2025-03-18.geojson": {
+        "sha256": "a809e483184d7762918476058cc9d7e10e9720113187afee2a04b4f7ced3103f",
+        "source_match": true,
+        "built_match": true,
+        "baseline_match": true
+      },
+      "earthquakes.bin": {
+        "sha256": "f844a7c529cde1799566bb530e546dc2cd11f697544b7c4a9e18ffb69c3781a9",
+        "source_match": true,
+        "built_match": true,
+        "baseline_match": true
+      },
+      "earthquakes.csv": {
+        "sha256": "38bc56005c34c5cb3c8ed26eddaf52a1adaf06cfded796b0666790411e5bddbe",
+        "source_match": true,
+        "built_match": true,
+        "baseline_match": true
+      },
+      "faults.json": {
+        "sha256": "f42352bdd30b4651d62910ba6a40f941a4494be29825ac8c1ba54cfbe83ce1da",
+        "source_match": true,
+        "built_match": true,
+        "baseline_match": true
+      },
+      "plates.json": {
+        "sha256": "901b937fbf6be32f3d34004293523f02872a1ef149fd513fe2cbe7d3d226c35c",
+        "source_match": true,
+        "built_match": true,
+        "baseline_match": true
+      },
+      "plates_grid.bin": {
+        "sha256": "5fbf2717c3f5b3c9b1d521176d6e3b55b63f25ce6305713b745c59b22e81f33a",
+        "source_match": true,
+        "built_match": true,
+        "baseline_match": true
+      },
+      "terrain_int16.bin": {
+        "sha256": "e101ac57034e1aff5acd43cd78e6ef8fd01673928ba2fc1bc727bbe4c6af0990",
+        "source_match": true,
+        "built_match": true,
+        "baseline_match": true
+      },
+      "terrain_meta.json": {
+        "sha256": "b126b70415ad471d6717503f77f219b278a3dfb6b2da7161378b6927b70d5337",
+        "source_match": true,
+        "built_match": true,
+        "baseline_match": true
+      }
+    },
+    "normalized_html_matches_v0511": true,
+    "build": {
+      "index.html": "214070a55f0afd7d996f170ce99f97ea90fd1c319c6be7efdae855de283a0159",
+      "assets/index-DXY6hGDX.js": "86673009d4a992471d2983c34f5eca61df57dc926baf92ee881293a2548251d3"
+    },
+    "protected_files_unchanged": true
+  }
+}

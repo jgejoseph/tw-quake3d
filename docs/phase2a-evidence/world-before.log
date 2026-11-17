@@ -1,0 +1,16 @@
+PASS independent world-space project and pick at lift=0
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: project lift=35: 240.65609218329166,197.84426860020355 vs independent 240.68554984143734,152.0441563299336
+    at file:///workspace/tw-quake3d-phase2a/scripts/test_fault_world.mjs:37:12 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.22.1

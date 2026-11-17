@@ -1,0 +1,603 @@
+{
+  "status": "observed",
+  "base": "http://127.0.0.1:4173/tw-quake3d/",
+  "viewport": {
+    "width": 390,
+    "height": 844,
+    "deviceScaleFactor": 2
+  },
+  "sample_interval_ms": 100,
+  "samples": [
+    {
+      "t_ms": 122,
+      "big_year": 1990,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 200,
+      "big_year": 1990,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 322,
+      "big_year": 1990,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 400,
+      "big_year": 1990,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 522,
+      "big_year": 1990,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 600,
+      "big_year": 1990,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 700,
+      "big_year": 1991,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 800,
+      "big_year": 1991,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 900,
+      "big_year": 1991,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 1023,
+      "big_year": 1991,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 1122,
+      "big_year": 1991,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 1222,
+      "big_year": 1991,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 1300,
+      "big_year": 1991,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 1422,
+      "big_year": 1992,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 1522,
+      "big_year": 1992,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 1601,
+      "big_year": 1992,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 1722,
+      "big_year": 1992,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 1822,
+      "big_year": 1992,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 1922,
+      "big_year": 1992,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 2000,
+      "big_year": 1992,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 2122,
+      "big_year": 1993,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 2222,
+      "big_year": 1993,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 2324,
+      "big_year": 1993,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 2422,
+      "big_year": 1993,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 2522,
+      "big_year": 1993,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 2622,
+      "big_year": 1993,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 2722,
+      "big_year": 1993,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 2822,
+      "big_year": 1994,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 2922,
+      "big_year": 1994,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 3000,
+      "big_year": 1994,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 3122,
+      "big_year": 1994,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 3200,
+      "big_year": 1994,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 3303,
+      "big_year": 1994,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 3400,
+      "big_year": 1994,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 3522,
+      "big_year": 1995,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 3600,
+      "big_year": 1995,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 3722,
+      "big_year": 1995,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 3822,
+      "big_year": 1995,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 3900,
+      "big_year": 1995,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 4000,
+      "big_year": 1995,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 4122,
+      "big_year": 1995,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 4200,
+      "big_year": 1996,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 4322,
+      "big_year": 1996,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 4400,
+      "big_year": 1996,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 4500,
+      "big_year": 1996,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 4622,
+      "big_year": 1996,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 4722,
+      "big_year": 1996,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": [
+        1996
+      ]
+    },
+    {
+      "t_ms": 4822,
+      "big_year": 1996,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": [
+        1996
+      ]
+    },
+    {
+      "t_ms": 4922,
+      "big_year": 1996,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": [
+        1996
+      ]
+    },
+    {
+      "t_ms": 5022,
+      "big_year": 1996,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": [
+        1996
+      ]
+    },
+    {
+      "t_ms": 5100,
+      "big_year": 1996,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": [
+        1996
+      ]
+    },
+    {
+      "t_ms": 5200,
+      "big_year": 1996,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": [
+        1996
+      ]
+    },
+    {
+      "t_ms": 5322,
+      "big_year": 1996,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": [
+        1996
+      ]
+    },
+    {
+      "t_ms": 8454,
+      "big_year": 1996,
+      "toast_year": 1996,
+      "rank_open": true,
+      "rank_years": [
+        1996
+      ]
+    },
+    {
+      "t_ms": 8500,
+      "big_year": 1997,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 8600,
+      "big_year": 1997,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 8723,
+      "big_year": 1997,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 8822,
+      "big_year": 1997,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 8900,
+      "big_year": 1997,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 9022,
+      "big_year": 1997,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 9122,
+      "big_year": 1998,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 9222,
+      "big_year": 1998,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 9316,
+      "big_year": 1998,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 9422,
+      "big_year": 1998,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 9522,
+      "big_year": 1998,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 9623,
+      "big_year": 1998,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 9723,
+      "big_year": 1998,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 9822,
+      "big_year": 1999,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 9922,
+      "big_year": 1999,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 10022,
+      "big_year": 1999,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 10100,
+      "big_year": 1999,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 10222,
+      "big_year": 1999,
+      "toast_year": null,
+      "rank_open": true,
+      "rank_years": []
+    },
+    {
+      "t_ms": 10322,
+      "big_year": 1999,
+      "toast_year": 1999,
+      "rank_open": true,
+      "rank_years": [
+        1999
+      ]
+    },
+    {
+      "t_ms": 10422,
+      "big_year": 1999,
+      "toast_year": 1999,
+      "rank_open": true,
+      "rank_years": [
+        1999
+      ]
+    },
+    {
+      "t_ms": 10500,
+      "big_year": 1999,
+      "toast_year": 1999,
+      "rank_open": true,
+      "rank_years": [
+        1999
+      ]
+    },
+    {
+      "t_ms": 10600,
+      "big_year": 1999,
+      "toast_year": 1999,
+      "rank_open": true,
+      "rank_years": [
+        1999
+      ]
+    },
+    {
+      "t_ms": 14557,
+      "big_year": 1999,
+      "toast_year": 1999,
+      "rank_open": true,
+      "rank_years": [
+        1999
+      ]
+    }
+  ],
+  "note": "Observations only; year differences are not a failure. Durations use sampled intervals and may include browser scheduling gaps.",
+  "end_reason": "reached_1999",
+  "start_year": 1990,
+  "end_year": 2000,
+  "observation_window_ms": 14435,
+  "max_sample_gap_ms": 3957,
+  "big_to_toast_different": {
+    "episodes": 0,
+    "sampled_duration_ms": 0,
+    "right_censored": false
+  },
+  "big_to_rank_different": {
+    "episodes": 0,
+    "sampled_duration_ms": 0,
+    "right_censored": false
+  },
+  "toast_to_rank_different": {
+    "episodes": 0,
+    "sampled_duration_ms": 0,
+    "right_censored": false
+  },
+  "any_different": {
+    "episodes": 0,
+    "sampled_duration_ms": 0,
+    "right_censored": false
+  }
+}
