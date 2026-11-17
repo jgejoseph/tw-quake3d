@@ -1,0 +1,21 @@
+import { chromium } from 'playwright-core';
+const url = process.argv[2] || 'http://127.0.0.1:5173/';
+const out = process.argv[3] || '/workspace/tw-quake3d/screenshots/first_view.png';
+const view = process.argv[4] ? JSON.parse(process.argv[4]) : null;
+const lift = process.argv[5];
+const browser = await chromium.launch({ executablePath: '/usr/bin/google-chrome', headless: true,
+  args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const page = await browser.newPage({ viewport: { width: 1400, height: 900 } });
+const logs = [];
+page.on('console', m => logs.push(`[${m.type()}] ${m.text()}`));
+page.on('pageerror', e => logs.push(`[pageerror] ${e.message}`));
+await page.goto(url, { waitUntil: 'load' });
+await page.waitForFunction(() => window.__QUAKE_READY__, null, { timeout: 120000 });
+const ready = await page.evaluate(() => window.__QUAKE_READY__);
+const gl = await page.evaluate(() => { const c = document.querySelector('canvas'); const g = c.getContext('webgl2') || c.getContext('webgl'); const d = g && g.getExtension('WEBGL_debug_renderer_info'); return d ? g.getParameter(d.UNMASKED_RENDERER_WEBGL) : String(!!g); });
+if (view) await page.evaluate(v => window.__setView(...v), view);
+if (lift) await page.evaluate(l => { const e = document.getElementById('lift'); e.value = l; e.dispatchEvent(new Event('input')); }, lift);
+await page.waitForTimeout(2000);
+await page.screenshot({ path: out });
+console.log(JSON.stringify({ ready, gl, logs }, null, 1));
+await browser.close();

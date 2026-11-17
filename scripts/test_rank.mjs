@@ -1,0 +1,15 @@
+import { chromium } from 'playwright-core';
+const url = process.argv[2]||'http://127.0.0.1:5173/', tag = process.argv[3]||'local';
+const b = await chromium.launch({ executablePath:'/usr/bin/google-chrome', args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--no-sandbox'] });
+const errs=[];
+const c = await b.newContext({ viewport:{width:1280,height:800} }); const p = await c.newPage(); p.on('pageerror', e=>errs.push(e.message));
+await p.goto(url); await p.waitForFunction(()=>window.__QUAKE_READY__,null,{timeout:120000});
+await p.evaluate(()=>document.getElementById('rankBtn').click());
+await p.evaluate(()=>{const r=document.getElementById('year'); r.value=1998; r.dispatchEvent(new Event('input'));});
+await p.click('#play'); await p.waitForFunction(()=>window.__alerts().length>0,null,{timeout:30000}); await p.waitForTimeout(500);
+const st = await p.evaluate(()=>({year:document.getElementById('bigYear').textContent, alerts:window.__alerts(), live:[...document.querySelectorAll('#rankList li.live')].map(l=>l.textContent), toast:document.getElementById('m7toast').textContent}));
+console.log(JSON.stringify(st));
+await p.screenshot({path:`media/rank_${tag}_desktop.png`});
+await p.waitForTimeout(3000);
+console.log('after', await p.evaluate(()=>document.querySelectorAll('#rankList li.live').length));
+console.log('errors', errs); await b.close();

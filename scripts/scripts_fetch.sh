@@ -1,0 +1,2 @@
+UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36"
+q(){ curl -s -c cj.txt -b cj.txt -A "$UA" -e https://scweb.cwa.gov.tw/zh-tw/history -H "Origin: https://scweb.cwa.gov.tw" -X POST https://scweb.cwa.gov.tw/zh-tw/history/csv --data "EQType=0&txtSDate=$1&txtEDate=$2&txtSscale=0&txtEscale=10&txtSdepth=0&txtEdepth=350&txtLonS=118&txtLonE=124&txtLatS=20&txtLatE=27&ddlCity=&ddlTown=&ddlStation=&txtIntensityB=&txtIntensityE=&ddlAOI=&ddlAOIPont=&txtLon=&txtLat=&txtKM=" -o $3 -w "%{http_code} %{size_download} %{time_total}\n"; }

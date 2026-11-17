@@ -178,10 +178,6 @@
   @media (max-width:640px){
     #grip{display:block;width:100%;margin:8px 0 0}
     #panel{left:8px;top:8px;width:auto;right:8px;max-height:52%}
-    /* v0.5.11 手機：下拉設定面板改用較亮的藍灰底＋邊框與陰影，跟地圖背景區隔 */
-    #panel{background:#202b40;border:1px solid rgba(156,195,255,.32);box-shadow:0 8px 24px rgba(0,0,0,.65),0 0 0 1px rgba(0,0,0,.35)}
-    #phead{background:#283650;border-bottom-color:rgba(156,195,255,.22)}
-    #panel .acc+.acc{border-top-color:rgba(255,255,255,.12)}
     #phead{padding:8px 10px}
     #body{padding:0 10px 10px}
     #phead .sub{font-size:10.5px}
@@ -253,7 +249,6 @@
   @keyframes introIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   @keyframes introDot{0%,100%{opacity:.15}50%{opacity:1}}
 </style>
-  <script type="module" crossorigin src="./assets/index-Bop1Cbbb.js"></script>
 </head>
 <body>
 <div id="app"></div>
@@ -380,5 +375,6 @@ window.__introState='showing';fb=setTimeout(function(){window.__introDone()},150
   <button id="loop" aria-label="循環播放" aria-pressed="false" title="循環播放：播到最後一年自動從頭開始"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l3 3-3 3"/><path d="M4 11V9a4 4 0 0 1 4-4h12"/><path d="M7 22l-3-3 3-3"/><path d="M20 13v2a4 4 0 0 1-4 4H4"/></svg></button>
 </div>
 
+<script type="module" src="/src/main.js"></script>
 </body>
 </html>
