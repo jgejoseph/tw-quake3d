@@ -832,10 +832,13 @@ $('sound').addEventListener('click', e => {
     edu.deepKm = () => Q.depA[deepIdx];
     window.__deep = () => quakeInfo(deepIdx);
     const eduHook = q => q.dt.startsWith('1999-09-21') && q.mag >= 7 ? eduBtn(6, '這是什麼？') : q.i === deepIdx ? eduBtn(4, '為什麼這麼深？') : '';
+    // 只對 2012-12-08 22:26:54、深度 ≥311 km 這一筆。比對年月日時分秒與深度，不用陣列索引。
+    const depthCompareLink = i => (Q.ymdA[i] === 20121208 && Q.hmsA[i] === 222654 && Q.depA[i] >= 311)
+      ? `<a href="./depth-compare.html" target="_blank" rel="noopener">深度示意</a>` : '';
     const openCard = i => {
       const q = quakeInfo(i); picked = i;
       $('qbody').innerHTML = `${q.name ? `<div class="qn">${q.name}</div>` : ''}<div class="qm">M ${q.mag.toFixed(1)}</div><div>${q.dt}</div><div>${q.place}</div>`
-        + `<div class="qs">${q.lat.toFixed(2)}°N ${q.lon.toFixed(2)}°E · 深 ${+q.dep.toFixed(1)} 公里</div>` + eduHook(q);
+        + `<div class="qs">${q.lat.toFixed(2)}°N ${q.lon.toFixed(2)}°E · 深 ${+q.dep.toFixed(1)} 公里</div>` + depthCompareLink(i) + eduHook(q);
       card.classList.add('show'); marker.set(P3(i)); updateCard(); uiBlip(q.mag);
     };
     const closeCard = () => { if (picked < 0) return; picked = -1; card.classList.remove('show'); if (selected === null) marker.grp.visible = false; };
