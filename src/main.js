@@ -495,6 +495,8 @@ window.__waves = () => waves.length;
 
 // ---- 規模 7 以上：播放時特別標示（紅色光柱＋震源紅圈＋文字標籤＋上方提示）----
 const alerts = [];
+const m7Toast = $('m7toast');
+const m7ToastControls = [$('bigYear'), $('panel'), $('rank'), $('compass'), $('homeBtn'), document.querySelector('#mapbar .in')];
 const alertRingTex = (() => {
   const c = document.createElement('canvas'); c.width = c.height = 128;
   const x = c.getContext('2d'); x.strokeStyle = '#ff3b30'; x.lineWidth = 12; x.beginPath(); x.arc(64, 64, 48, 0, Math.PI * 2); x.stroke();
@@ -522,12 +524,28 @@ function m7Alert(q, place, life) {
   const name = quakeName(q, place);
   label.innerHTML = `<b>${name}</b><br>${q.yr} 年　M${q.mag.toFixed(1)}`;
   document.body.appendChild(label);
-  const toast = $('m7toast');
-  toast.innerHTML = `⚠ ${q.yr} 年　${name}　M${q.mag.toFixed(1)}`; toast.classList.add('show');
-  clearTimeout(toast._t); toast._t = setTimeout(() => toast.classList.remove('show'), life);
+  m7Toast.innerHTML = `⚠ ${q.yr} 年　${name}　M${q.mag.toFixed(1)}`; m7Toast.classList.add('show');
+  clearTimeout(m7Toast._t); m7Toast._t = setTimeout(() => m7Toast.classList.remove('show'), life);
   alerts.push({ grp, label, t0: now, life, top: new THREE.Vector3(q.x, top, q.z) });
 }
 const _v = new THREE.Vector3();
+function placeM7Toast() {
+  const { left, right, height } = m7Toast.getBoundingClientRect();
+  const preferred = m7Toast.offsetTop;
+  const gap = 8;
+  const maxTop = $('timebar').getBoundingClientRect().top - height - gap;
+  const blockers = [...m7ToastControls, ...alerts.map(a => a.label)]
+    .map(el => el.getBoundingClientRect())
+    .filter(box => box.width && box.height && box.left < right + gap && box.right > left - gap);
+
+  // Prefer the usual position. Try the edges of overlapping UI and labels for the nearest clear slot.
+  const candidates = [preferred, ...blockers.flatMap(box => [box.bottom + gap, box.top - height - gap])];
+  candidates.sort((a, b) => Math.abs(a - preferred) - Math.abs(b - preferred));
+  const top = candidates.find(y => y >= gap && y <= maxTop && blockers.every(box =>
+    y + height + gap <= box.top || y >= box.bottom + gap
+  )) ?? preferred;
+  m7Toast.style.setProperty('--m7-toast-shift', `${top - preferred}px`);
+}
 function updateAlerts(now) {
   for (let i = alerts.length - 1; i >= 0; i--) {
     const a = alerts[i], t = (now - a.t0) / a.life;
@@ -542,6 +560,7 @@ function updateAlerts(now) {
     a.label.style.transform = `translate(-50%, -100%) translate(${(_v.x + 1) / 2 * innerWidth}px, ${(1 - _v.y) / 2 * innerHeight - 6}px)`;
     a.label.style.opacity = fade;
   }
+  if (m7Toast.classList.contains('show')) placeM7Toast();
 }
 window.__alerts = () => alerts.map(a => ({ text: a.label.textContent, shown: a.label.style.display !== 'none' }));
 
