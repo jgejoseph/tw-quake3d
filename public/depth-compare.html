@@ -58,6 +58,7 @@ td.big{color:var(--accent);font-weight:700}
     <span class="btns"><button id="skip">跳到結尾</button><button id="replay" class="primary">重播</button></span>
   </div>
 </div>
+<p class="note">圖示僅供辨認，非實際比例</p>
 
 <section class="card" id="ratio">
   <h2>倍數對照表：312 公里是它們的幾倍？</h2>
@@ -252,7 +253,20 @@ function render(t) {
   const qx = q.cx - g.barW / 2 - 6;
   nodes.qText.setAttribute('x', qx); nodes.qText.setAttribute('y', qy);
   nodes.qText2.setAttribute('x', qx); nodes.qText2.setAttribute('y', qy + (g.narrow ? 16 : 19));
-  nodes.qArrow.setAttribute('opacity', qShow ? 1 : 0);
+  // v1.6：只有在兩行深度標示的下緣，完全高於所有其他可見數值標籤的上緣（留 2 px）時才顯示，
+  // 避免震源柱剛開始長的轉場中，和玉山、聖母峰、民航機的數值標籤短暫重疊。
+  // 震源柱第一段（鏡頭不動）標示一定低於民航機標籤，所以會隱藏；第二段鏡頭拉遠時標示高度固定、
+  // 其他標籤只會往下移，所以條件一旦成立就一直成立，不會閃爍。
+  let qClear = qShow;
+  if (qShow) {
+    const qb = nodes.qText2.getBBox(), qBottom = qb.y + qb.height;
+    nodes.items.forEach((n, i) => {
+      if (i === ITEMS.length - 1 || n.val.getAttribute('opacity') !== '1') return;
+      const vb = n.val.getBBox();
+      if (vb.height > 0 && vb.y < qBottom + 2) qClear = false;
+    });
+  }
+  nodes.qArrow.setAttribute('opacity', qClear ? 1 : 0);
   // HUD
   document.getElementById('scaleTxt').textContent = fmtLen(s.maxVis);
   const zoom = s.maxVis / (ITEMS[0].v / FIT);
