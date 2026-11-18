@@ -38,6 +38,7 @@ td.big{color:var(--accent);font-weight:700}
 .src a{color:#8fc1ff}
 .tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:6px;background:#33415a;color:#cfd8e6;margin-left:4px;vertical-align:1px}
 .tag.q{background:#5a2a1f;color:#ffd0bd}
+#chart svg.ico{overflow:visible;pointer-events:none}
 @media (min-width:900px){header h1{font-size:26px}#chart{height:min(64vh,600px)}#caption{font-size:16px}}
 </style>
 </head>
@@ -118,6 +119,18 @@ const CAPTIONS = [
 ];
 const fmtR = r => (Math.round(r * 10) / 10).toLocaleString('en-US', { minimumFractionDigits:1, maximumFractionDigits:1 });
 CAPTIONS[6] = `震源深度 <span class="n">312 公里</span>——這是<b>往地底下</b>的深度，是聖母峰的 ${fmtR(DEPTH_M / 8848.86)} 倍、民航機巡航高度（代表值）的 ${fmtR(DEPTH_M / 10000)} 倍。`;
+// ---- 圖示（v1.5）：自己畫的簡單幾何剪影，內嵌 SVG，不用外部圖片、圖示庫或他人素材 ----
+// 固定螢幕大小、放在 0 線下方與柱名之間的獨立一列，不隨柱子縮放，也不與文字重疊
+const ICONS = {
+  human: ['0 0 14 28', '<g fill="#dbe7f5"><circle cx="7" cy="3.4" r="2.7"/><path d="M4.2 7.2 H9.8 Q11.2 7.2 11.4 8.6 L12.4 16 H10.6 L9.8 11 V27.4 H7.6 V18.4 H6.4 V27.4 H4.2 V11 L3.4 16 H1.6 L2.6 8.6 Q2.8 7.2 4.2 7.2 Z"/></g>'],
+  t101: ['0 0 20 44', '<g fill="#dbe7f5"><rect x="9.55" y="0" width="0.9" height="8"/><path d="M8.3 11 L8.8 7.6 H11.2 L11.7 11 Z"/><path d="M5.4 11.0 H14.6 L13.2 13.5 H6.8 Z"/><path d="M5.4 14.0 H14.6 L13.2 16.5 H6.8 Z"/><path d="M5.4 17.0 H14.6 L13.2 19.5 H6.8 Z"/><path d="M5.4 20.0 H14.6 L13.2 22.5 H6.8 Z"/><path d="M5.4 23.0 H14.6 L13.2 25.5 H6.8 Z"/><path d="M5.4 26.0 H14.6 L13.2 28.5 H6.8 Z"/><path d="M5.4 29.0 H14.6 L13.2 31.5 H6.8 Z"/><path d="M5.4 32.0 H14.6 L13.2 34.5 H6.8 Z"/><path d="M6.8 35.4 H13.2 L15.6 44 H4.4 Z"/></g>'],
+  burj: ['0 0 20 44', '<path fill="#dbe7f5" d="M3 44 V36 H4.5 V30 H6 V24 H7.2 V18 H8.3 V12.5 H9.1 V8.5 H9.6 L10 0 L10.4 8.5 H10.9 V10.5 H11.8 V15.5 H12.8 V21 H14 V27 H15.5 V33 H17 V44 Z"/><path fill="#9fb4cc" d="M10 9.5 H10.9 V10.5 H11.8 V15.5 H12.8 V21 H14 V27 H15.5 V33 H17 V44 H10 Z"/>'],
+  jade: ['0 0 28 24', '<path fill="#86b39a" d="M0.6 23.4 L7.4 13.6 L10 15.4 L14.6 7.2 L18.2 12.2 L20.6 10.4 L27.4 23.4 Z"/><path fill="#5f8f75" d="M14.6 7.2 L18.2 12.2 L20.6 10.4 L27.4 23.4 H17 L16.2 15.6 Z"/>'],
+  everest: ['0 0 28 24', '<path fill="#8fa3bd" d="M0.4 23.4 L5.6 14.8 L8.2 16.6 L14 1 L16.6 7.4 L18.4 5.6 L22 12.6 L23.6 11.6 L27.6 23.4 Z"/><path fill="#6a7f9b" d="M14 1 L16.6 7.4 L18.4 5.6 L22 12.6 L23.6 11.6 L27.6 23.4 H16.4 L15 12 Z"/><path fill="#f4f7fb" d="M14 1 L16.6 7.4 L15.5 6.8 L14.4 8.6 L13.1 7 L11.4 8.2 Z M18.4 5.6 L19.9 8.5 L18.9 8.1 L18 9 L17.2 8.2 Z"/>'],
+  plane: ['0 0 24 24', '<path fill="#dbe7f5" d="M12 1.2 C13 1.2 13.3 2.8 13.3 4.4 V9.4 L22.6 14.6 V16.6 L13.3 13.8 V19 L16.6 21.4 V22.9 L12 21.8 L7.4 22.9 V21.4 L10.7 19 V13.8 L1.4 16.6 V14.6 L10.7 9.4 V4.4 C10.7 2.8 11 1.2 12 1.2 Z"/>'],
+  quake: ['0 0 24 24', '<rect x="0.5" y="4" width="23" height="19.5" rx="1.5" fill="#4a3027"/><path fill="#6b4a3a" d="M0.5 4 H23.5 V9.6 Q18 8.2 12 10 T0.5 9.8 Z"/><path fill="#5a3c30" d="M0.5 9.8 Q6 11.8 12 10 T23.5 9.6 V15.4 Q17 14 11.5 16 T0.5 15.6 Z"/><path d="M0.5 4 H23.5" stroke="#ffb347" stroke-width="1.2"/><path d="M12 4 V13" stroke="#ffd0bd" stroke-width="1" stroke-dasharray="1.6 1.2"/><path fill="#ffb347" d="M9.6 0.4 H14.4 L12 3.6 Z"/><path fill="#ffb347" stroke="#e4572e" stroke-width="0.8" stroke-linejoin="round" d="M12.00 12.00 L13.29 15.42 L16.95 15.59 L14.09 17.88 L15.06 21.41 L12.00 19.40 L8.94 21.41 L9.91 17.88 L7.05 15.59 L10.71 15.42 Z"/>'],
+};
+const ICON_H = n => n ? 30 : 40, ICON_GAP = n => n ? 4 : 6, ICON_STRIP = n => ICON_H(n) + ICON_GAP(n) * 2;
 const FIT = 0.84;           // 目前最高的柱子佔柱區高度比例
 const T_GROW_A = 0.55, T_GROW_B = 1.9, T_HOLD = 1.05, T_FIRST = 1.4; // 秒
 // 時間軸：第 0 段只畫人；第 k 段：先長到前一個最高值（鏡頭不動），再以對數速度長到自己（鏡頭跟著拉遠）
@@ -159,12 +172,15 @@ function niceStep(range) { const raw = range / 4.5, p = Math.pow(10, Math.floor(
 
 let W = 0, H = 0, geo = null;
 function layout() {
+  svg.style.height = ''; svg.style.minHeight = '';
+  const r0 = svg.getBoundingClientRect(), strip = ICON_STRIP(Math.round(r0.width) < 560);
+  svg.style.height = (r0.height + strip) + 'px'; svg.style.minHeight = '0';
   const r = svg.getBoundingClientRect(); W = Math.round(r.width); H = Math.round(r.height);
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   const narrow = W < 560;
-  const left = narrow ? 44 : 64, right = narrow ? 6 : 20, top = narrow ? 50 : 54, bottom = narrow ? 52 : 56;
+  const left = narrow ? 44 : 64, right = narrow ? 6 : 20, top = narrow ? 50 : 54, bottom = (narrow ? 52 : 56) + strip;
   const plotW = W - left - right, plotH = H - top - bottom, col = plotW / ITEMS.length;
-  geo = { narrow, left, right, top, bottom, plotW, plotH, col, base: top + plotH, barW: Math.min(col * (narrow ? .62 : .5), 74) };
+  geo = { narrow, left, right, top, bottom, plotW, plotH, col, base: top + plotH, barW: Math.min(col * (narrow ? .62 : .5), 74), strip };
   build();
 }
 
@@ -176,18 +192,21 @@ function build() {
   el('rect', { width:8, height:8, fill:'#e4572e' }, pat); el('line', { x1:0, y1:0, x2:0, y2:8, stroke:'#ffb347', 'stroke-width':3 }, pat);
   const grad = el('linearGradient', { id:'barg', x1:0, y1:0, x2:0, y2:1 }, defs);
   el('stop', { offset:'0', 'stop-color':'#9cc3e8' }, grad); el('stop', { offset:'1', 'stop-color':'#4f86bd' }, grad);
-  const ticks = el('g', {}), bars = el('g', {}), labels = el('g', {});
+  const ticks = el('g', {}), bars = el('g', {}), icons = el('g', { class:'icons' }), labels = el('g', {});
   el('line', { x1:g.left, x2:W - g.right, y1:g.base, y2:g.base, stroke:'#8796ad', 'stroke-width':1.5 });
   el('text', { x:g.left - 6, y:g.base + 4, 'text-anchor':'end', 'font-size':g.narrow ? 10 : 12, fill:'#9aa7ba' }).textContent = '0';
   const items = ITEMS.map((it, i) => {
     const cx = g.left + g.col * (i + .5);
     const rect = el('rect', { x:cx - g.barW/2, width:g.barW, y:g.base, height:0, rx:2, fill: it.quake ? 'url(#hatch)' : 'url(#barg)', stroke: it.quake ? '#ffb347' : 'none', 'stroke-width': it.quake ? 1 : 0 }, bars);
     const tri = el('path', { d:'', fill: it.quake ? '#ffb347' : '#ffd166' }, bars);
-    const nm = el('text', { x:cx, y:g.base + (g.narrow ? 16 : 19), 'text-anchor':'middle', 'font-size':g.narrow ? 11.5 : 14, 'font-weight':600, fill: it.quake ? '#ffb347' : '#e8edf5' }, labels); nm.textContent = it.name;
-    const sb = el('text', { x:cx, y:g.base + (g.narrow ? 30 : 36), 'text-anchor':'middle', 'font-size':g.narrow ? 9 : 11.5, fill: it.quake ? '#ffb347' : '#9aa7ba' }, labels); sb.textContent = g.narrow && it.subN ? it.subN : it.sub;
+    const nm = el('text', { x:cx, y:g.base + g.strip + (g.narrow ? 16 : 19), 'text-anchor':'middle', 'font-size':g.narrow ? 11.5 : 14, 'font-weight':600, fill: it.quake ? '#ffb347' : '#e8edf5' }, labels); nm.textContent = it.name;
+    const sb = el('text', { x:cx, y:g.base + g.strip + (g.narrow ? 30 : 36), 'text-anchor':'middle', 'font-size':g.narrow ? 9 : 11.5, fill: it.quake ? '#ffb347' : '#9aa7ba' }, labels); sb.textContent = g.narrow && it.subN ? it.subN : it.sub;
     const val = el('text', { x:cx, y:g.base, 'text-anchor':'middle', 'font-size':g.narrow ? 10 : 13, 'font-weight':600, fill:'#ffd166' }, labels);
     const v1 = el('tspan', { x:cx }, val), v2 = el('tspan', { x:cx, dy: g.narrow ? 11 : 0, 'font-weight':400 }, val);
-    return { it, cx, rect, tri, nm, sb, val, v1, v2 };
+    const [vb, body] = ICONS[it.key], vbp = vb.split(' ').map(Number), ih = ICON_H(g.narrow), iw = ih * vbp[2] / vbp[3];
+    const ico = el('svg', { class:'ico', 'data-key':it.key, x:(cx - iw / 2).toFixed(2), y:g.base + ICON_GAP(g.narrow), width:iw.toFixed(2), height:ih, viewBox:vb, 'aria-hidden':'true', focusable:'false' }, icons);
+    ico.innerHTML = body;
+    return { it, cx, rect, tri, nm, sb, val, v1, v2, ico };
   });
   // 震源專用標示
   const qi = items[items.length-1];
@@ -224,7 +243,7 @@ function render(t) {
     if (g.narrow) { const k = txt.lastIndexOf(' '); n.v1.textContent = txt.slice(0, k); n.v2.textContent = txt.slice(k + 1); n.v2.setAttribute('x', n.cx); }
     else { n.v1.textContent = txt; n.v2.textContent = ''; }
     n.val.setAttribute('opacity', shown && hm > 0 ? 1 : 0);
-    n.nm.setAttribute('opacity', shown ? 1 : .28); n.sb.setAttribute('opacity', shown ? 1 : .28);
+    n.nm.setAttribute('opacity', shown ? 1 : .28); n.sb.setAttribute('opacity', shown ? 1 : .28); n.ico.setAttribute('opacity', shown ? 1 : .4);
     if (i < ITEMS.length - 1 && shown) labelTopMin = Math.min(labelTopMin, vy);
   });
   // 震源標示：在震源柱左側中段
