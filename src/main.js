@@ -496,7 +496,14 @@ window.__waves = () => waves.length;
 // ---- 規模 7 以上：播放時特別標示（紅色光柱＋震源紅圈＋文字標籤＋上方提示）----
 const alerts = [];
 const m7Toast = $('m7toast');
-const m7ToastControls = [$('bigYear'), $('panel'), $('rank'), $('compass'), $('homeBtn'), document.querySelector('#mapbar .in')];
+let m7ToastFadeUntil = 0;
+let m7ToastAlert;
+let visiblePlateLabels = () => [];
+const m7ToastObstacles = [
+  $('bigYear'), $('panel'), $('rank'), $('compass'), $('homeBtn'), $('timebar'),
+  $('qcard'), $('fcard'), document.querySelector('#mapbar .in'),
+  yushanEl, yushanLine, ...rulerEdge.map(r => r.el), ...CITIES.map(c => c.el),
+];
 const alertRingTex = (() => {
   const c = document.createElement('canvas'); c.width = c.height = 128;
   const x = c.getContext('2d'); x.strokeStyle = '#ff3b30'; x.lineWidth = 12; x.beginPath(); x.arc(64, 64, 48, 0, Math.PI * 2); x.stroke();
@@ -524,27 +531,88 @@ function m7Alert(q, place, life) {
   const name = quakeName(q, place);
   label.innerHTML = `<b>${name}</b><br>${q.yr} 年　M${q.mag.toFixed(1)}`;
   document.body.appendChild(label);
-  m7Toast.innerHTML = `⚠ ${q.yr} 年　${name}　M${q.mag.toFixed(1)}`; m7Toast.classList.add('show');
-  clearTimeout(m7Toast._t); m7Toast._t = setTimeout(() => m7Toast.classList.remove('show'), life);
-  alerts.push({ grp, label, t0: now, life, top: new THREE.Vector3(q.x, top, q.z) });
+  $('m7toastText').textContent = `⚠ ${q.yr} 年　${name}　M${q.mag.toFixed(1)}`; m7Toast.classList.add('show');
+  clearTimeout(m7Toast._t);
+  m7Toast._t = setTimeout(() => {
+    m7Toast.classList.remove('show');
+    m7ToastFadeUntil = performance.now() + 200;
+  }, life);
+  m7ToastAlert = {
+    grp, label, t0: now, life,
+    top: new THREE.Vector3(q.x, top, q.z),
+    surface: new THREE.Vector3(q.x, lid.position.y, q.z),
+  };
+  alerts.push(m7ToastAlert);
 }
 const _v = new THREE.Vector3();
-function placeM7Toast() {
-  const { left, right, height } = m7Toast.getBoundingClientRect();
-  const preferred = m7Toast.offsetTop;
-  const gap = 8;
-  const maxTop = $('timebar').getBoundingClientRect().top - height - gap;
-  const blockers = [...m7ToastControls, ...alerts.map(a => a.label)]
-    .map(el => el.getBoundingClientRect())
-    .filter(box => box.width && box.height && box.left < right + gap && box.right > left - gap);
+function m7MapBounds() {
+  const width = innerWidth, height = innerHeight;
+  const boxes = [];
+  const add = (kind, position, w, h, anchorX = 0.5, anchorY = 0.5) => {
+    _v.copy(position).project(camera);
+    if (_v.z < -1 || _v.z > 1) return;
+    const left = (_v.x + 1) * width / 2 - w * anchorX;
+    const top = (1 - _v.y) * height / 2 - h * (1 - anchorY);
+    boxes.push({ kind, left, top, right: left + w, bottom: top + h });
+  };
+  // These ruler labels are canvas textures on sprites with constant screen size.
+  const scale = camera.projectionMatrix.elements[5] * height / 2;
+  for (const group of [depthRuler, depthFrame]) {
+    if (!group.visible) continue;
+    for (const sprite of group.children.filter(o => o.isSprite)) {
+      add('ruler', sprite.position, sprite.scale.x * scale, sprite.scale.y * scale, sprite.center.x, sprite.center.y);
+    }
+  }
+  for (const sprite of visiblePlateLabels()) {
+    const position = sprite.getWorldPosition(new THREE.Vector3());
+    const depth = -_v.copy(position).applyMatrix4(camera.matrixWorldInverse).z;
+    if (depth > 0) add('plate', position, sprite.scale.x * scale / depth, sprite.scale.y * scale / depth);
+  }
+  const markers = [...alerts];
+  if (m7ToastAlert && !alerts.includes(m7ToastAlert)) markers.push(m7ToastAlert);
+  for (const { grp, surface } of markers) {
+    const ring = grp.children[1];
+    add('hypocenter', ring.position, ring.scale.x * scale, ring.scale.y * scale);
+    surface.y = lid.position.y; // Same surface as the epicenter shockwave.
+    add('epicenter', surface, 40, 40);
+  }
+  return boxes.filter(box => box.right > 0 && box.left < width && box.bottom > 0 && box.top < height);
+}
+window.__m7MapBounds = m7MapBounds;
 
-  // Prefer the usual position. Try the edges of overlapping UI and labels for the nearest clear slot.
-  const candidates = [preferred, ...blockers.flatMap(box => [box.bottom + gap, box.top - height - gap])];
-  candidates.sort((a, b) => Math.abs(a - preferred) - Math.abs(b - preferred));
-  const top = candidates.find(y => y >= gap && y <= maxTop && blockers.every(box =>
-    y + height + gap <= box.top || y >= box.bottom + gap
-  )) ?? preferred;
-  m7Toast.style.setProperty('--m7-toast-shift', `${top - preferred}px`);
+function placeM7Toast() {
+  const { width, height } = m7Toast.getBoundingClientRect();
+  const preferredX = (innerWidth - width) / 2;
+  const preferredY = m7Toast.offsetTop;
+  const gap = 8;
+  const blockers = [...m7ToastObstacles, ...alerts.map(a => a.label)]
+    .map(el => el.getBoundingClientRect())
+    .filter(box => box.width && box.height);
+  blockers.push(...m7MapBounds());
+
+  // The closest clear rectangle touches either the preferred coordinate or an obstacle/viewport edge.
+  const xs = [preferredX, gap, innerWidth - width - gap, ...blockers.flatMap(box => [box.left - width - gap, box.right + gap])];
+  const ys = [preferredY, gap, innerHeight - height - gap, ...blockers.flatMap(box => [box.top - height - gap, box.bottom + gap])];
+  let best = Infinity, left, top;
+  for (const x of xs) {
+    if (x < gap || x + width > innerWidth - gap) continue;
+    const dx = (x - preferredX) ** 2;
+    if (dx >= best) continue;
+    const column = blockers.filter(box => x + width + gap > box.left && x < box.right + gap);
+    for (const y of ys) {
+      const distance = dx + (y - preferredY) ** 2;
+      if (distance >= best || y < gap || y + height > innerHeight - gap) continue;
+      if (column.some(box => y + height + gap > box.top && y < box.bottom + gap)) continue;
+      best = distance;
+      left = x;
+      top = y;
+    }
+  }
+  m7Toast.toggleAttribute('data-blocked', best === Infinity);
+  if (best !== Infinity) {
+    m7Toast.style.setProperty('--m7-toast-x', `${left - preferredX}px`);
+    m7Toast.style.setProperty('--m7-toast-y', `${top - preferredY}px`);
+  }
 }
 function updateAlerts(now) {
   for (let i = alerts.length - 1; i >= 0; i--) {
@@ -560,7 +628,6 @@ function updateAlerts(now) {
     a.label.style.transform = `translate(-50%, -100%) translate(${(_v.x + 1) / 2 * innerWidth}px, ${(1 - _v.y) / 2 * innerHeight - 6}px)`;
     a.label.style.opacity = fade;
   }
-  if (m7Toast.classList.contains('show')) placeM7Toast();
 }
 window.__alerts = () => alerts.map(a => ({ text: a.label.textContent, shown: a.label.style.display !== 'none' }));
 
@@ -937,6 +1004,7 @@ var platePick = null;  // 板塊載入後：點 3D 標籤 → 小卡代號
       plates.setReal(terrainCtl.real); terrainCtl.onReal.push(r => plates.setReal(r));
       platePick = (x, y) => plates.pickLabel(x, y, camera);
       window.__plateLabels = () => { camera.updateMatrixWorld(); return plates.labelScreen(camera); };
+      visiblePlateLabels = plates.visibleLabelSprites;
       window.__PLATES_READY__ = { slabs: plates.slabs, boundaries: plates.boundaries };
     }
     plates.setVisible(cb.checked);
@@ -1007,8 +1075,13 @@ renderer.setAnimationLoop(() => {
     camera.position.lerpVectors(fly.p0, fly.p1, e); controls.target.lerpVectors(fly.t0, fly.t1, e);
     if (t >= 1) fly = null;
   }
+  controls.update(); camera.updateMatrixWorld();
   const now = performance.now(); updateWaves(now); updateAlerts(now); updateRulerTags(); updateYushan(); updateCompass(); updateCities(); updateCard(); faultTick?.(now);
-  controls.update(); renderer.render(scene, camera);
+  if (m7ToastAlert) {
+    if (m7Toast.classList.contains('show') || now < m7ToastFadeUntil) placeM7Toast();
+    else m7ToastAlert = undefined;
+  }
+  renderer.render(scene, camera);
 });
 $('ruler').addEventListener('change', e => { depthRuler.visible = e.target.checked; });
 { // 「方框格線」開關（深度框）：預設開，記在 localStorage

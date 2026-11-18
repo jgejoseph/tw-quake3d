@@ -185,5 +185,6 @@ export async function initPlates({ scene, lid, toX, toZ, DEPTH_SCALE, TERRAIN_EX
     return hit ? hit.object.userData.edu : null;
   };
   const labelScreen = camera => labels.map(s => { const v = new THREE.Vector3(); s.getWorldPosition(v); v.project(camera); return { edu: s.userData.edu, x: (v.x + 1) / 2 * innerWidth, y: (1 - v.y) / 2 * innerHeight, z: v.z }; });
-  return { setVisible, setReal, pickLabel, labelScreen, slabs: doc.slabs.map(s => ({ id: s.id, valid: s.valid, dmax: s.dmax })), boundaries: Object.keys(byId) };
+  const visibleLabelSprites = () => surface.visible ? labels : [];
+  return { setVisible, setReal, pickLabel, labelScreen, visibleLabelSprites, slabs: doc.slabs.map(s => ({ id: s.id, valid: s.valid, dmax: s.dmax })), boundaries: Object.keys(byId) };
 }
