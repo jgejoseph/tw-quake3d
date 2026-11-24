@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>312 公里有多深？震源深度高度比較（示意）</title>
+<style>
+:root{--bg:#0e1420;--panel:#161e2d;--ink:#e8edf5;--mute:#9aa7ba;--line:#2a3548;--bar:#6fa8dc;--bar2:#9cc3e8;--quake:#e4572e;--quake2:#ffb347;--accent:#ffd166}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif;-webkit-text-size-adjust:100%}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.wrap{max-width:1100px;margin:0 auto;padding:12px 12px 28px}
+header h1{font-size:20px;line-height:1.35;margin:4px 0 4px}
+header p{margin:0;color:var(--mute);font-size:13.5px;line-height:1.55}
+.hero{color:var(--accent);font-weight:700}
+.stage{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-top:10px;overflow:hidden}
+#chart{display:block;width:100%;height:min(62vh,560px);min-height:380px}
+.hud{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:space-between;padding:8px 12px;border-top:1px solid var(--line);font-size:13px;color:var(--mute)}
+.hud b{color:var(--ink);font-weight:600}
+#caption{min-height:44px;padding:8px 12px 2px;font-size:15px;line-height:1.5}
+#caption .n{color:var(--accent);font-weight:700}
+.btns{display:flex;gap:8px}
+button{font:inherit;font-size:14px;color:var(--ink);background:#24324a;border:1px solid #3a4b68;border-radius:10px;padding:8px 14px;min-height:40px;cursor:pointer}
+button:hover{background:#2d3e5c}
+button.primary{background:#2f5d8a;border-color:#4a7db0}
+section.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-top:14px;padding:12px 14px}
+section.card h2{font-size:17px;margin:2px 0 8px}
+#ratio{transition:opacity .6s}
+#ratio.hidden{opacity:.25}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:600;font-size:12.5px}
+th.num,td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.big{color:var(--accent);font-weight:700}
+.note{font-size:12.5px;color:var(--mute);line-height:1.6;margin:8px 0 0}
+.src li{margin:0 0 8px;font-size:13px;line-height:1.55;word-break:break-word}
+.src a{color:#8fc1ff}
+.tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:6px;background:#33415a;color:#cfd8e6;margin-left:4px;vertical-align:1px}
+.tag.q{background:#5a2a1f;color:#ffd0bd}
+#chart svg.ico{overflow:visible;pointer-events:none}
+@media (min-width:900px){header h1{font-size:26px}#chart{height:min(64vh,600px)}#caption{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>312 公里有多深？</h1>
+  <p>2012-12-08 22:26:54（臺灣時間）基隆市政府東北方 92.3 公里 (位於台灣東北部海域) <span class="hero">M6.2 地震，震源深度 312 公里</span>。我們把它和人、建築、高山、民航機放在同一把尺上比一比。</p>
+</header>
+
+<div class="stage" role="figure" aria-label="高度與震源深度比較動畫">
+  <svg id="chart" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+  <div id="caption" aria-live="polite"></div>
+  <div class="hud">
+    <span>比例尺：畫面柱區高度 ≈ <b id="scaleTxt">—</b></span>
+    <span>縮放：<b id="zoomTxt">×1</b></span>
+    <span class="btns"><button id="skip">跳到結尾</button><button id="replay" class="primary">重播</button></span>
+  </div>
+</div>
+<p class="note">圖示僅供辨認，非實際比例</p>
+
+<section class="card" id="ratio">
+  <h2>倍數對照表：312 公里是它們的幾倍？</h2>
+  <table id="ratioTable">
+    <thead><tr><th>比較對象</th><th class="num">採用數值</th><th class="num">倍數</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <p class="note">計算方式：312,000 公尺 ÷ 各項採用數值，四捨五入到小數點後 1 位（第 2 位小數 ≥5 進位）；成年人一列因為 1.7 公尺是約略值，改用「萬倍」概數（312,000 ÷ 1.7 ≈ 183,529，寫成約 18.4 萬倍）。震源深度採中央氣象署地震報告的 312.0 公里。</p>
+</section>
+
+<section class="card">
+  <h2>怎麼看這張圖</h2>
+  <p class="note" style="margin-top:0">
+  ・<b style="color:var(--quake2)">震源那根柱子是「往地底下的深度」</b>，不是高度。為了和其他高度放在一起比長度，這裡把它畫成向上的柱子，並用不同顏色和斜線標示。<br>
+  ・柱高依同一比例尺（公尺）繪製。縮到最後，人、101 這些柱子實際不到 1 個像素，畫面上以最小 1.5 像素的細線加上小三角形標出位置，讓你還看得到。<br>
+  ・但本圖是<b>示意圖</b>，省略地形、地球曲率與零點差異（柱子寬度也沒有意義），只用來感受長度差距。<br>
+  ・各項的零點不同：玉山、聖母峰的高度從海平面起算（海拔）；台北 101、杜拜塔從地面起算；民航機的飛航空層是氣壓高度；震源深度依中央氣象署的定義是「震央與震源之間的距離」，也就是從地表的震央往下算。圖中把它們都畫在同一條 0 線上。<br>
+  ・成年人身高、民航機巡航高度是<b>示意取值</b>：成年人取 1.7 公尺（示意用的整數，不是調查平均值；國健署委託研究的臺灣 19 歲以上成人實際平均身高：合計 163.0、男 169.3、女 157.0 cm）；民航機巡航高度約 9～12 公里（約略值），這裡取 10,000 公尺。</p>
+</section>
+
+<section class="card">
+  <h2>資料出處（核對日期：2026-11-18）</h2>
+  <ol class="src">
+    <li>震源（312.0 公里，M6.2，基隆市政府東北方 92.3 公里 (位於台灣東北部海域)）：中央氣象署地震測報中心 地震資訊頁<br><a href="https://scweb.cwa.gov.tw/zh-tw/earthquake/details/2012120822265462">https://scweb.cwa.gov.tw/zh-tw/earthquake/details/2012120822265462</a></li>
+    <li>成年人（1.7 公尺，示意用的整數，不是調查平均值）：實際平均身高見衛生福利部國民健康署委託研究計畫《國民營養健康狀況變遷調查（106–109 年）成果報告》表 3.5.1，19 歲以上身高加權平均：合計 163.0、男 169.3、女 157.0 cm；報告註明內容不代表國健署立場<br><a href="https://www.hpa.gov.tw/Pages/Detail.aspx?nodeid=3999&amp;pid=15562">https://www.hpa.gov.tw/Pages/Detail.aspx?nodeid=3999&amp;pid=15562</a></li>
+    <li>台北 101（508 公尺）：台北 101 官網「關於台北101」<br><a href="https://www.taipei-101.com.tw/tw/corporate/about">https://www.taipei-101.com.tw/tw/corporate/about</a></li>
+    <li>杜拜塔 Burj Khalifa（828 公尺）：Council on Vertical Urbanism（CVU，2025 年 10 月由 CTBUH 改名）世界高樓資料庫 The Skyscraper Center<br><a href="https://www.skyscrapercenter.com/building/burj-khalifa/3">https://www.skyscrapercenter.com/building/burj-khalifa/3</a></li>
+    <li>玉山（3,952 公尺）：內政部國家公園署「玉山有多高 最新測量數據出爐」（官方維持以 3,952 公尺代表）；內政部國土測繪中心「玉山高度測量」最新成果 3,952.433 ± 0.046 公尺<br><a href="https://www.nps.gov.tw/ch/titlelist/parknews/1270">https://www.nps.gov.tw/ch/titlelist/parknews/1270</a><br><a href="https://www.nlsc.gov.tw/cp.aspx?n=1486">https://www.nlsc.gov.tw/cp.aspx?n=1486</a></li>
+    <li>聖母峰（8,848.86 公尺）：中國與尼泊爾於 2020-12-08 共同宣布的雪面高程（中華人民共和國外交部發布之兩國元首互致信函新聞稿）<br><a href="https://www.mfa.gov.cn/eng/gjhdq_665435/2675_665437/2752_663508/2754_663512/202406/t20240607_11411566.html">https://www.mfa.gov.cn/eng/gjhdq_665435/2675_665437/2752_663508/2754_663512/202406/t20240607_11411566.html</a></li>
+    <li>民航機巡航高度（約 9～12 公里（約略值）；代表值 10,000 公尺）：交通部民用航空局《飛航規則》附表二 巡航空層表（飛航空層 FL290 至 FL410 實施 1,000 呎垂直隔離）。依《飛航規則》第 2 條，飛航空層（FL）是以 1,013.2 百帕標準氣壓為基準的空層，屬<b>氣壓高度</b>，不是離地或海拔的幾何高度；「約 9～12 公里」是概略換算的約略值，不是民航局公布的典型巡航高度<br><a href="https://www.caa.gov.tw/FileAtt.ashx?id=5941&amp;lang=1">https://www.caa.gov.tw/FileAtt.ashx?id=5941&amp;lang=1</a><br><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=K0090014">https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=K0090014</a></li>
+    <li>零點定義：中央氣象署數位科普網「震源、震央，傻傻分不清！」（地震深度指震央與震源之間的距離）；CVU 高度定義（從最低的主要戶外行人入口量起）<br><a href="https://pweb.cwa.gov.tw/PopularScience/ec/ec_9.html">https://pweb.cwa.gov.tw/PopularScience/ec/ec_9.html</a><br><a href="https://www.skyscrapercenter.com/building/burj-khalifa/3">https://www.skyscrapercenter.com/building/burj-khalifa/3</a></li>
+  </ol>
+  <p class="note">地震另以 tw-quake3d 專案資料（氣象署地震目錄整理）交叉核對同一筆：深度 312.01 公里、規模 6.23。本頁為獨立示意原型，數值以上列來源為準。</p>
+</section>
+</div>
+
+<script>
+(() => {
+'use strict';
+// ---- 資料（皆為公尺）----
+const DEPTH_M = 312000; // 中央氣象署地震報告 312.0 公里
+const ITEMS = [
+  { key:'human',  name:'成年人',  sub:'示意整數', subN:'約略值', v:1.7, disp:'1.7 m', unit:'公尺', tableName:'成年人（示意用的整數）', approx:true },
+  { key:'t101',   name:'台北101', sub:'',         v:508,      disp:'508 m',      unit:'公尺', tableName:'台北 101' },
+  { key:'burj',   name:'杜拜塔',  sub:'',         v:828,      disp:'828 m',      unit:'公尺', tableName:'杜拜塔（Burj Khalifa）' },
+  { key:'jade',   name:'玉山',    sub:'',         v:3952,     disp:'3,952 m',    unit:'公尺', tableName:'玉山' },
+  { key:'everest',name:'聖母峰',  sub:'',         v:8848.86,  disp:'8,848.86 m', unit:'公尺', tableName:'聖母峰' },
+  { key:'plane',  name:'民航機',  sub:'巡航代表值', subN:'代表值',v:10000,    disp:'10,000 m',   unit:'公尺', tableName:'民航機巡航高度（代表值）' },
+  { key:'quake',  name:'震源',    sub:'往地底的深度', subN:'深度↓',v:DEPTH_M, disp:'312 km', unit:'公尺', tableName:'震源深度', quake:true }
+];
+const CAPTIONS = [
+  '從一個人開始：成年人身高取 <span class="n">1.7 公尺</span>（示意用的整數）。',
+  '台北 101 高 <span class="n">508 公尺</span>，鏡頭往後拉，人已經變成一條細線。',
+  '杜拜塔 <span class="n">828 公尺</span>，目前世界最高的建築。',
+  '玉山 <span class="n">3,952 公尺</span>，臺灣最高峰。',
+  '聖母峰 <span class="n">8,848.86 公尺</span>，世界最高峰。',
+  '民航機巡航高度約 9～12 公里（約略值），這裡取 <span class="n">10,000 公尺</span>（代表值）。',
+  null // 震源說明由資料計算，見下方
+];
+const fmtR = r => (Math.round(r * 10) / 10).toLocaleString('en-US', { minimumFractionDigits:1, maximumFractionDigits:1 });
+CAPTIONS[6] = `震源深度 <span class="n">312 公里</span>——這是<b>往地底下</b>的深度，是聖母峰的 ${fmtR(DEPTH_M / 8848.86)} 倍、民航機巡航高度（代表值）的 ${fmtR(DEPTH_M / 10000)} 倍。`;
+// ---- 圖示（v1.5）：自己畫的簡單幾何剪影，內嵌 SVG，不用外部圖片、圖示庫或他人素材 ----
+// 固定螢幕大小、放在 0 線下方與柱名之間的獨立一列，不隨柱子縮放，也不與文字重疊
+const ICONS = {
+  human: ['0 0 14 28', '<g fill="#dbe7f5"><circle cx="7" cy="3.4" r="2.7"/><path d="M4.2 7.2 H9.8 Q11.2 7.2 11.4 8.6 L12.4 16 H10.6 L9.8 11 V27.4 H7.6 V18.4 H6.4 V27.4 H4.2 V11 L3.4 16 H1.6 L2.6 8.6 Q2.8 7.2 4.2 7.2 Z"/></g>'],
+  t101: ['0 0 20 44', '<g fill="#dbe7f5"><rect x="9.55" y="0" width="0.9" height="8"/><path d="M8.3 11 L8.8 7.6 H11.2 L11.7 11 Z"/><path d="M5.4 11.0 H14.6 L13.2 13.5 H6.8 Z"/><path d="M5.4 14.0 H14.6 L13.2 16.5 H6.8 Z"/><path d="M5.4 17.0 H14.6 L13.2 19.5 H6.8 Z"/><path d="M5.4 20.0 H14.6 L13.2 22.5 H6.8 Z"/><path d="M5.4 23.0 H14.6 L13.2 25.5 H6.8 Z"/><path d="M5.4 26.0 H14.6 L13.2 28.5 H6.8 Z"/><path d="M5.4 29.0 H14.6 L13.2 31.5 H6.8 Z"/><path d="M5.4 32.0 H14.6 L13.2 34.5 H6.8 Z"/><path d="M6.8 35.4 H13.2 L15.6 44 H4.4 Z"/></g>'],
+  burj: ['0 0 20 44', '<path fill="#dbe7f5" d="M3 44 V36 H4.5 V30 H6 V24 H7.2 V18 H8.3 V12.5 H9.1 V8.5 H9.6 L10 0 L10.4 8.5 H10.9 V10.5 H11.8 V15.5 H12.8 V21 H14 V27 H15.5 V33 H17 V44 Z"/><path fill="#9fb4cc" d="M10 9.5 H10.9 V10.5 H11.8 V15.5 H12.8 V21 H14 V27 H15.5 V33 H17 V44 H10 Z"/>'],
+  jade: ['0 0 28 24', '<path fill="#86b39a" d="M0.6 23.4 L7.4 13.6 L10 15.4 L14.6 7.2 L18.2 12.2 L20.6 10.4 L27.4 23.4 Z"/><path fill="#5f8f75" d="M14.6 7.2 L18.2 12.2 L20.6 10.4 L27.4 23.4 H17 L16.2 15.6 Z"/>'],
+  everest: ['0 0 28 24', '<path fill="#8fa3bd" d="M0.4 23.4 L5.6 14.8 L8.2 16.6 L14 1 L16.6 7.4 L18.4 5.6 L22 12.6 L23.6 11.6 L27.6 23.4 Z"/><path fill="#6a7f9b" d="M14 1 L16.6 7.4 L18.4 5.6 L22 12.6 L23.6 11.6 L27.6 23.4 H16.4 L15 12 Z"/><path fill="#f4f7fb" d="M14 1 L16.6 7.4 L15.5 6.8 L14.4 8.6 L13.1 7 L11.4 8.2 Z M18.4 5.6 L19.9 8.5 L18.9 8.1 L18 9 L17.2 8.2 Z"/>'],
+  plane: ['0 0 24 24', '<path fill="#dbe7f5" d="M12 1.2 C13 1.2 13.3 2.8 13.3 4.4 V9.4 L22.6 14.6 V16.6 L13.3 13.8 V19 L16.6 21.4 V22.9 L12 21.8 L7.4 22.9 V21.4 L10.7 19 V13.8 L1.4 16.6 V14.6 L10.7 9.4 V4.4 C10.7 2.8 11 1.2 12 1.2 Z"/>'],
+  quake: ['0 0 24 24', '<rect x="0.5" y="4" width="23" height="19.5" rx="1.5" fill="#4a3027"/><path fill="#6b4a3a" d="M0.5 4 H23.5 V9.6 Q18 8.2 12 10 T0.5 9.8 Z"/><path fill="#5a3c30" d="M0.5 9.8 Q6 11.8 12 10 T23.5 9.6 V15.4 Q17 14 11.5 16 T0.5 15.6 Z"/><path d="M0.5 4 H23.5" stroke="#ffb347" stroke-width="1.2"/><path d="M12 4 V13" stroke="#ffd0bd" stroke-width="1" stroke-dasharray="1.6 1.2"/><path fill="#ffb347" d="M9.6 0.4 H14.4 L12 3.6 Z"/><path fill="#ffb347" stroke="#e4572e" stroke-width="0.8" stroke-linejoin="round" d="M12.00 12.00 L13.29 15.42 L16.95 15.59 L14.09 17.88 L15.06 21.41 L12.00 19.40 L8.94 21.41 L9.91 17.88 L7.05 15.59 L10.71 15.42 Z"/>'],
+};
+const ICON_H = n => n ? 30 : 40, ICON_GAP = n => n ? 4 : 6, ICON_STRIP = n => ICON_H(n) + ICON_GAP(n) * 2;
+const FIT = 0.84;           // 目前最高的柱子佔柱區高度比例
+const T_GROW_A = 0.55, T_GROW_B = 1.9, T_HOLD = 1.05, T_FIRST = 1.4; // 秒
+// 時間軸：第 0 段只畫人；第 k 段：先長到前一個最高值（鏡頭不動），再以對數速度長到自己（鏡頭跟著拉遠）
+const SEG = [{ start:0, dur:T_FIRST + T_HOLD }];
+for (let k = 1; k < ITEMS.length; k++) { const s = SEG[k-1].start + SEG[k-1].dur; SEG.push({ start:s, dur:T_GROW_A + T_GROW_B + T_HOLD }); }
+const TOTAL = SEG[SEG.length-1].start + SEG[SEG.length-1].dur;
+
+const ease = t => t < 0 ? 0 : t > 1 ? 1 : (t < .5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2);
+const lerp = (a, b, t) => a + (b - a) * t;
+
+// 給定時間 t（秒），回傳每根柱子目前高度與鏡頭可見高度
+function stateAt(t) {
+  const h = ITEMS.map(() => 0); let stage = 0, maxVis;
+  if (t >= TOTAL) { ITEMS.forEach((it, i) => h[i] = it.v); return { h, maxVis: DEPTH_M / FIT, stage: ITEMS.length - 1, done: true }; }
+  for (let k = 0; k < SEG.length; k++) if (t >= SEG[k].start) stage = k;
+  for (let i = 0; i < stage; i++) h[i] = ITEMS[i].v;
+  const lt = t - SEG[stage].start;
+  if (stage === 0) {
+    h[0] = ITEMS[0].v * ease(lt / T_FIRST); maxVis = ITEMS[0].v / FIT;
+  } else {
+    const prev = ITEMS[stage-1].v, me = ITEMS[stage].v;
+    if (lt < T_GROW_A) h[stage] = prev * ease(lt / T_GROW_A);
+    else h[stage] = Math.exp(lerp(Math.log(prev), Math.log(me), ease((lt - T_GROW_A) / T_GROW_B)));
+    maxVis = Math.max(prev, h[stage]) / FIT;
+  }
+  return { h, maxVis, stage, done: false };
+}
+
+// ---- 繪圖 ----
+const NS = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('chart');
+const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); (parent || svg).appendChild(e); return e; };
+const fmtLen = m => {
+  if (m >= 1000) { const km = m / 1000; return (km >= 100 ? Math.round(km).toLocaleString('en-US') : km >= 10 ? (+km.toFixed(1)).toLocaleString('en-US') : (+km.toFixed(2)).toLocaleString('en-US')) + ' km'; }
+  if (m >= 1) return (+m.toFixed(m >= 100 ? 0 : 2)).toLocaleString('en-US') + ' m';
+  return (+m.toFixed(2)) + ' m';
+};
+function niceStep(range) { const raw = range / 4.5, p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p; return (f < 1.5 ? 1 : f < 3.5 ? 2 : f < 7.5 ? 5 : 10) * p; }
+
+let W = 0, H = 0, geo = null;
+function layout() {
+  svg.style.height = ''; svg.style.minHeight = '';
+  const r0 = svg.getBoundingClientRect(), strip = ICON_STRIP(Math.round(r0.width) < 560);
+  svg.style.height = (r0.height + strip) + 'px'; svg.style.minHeight = '0';
+  const r = svg.getBoundingClientRect(); W = Math.round(r.width); H = Math.round(r.height);
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const narrow = W < 560;
+  const left = narrow ? 44 : 64, right = narrow ? 6 : 20, top = narrow ? 50 : 54, bottom = (narrow ? 52 : 56) + strip;
+  const plotW = W - left - right, plotH = H - top - bottom, col = plotW / ITEMS.length;
+  geo = { narrow, left, right, top, bottom, plotW, plotH, col, base: top + plotH, barW: Math.min(col * (narrow ? .62 : .5), 74), strip };
+  build();
+}
+
+let nodes = null;
+function build() {
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  const g = geo, defs = el('defs', {});
+  const pat = el('pattern', { id:'hatch', width:8, height:8, patternUnits:'userSpaceOnUse', patternTransform:'rotate(45)' }, defs);
+  el('rect', { width:8, height:8, fill:'#e4572e' }, pat); el('line', { x1:0, y1:0, x2:0, y2:8, stroke:'#ffb347', 'stroke-width':3 }, pat);
+  const grad = el('linearGradient', { id:'barg', x1:0, y1:0, x2:0, y2:1 }, defs);
+  el('stop', { offset:'0', 'stop-color':'#9cc3e8' }, grad); el('stop', { offset:'1', 'stop-color':'#4f86bd' }, grad);
+  const ticks = el('g', {}), bars = el('g', {}), icons = el('g', { class:'icons' }), labels = el('g', {});
+  el('line', { x1:g.left, x2:W - g.right, y1:g.base, y2:g.base, stroke:'#8796ad', 'stroke-width':1.5 });
+  el('text', { x:g.left - 6, y:g.base + 4, 'text-anchor':'end', 'font-size':g.narrow ? 10 : 12, fill:'#9aa7ba' }).textContent = '0';
+  const items = ITEMS.map((it, i) => {
+    const cx = g.left + g.col * (i + .5);
+    const rect = el('rect', { x:cx - g.barW/2, width:g.barW, y:g.base, height:0, rx:2, fill: it.quake ? 'url(#hatch)' : 'url(#barg)', stroke: it.quake ? '#ffb347' : 'none', 'stroke-width': it.quake ? 1 : 0 }, bars);
+    const tri = el('path', { d:'', fill: it.quake ? '#ffb347' : '#ffd166' }, bars);
+    const nm = el('text', { x:cx, y:g.base + g.strip + (g.narrow ? 16 : 19), 'text-anchor':'middle', 'font-size':g.narrow ? 11.5 : 14, 'font-weight':600, fill: it.quake ? '#ffb347' : '#e8edf5' }, labels); nm.textContent = it.name;
+    const sb = el('text', { x:cx, y:g.base + g.strip + (g.narrow ? 30 : 36), 'text-anchor':'middle', 'font-size':g.narrow ? 9 : 11.5, fill: it.quake ? '#ffb347' : '#9aa7ba' }, labels); sb.textContent = g.narrow && it.subN ? it.subN : it.sub;
+    const val = el('text', { x:cx, y:g.base, 'text-anchor':'middle', 'font-size':g.narrow ? 10 : 13, 'font-weight':600, fill:'#ffd166' }, labels);
+    const v1 = el('tspan', { x:cx }, val), v2 = el('tspan', { x:cx, dy: g.narrow ? 11 : 0, 'font-weight':400 }, val);
+    const [vb, body] = ICONS[it.key], vbp = vb.split(' ').map(Number), ih = ICON_H(g.narrow), iw = ih * vbp[2] / vbp[3];
+    const ico = el('svg', { class:'ico', 'data-key':it.key, x:(cx - iw / 2).toFixed(2), y:g.base + ICON_GAP(g.narrow), width:iw.toFixed(2), height:ih, viewBox:vb, 'aria-hidden':'true', focusable:'false' }, icons);
+    ico.innerHTML = body;
+    return { it, cx, rect, tri, nm, sb, val, v1, v2, ico };
+  });
+  // 震源專用標示
+  const qi = items[items.length-1];
+  const qArrow = el('g', {}, labels);
+  const qText = el('text', { x:qi.cx, y:0, 'text-anchor':'end', 'font-size':g.narrow ? 10.5 : 13, fill:'#ffb347', 'font-weight':700 }, qArrow);
+  const qText2 = el('text', { x:qi.cx, y:0, 'text-anchor':'end', 'font-size':g.narrow ? 9.5 : 12, fill:'#ffcfa8' }, qArrow);
+  qText.textContent = '↓ 這根是「深度」'; qText2.textContent = '實際往地底下 312 公里';
+  const scaleTitle = el('text', { x:g.left, y:g.narrow ? 16 : 20, 'font-size':g.narrow ? 11 : 13, fill:'#9aa7ba' }); scaleTitle.textContent = '刻度單位隨鏡頭縮放改變';
+  nodes = { ticks, items, qArrow, qText, qText2 };
+}
+
+function render(t) {
+  const s = stateAt(t), g = geo, pxPerM = g.plotH / s.maxVis;
+  // 刻度
+  const tk = nodes.ticks; while (tk.firstChild) tk.removeChild(tk.firstChild);
+  const step = niceStep(s.maxVis);
+  for (let v = step; v <= s.maxVis * 1.0001; v += step) {
+    const y = g.base - v * pxPerM;
+    el('line', { x1:g.left, x2:W - g.right, y1:y, y2:y, stroke:'#2a3548', 'stroke-width':1 }, tk);
+    el('text', { x:g.left - 6, y:y + 4, 'text-anchor':'end', 'font-size':g.narrow ? 10 : 12, fill:'#9aa7ba' }, tk).textContent = fmtLen(v);
+  }
+  // 柱子
+  let labelTopMin = Infinity;
+  nodes.items.forEach((n, i) => {
+    const hm = s.h[i], shown = i <= s.stage || s.done, raw = hm * pxPerM;
+    const hp = shown && hm > 0 ? Math.max(raw, 1.5) : 0;
+    n.rect.setAttribute('y', (g.base - hp).toFixed(2)); n.rect.setAttribute('height', hp.toFixed(2));
+    n.rect.setAttribute('opacity', shown ? 1 : 0);
+    const tiny = shown && hm > 0 && raw < 4;
+    n.tri.setAttribute('d', tiny ? `M${n.cx - 5},${g.base - 12} L${n.cx + 5},${g.base - 12} L${n.cx},${g.base - 4} Z` : '');
+    const vy = g.base - Math.max(hp, tiny ? 12 : 0) - (g.narrow ? 17 : 6);
+    n.val.setAttribute('y', Math.max(g.top - 18, vy).toFixed(1));
+    const txt = (i === s.stage && !s.done && hm < n.it.v * 0.999) ? fmtLen(hm) : n.it.disp;
+    if (g.narrow) { const k = txt.lastIndexOf(' '); n.v1.textContent = txt.slice(0, k); n.v2.textContent = txt.slice(k + 1); n.v2.setAttribute('x', n.cx); }
+    else { n.v1.textContent = txt; n.v2.textContent = ''; }
+    n.val.setAttribute('opacity', shown && hm > 0 ? 1 : 0);
+    n.nm.setAttribute('opacity', shown ? 1 : .28); n.sb.setAttribute('opacity', shown ? 1 : .28); n.ico.setAttribute('opacity', shown ? 1 : .4);
+    if (i < ITEMS.length - 1 && shown) labelTopMin = Math.min(labelTopMin, vy);
+  });
+  // 震源標示：在震源柱左側中段
+  const q = nodes.items[ITEMS.length-1], qh = s.h[ITEMS.length-1] * pxPerM, qShow = (s.stage === ITEMS.length - 1 || s.done) && qh > 60;
+  const qy = g.base - Math.min(qh, g.plotH) * 0.55;
+  const qx = q.cx - g.barW / 2 - 6;
+  nodes.qText.setAttribute('x', qx); nodes.qText.setAttribute('y', qy);
+  nodes.qText2.setAttribute('x', qx); nodes.qText2.setAttribute('y', qy + (g.narrow ? 16 : 19));
+  // v1.6：只有在兩行深度標示的下緣，完全高於所有其他可見數值標籤的上緣（留 2 px）時才顯示，
+  // 避免震源柱剛開始長的轉場中，和玉山、聖母峰、民航機的數值標籤短暫重疊。
+  // 震源柱第一段（鏡頭不動）標示一定低於民航機標籤，所以會隱藏；第二段鏡頭拉遠時標示高度固定、
+  // 其他標籤只會往下移，所以條件一旦成立就一直成立，不會閃爍。
+  let qClear = qShow;
+  if (qShow) {
+    const qb = nodes.qText2.getBBox(), qBottom = qb.y + qb.height;
+    nodes.items.forEach((n, i) => {
+      if (i === ITEMS.length - 1 || n.val.getAttribute('opacity') !== '1') return;
+      const vb = n.val.getBBox();
+      if (vb.height > 0 && vb.y < qBottom + 2) qClear = false;
+    });
+  }
+  nodes.qArrow.setAttribute('opacity', qClear ? 1 : 0);
+  // HUD
+  document.getElementById('scaleTxt').textContent = fmtLen(s.maxVis);
+  const zoom = s.maxVis / (ITEMS[0].v / FIT);
+  document.getElementById('zoomTxt').textContent = '拉遠 ×' + (zoom < 10 ? zoom.toFixed(1) : zoom < 10000 ? Math.round(zoom).toLocaleString('en-US') : fmtWan(zoom));
+  const cap = document.getElementById('caption'), ci = s.stage;
+  if (cap.dataset.i !== String(ci)) { cap.innerHTML = CAPTIONS[ci]; cap.dataset.i = String(ci); }
+  document.getElementById('ratio').classList.toggle('hidden', !s.done);
+  return s;
+}
+
+// ---- 倍數表（由同一份資料計算）----
+const ratioOf = v => DEPTH_M / v;
+const fmtWan = r => '約 ' + (Math.round(r / 1000) / 10).toFixed(1) + ' 萬'; // 例：183,529 → 約 18.4 萬
+const fmtRatio = (r, approx) => approx ? fmtWan(r) + '倍' : fmtR(r) + ' 倍';
+(function fillTable() {
+  const tb = document.querySelector('#ratioTable tbody');
+  ITEMS.slice(0, -1).forEach(it => {
+    const tr = document.createElement('tr'); tr.dataset.key = it.key;
+    tr.innerHTML = `<td>${it.tableName}</td><td class="num">${it.v.toLocaleString('en-US')} 公尺</td><td class="num big" data-ratio="${ratioOf(it.v)}">${fmtRatio(ratioOf(it.v), it.approx)}</td>`;
+    tb.appendChild(tr);
+  });
+})();
+
+// ---- 播放控制 ----
+const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let t0 = null, raf = 0, cur = 0, paused = false;
+function frame(ts) {
+  if (t0 === null) t0 = ts;
+  cur = (ts - t0) / 1000;
+  const s = render(cur);
+  if (!s.done && !paused) raf = requestAnimationFrame(frame);
+}
+function play() { cancelAnimationFrame(raf); paused = false; t0 = null; if (reduce) { cur = TOTAL; render(TOTAL); return; } raf = requestAnimationFrame(frame); }
+function seek(t) { cancelAnimationFrame(raf); paused = true; cur = t; return render(t); }
+document.getElementById('replay').addEventListener('click', play);
+document.getElementById('skip').addEventListener('click', () => seek(TOTAL));
+let rz = 0; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { layout(); render(cur); }, 80); });
+layout();
+// 給自動化測試用的唯讀介面（不含任何外部連線）
+window.__depthCompare = { TOTAL, SEG: SEG.map(s => ({ ...s })), ITEMS: ITEMS.map(i => ({ key:i.key, v:i.v })), DEPTH_M, seek, play, state: () => stateAt(cur), reduce };
+play();
+})();
+</script>
+</body>
+</html>
