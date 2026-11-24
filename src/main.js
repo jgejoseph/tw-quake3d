@@ -90,6 +90,11 @@ let setPanelCollapsed = () => {};
   const p = $('panel'), b = $('collapse');
   const set = c => { p.classList.toggle('collapsed', c); b.textContent = c ? '設定' : '收合'; };
   set(narrow()); setPanelCollapsed = c => { set(c); if (c) p.scrollTop = 0; };
+  // 手機版年份與面板底緣保留間距，跟隨面板展開、收合與文字換行。
+  const bigYear = $('bigYear');
+  new ResizeObserver(() => {
+    bigYear.style.setProperty('--mobile-panel-bottom', `${p.getBoundingClientRect().bottom}px`);
+  }).observe(p, { box: 'border-box' });
   b.addEventListener('click', () => set(!p.classList.contains('collapsed')));
   $('grip').addEventListener('click', () => { set(true); p.scrollTop = 0; });
   // 手機：往上滑收合。從標題列往上滑隨時可收；在內容區要先滑到底、再往上滑一次才收，避免和捲動衝突
