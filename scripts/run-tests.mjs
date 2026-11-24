@@ -17,6 +17,7 @@ if (!process.env.BASE) {
   results.push(await run('scripts/test_data_integrity.mjs', [], false));
   results.push(await run('scripts/test_quakedata.mjs', [], false));
   results.push(await run('scripts/test_fault_world.mjs', [], false));
+  results.push(await run('scripts/test_mobile_year_gap.mjs'));
   results.push(await run('scripts/test_m7_overlap.mjs'));
 }
 results.push(await run('reg56.mjs'));
