@@ -5,15 +5,13 @@
 <link rel="icon" href="data:,">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>312 公里有多深？震源深度高度比較（示意）</title>
+<link rel="stylesheet" href="./reference-pages.css">
 <style>
-:root{--bg:#0e1420;--panel:#161e2d;--ink:#e8edf5;--mute:#9aa7ba;--line:#2a3548;--bar:#6fa8dc;--bar2:#9cc3e8;--quake:#e4572e;--quake2:#ffb347;--accent:#ffd166}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif;-webkit-text-size-adjust:100%}
-body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
-.wrap{max-width:1100px;margin:0 auto;padding:12px 12px 28px}
-header h1{font-size:20px;line-height:1.35;margin:4px 0 4px}
-header p{margin:0;color:var(--mute);font-size:13.5px;line-height:1.55}
+:root{--bar:#6fa8dc;--bar2:#9cc3e8;--quake:#e4572e;--quake2:#ffb347}
 .hero{color:var(--accent);font-weight:700}
+.event-summary{border-left:3px solid var(--accent);margin-bottom:12px;line-height:1.6}
+.event-summary .summary{color:var(--ink);font-size:15px;margin:0}
+.source-links{display:flex;flex-wrap:wrap;gap:4px 16px}
 .stage{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-top:10px;overflow:hidden}
 #chart{display:block;width:100%;height:min(62vh,560px);min-height:380px}
 .hud{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:space-between;padding:8px 12px;border-top:1px solid var(--line);font-size:13px;color:var(--mute)}
@@ -24,8 +22,6 @@ header p{margin:0;color:var(--mute);font-size:13.5px;line-height:1.55}
 button{font:inherit;font-size:14px;color:var(--ink);background:#24324a;border:1px solid #3a4b68;border-radius:10px;padding:8px 14px;min-height:40px;cursor:pointer}
 button:hover{background:#2d3e5c}
 button.primary{background:#2f5d8a;border-color:#4a7db0}
-section.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-top:14px;padding:12px 14px}
-section.card h2{font-size:17px;margin:2px 0 8px}
 #ratio{transition:opacity .6s}
 #ratio.hidden{opacity:.25}
 table{width:100%;border-collapse:collapse;font-size:14px}
@@ -33,19 +29,26 @@ th,td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:left;vertic
 th{color:var(--mute);font-weight:600;font-size:12.5px}
 th.num,td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 td.big{color:var(--accent);font-weight:700}
-.note{font-size:12.5px;color:var(--mute);line-height:1.6;margin:8px 0 0}
 .src li{margin:0 0 8px;font-size:13px;line-height:1.55;word-break:break-word}
-.src a{color:#8fc1ff}
 .tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:6px;background:#33415a;color:#cfd8e6;margin-left:4px;vertical-align:1px}
 .tag.q{background:#5a2a1f;color:#ffd0bd}
 #chart svg.ico{overflow:visible;pointer-events:none}
-@media (min-width:900px){header h1{font-size:26px}#chart{height:min(64vh,600px)}#caption{font-size:16px}}
+@media (min-width:900px){#chart{height:min(64vh,600px)}#caption{font-size:16px}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
+  <a class="home-link" href="./index.html">← 回到首頁</a>
   <h1>312 公里有多深？</h1>
+  <section class="card event-summary" aria-label="本站資料範圍內最深的地震">
+    <p class="summary">本站資料（中央氣象署地震目錄，1935-02-10 至 2026-09-30；2025 年 3 月起僅收規模 3 以上）中最深的地震：2012-12-08 22:26:54（臺灣時間），震源深度 <strong class="hero">312.0 km</strong>，ML 6.2。</p>
+    <p class="note">國際目錄同一事件：<a href="https://earthquake.usgs.gov/earthquakes/eventpage/usp000jwpg">USGS 291.3 km</a>、<a href="https://www.isc.ac.uk/cgi-bin/web-db-run?event_id=602090164&amp;out_format=ISF&amp;request=COMPREHENSIVE">ISC 298.6 km</a>，各機構定位方法不同。此為本站資料範圍內的紀錄，不代表其他期間或目錄的極值。中央氣象署 1900–2008 年規模大於 4 的統計為『最深接近 300 公里』。</p>
+    <p class="note source-links">
+      <a href="https://scweb.cwa.gov.tw/zh-tw/earthquake/details/2012120822265462">中央氣象署地震報告</a>
+      <a href="https://scweb.cwa.gov.tw/zh-tw/page/twenty/121">中央氣象署歷史統計</a>
+    </p>
+  </section>
   <p>2012-12-08 22:26:54（臺灣時間）基隆市政府東北方 92.3 公里 (位於台灣東北部海域) <span class="hero">M6.2 地震，震源深度 312 公里</span>。我們把它和人、建築、高山、民航機放在同一把尺上比一比。</p>
 </header>
 
@@ -79,7 +82,7 @@ td.big{color:var(--accent);font-weight:700}
   ・成年人身高、民航機巡航高度是<b>示意取值</b>：成年人取 1.7 公尺（示意用的整數，不是調查平均值；國健署委託研究的臺灣 19 歲以上成人實際平均身高：合計 163.0、男 169.3、女 157.0 cm）；民航機巡航高度約 9～12 公里（約略值），這裡取 10,000 公尺。</p>
 </section>
 
-<section class="card">
+<section class="card" id="sources">
   <h2>資料出處（核對日期：2026-11-18）</h2>
   <ol class="src">
     <li>震源（312.0 公里，M6.2，基隆市政府東北方 92.3 公里 (位於台灣東北部海域)）：中央氣象署地震測報中心 地震資訊頁<br><a href="https://scweb.cwa.gov.tw/zh-tw/earthquake/details/2012120822265462">https://scweb.cwa.gov.tw/zh-tw/earthquake/details/2012120822265462</a></li>
@@ -92,6 +95,7 @@ td.big{color:var(--accent);font-weight:700}
     <li>零點定義：中央氣象署數位科普網「震源、震央，傻傻分不清！」（地震深度指震央與震源之間的距離）；CVU 高度定義（從最低的主要戶外行人入口量起）<br><a href="https://pweb.cwa.gov.tw/PopularScience/ec/ec_9.html">https://pweb.cwa.gov.tw/PopularScience/ec/ec_9.html</a><br><a href="https://www.skyscrapercenter.com/building/burj-khalifa/3">https://www.skyscrapercenter.com/building/burj-khalifa/3</a></li>
   </ol>
   <p class="note">地震另以 tw-quake3d 專案資料（氣象署地震目錄整理）交叉核對同一筆：深度 312.01 公里、規模 6.23。本頁為獨立示意原型，數值以上列來源為準。</p>
+  <p class="note">本站資料為個人整理自中央氣象署等官方與學術機構的公開資料，經程式轉換與視覺化處理，可能有擷取、轉換或更新延遲上的誤差，並非官方正式發布。內容僅供學習與參考，請勿作為防災決策、工程設計、學術引用或任何正式用途的依據；正式資訊請以中央氣象署（<a href="https://scweb.cwa.gov.tw/">https://scweb.cwa.gov.tw/</a>）公告為準。</p>
 </section>
 </div>
 
