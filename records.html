@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>觀測紀錄｜3D 台灣地震時空圖譜</title>
+<link rel="stylesheet" href="./reference-pages.css">
+<style>
+.record-group{margin:22px 0}
+.record-group > h2{font-size:17px;margin:0 0 10px}
+.record-event{margin:14px 0}
+.record-event h3{font-size:15px;margin:0 0 4px}
+.event-meta{color:var(--mute);font-size:13px;line-height:1.55;margin:0 0 8px}
+.records{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px}
+.record{margin:0;min-width:0}
+.record h3,.record h4{font-size:14px;margin:0}
+.record .value{color:var(--accent);font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;margin:5px 0 8px}
+.record-links{display:flex;flex-wrap:wrap;gap:2px 16px;font-size:13px;line-height:1.5}
+.record-links a{display:inline-flex;align-items:center;min-height:32px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <a class="home-link" href="./index.html">← 回到首頁</a>
+    <h1>觀測紀錄</h1>
+  </header>
+
+  <section class="record-group">
+    <h2>災害地震紀錄案例</h2>
+    <div class="record-event">
+      <h3>新竹－臺中地震</h3>
+      <p class="event-meta"><time datetime="1935-04-21T06:02">1935-04-21 06:02</time> · 震央 24.35°N、120.82°E</p>
+      <article class="card record">
+        <h4>災害地震表中死亡人數最多的案例</h4>
+        <p class="value">3,279 人</p>
+        <div class="record-links"><a href="https://scweb.cwa.gov.tw/zh-tw/page/disaster/5">中央氣象署災害地震表，編號 048</a></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="record-group">
+    <h2>舊制震度紀錄案例</h2>
+    <div class="record-event">
+      <h3>美濃地震</h3>
+      <p class="event-meta"><time datetime="2016-02-06T03:57">2016-02-06 03:57</time></p>
+      <div class="records">
+        <article class="card record">
+          <h4>新化震度</h4>
+          <p class="value">7 級</p>
+          <div class="record-links"><a href="https://scweb.cwa.gov.tw/zh-tw/earthquake/details/2016020603572666006">中央氣象署第 006 號報告</a></div>
+        </article>
+        <article class="card record">
+          <h4>地震規模</h4>
+          <p class="value">ML 6.6</p>
+          <div class="record-links"><a href="https://scweb.cwa.gov.tw/zh-tw/earthquake/details/2016020603572666006">中央氣象署第 006 號報告</a></div>
+        </article>
+      </div>
+    </div>
+    <div class="record-event">
+      <h3>秀林地震</h3>
+      <p class="event-meta"><time datetime="2019-04-18T13:01">2019-04-18 13:01</time></p>
+      <div class="records">
+        <article class="card record">
+          <h4>銅門震度</h4>
+          <p class="value">7 級</p>
+          <div class="record-links"><a href="https://scweb.cwa.gov.tw/zh-tw/earthquake/details/2019041813010763031">中央氣象署第 031 號報告</a></div>
+        </article>
+        <article class="card record">
+          <h4>地震規模</h4>
+          <p class="value">ML 6.3</p>
+          <div class="record-links"><a href="https://scweb.cwa.gov.tw/zh-tw/earthquake/details/2019041813010763031">中央氣象署第 031 號報告</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="record-group">
+    <h2>新制震度紀錄案例</h2>
+    <div class="record-event">
+      <h3>關山地震</h3>
+      <p class="event-meta"><time datetime="2022-09-17T21:41">2022-09-17 21:41</time></p>
+      <div class="records">
+        <article class="card record">
+          <h4>池上震度</h4>
+          <p class="value">6 強</p>
+          <div class="record-links"><a href="https://scweb.cwa.gov.tw/zh-tw/earthquake/details/2022091721411966086">中央氣象署第 086 號報告</a></div>
+        </article>
+        <article class="card record">
+          <h4>芮氏規模</h4>
+          <p class="value">6.6</p>
+          <div class="record-links"><a href="https://scweb.cwa.gov.tw/zh-tw/earthquake/details/2022091721411966086">中央氣象署第 086 號報告</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="record-group">
+    <h2>本站資料範圍內最深的地震</h2>
+    <p class="event-meta"><time datetime="2012-12-08T22:26:54+08:00">2012-12-08 22:26:54</time>（臺灣時間）</p>
+    <article class="card record">
+      <h3>震源深度</h3>
+      <p class="value">312.0 km</p>
+      <div class="record-links">
+        <a href="./depth-compare.html">查看深度示意</a>
+        <a href="https://scweb.cwa.gov.tw/zh-tw/earthquake/details/2012120822265462">中央氣象署地震報告</a>
+      </div>
+    </article>
+  </section>
+
+  <section class="record-group">
+    <h2>規模紀錄案例</h2>
+    <div class="record-event">
+      <h3>花蓮地震</h3>
+      <p class="event-meta"><time datetime="1920-06-05">1920-06-05</time> · 同一事件的不同規模值並列</p>
+      <div class="records">
+        <article class="card record">
+          <h4>中央氣象署地震規模</h4>
+          <p class="value">ML 7.5</p>
+          <div class="record-links"><a href="https://scweb.cwa.gov.tw/zh-tw/page/disaster/5">中央氣象署災害地震表，編號 027</a></div>
+        </article>
+        <article class="card record">
+          <h4>中央氣象署地震規模</h4>
+          <p class="value">Mw 8.0</p>
+          <div class="record-links"><a href="https://scweb.cwa.gov.tw/zh-tw/page/disaster/5">中央氣象署災害地震表，編號 027</a></div>
+        </article>
+        <article class="card record">
+          <h4>ISC-GEM 地震規模</h4>
+          <p class="value">Mw 8.23</p>
+          <div class="record-links"><a href="https://earthquake.usgs.gov/earthquakes/eventpage/iscgem912519">ISC-GEM 解，USGS ComCat iscgem912519</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="sources">
+    <h2>資料來源</h2>
+    <p class="note">各筆資料的出處附於觀測數值下方。</p>
+    <p class="note">本站資料為個人整理自中央氣象署等官方與學術機構的公開資料，經程式轉換與視覺化處理，可能有擷取、轉換或更新延遲上的誤差，並非官方正式發布。內容僅供學習與參考，請勿作為防災決策、工程設計、學術引用或任何正式用途的依據；正式資訊請以中央氣象署（<a href="https://scweb.cwa.gov.tw/">https://scweb.cwa.gov.tw/</a>）公告為準。</p>
+  </section>
+</main>
+</body>
+</html>
