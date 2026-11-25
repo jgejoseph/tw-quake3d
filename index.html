@@ -9,8 +9,8 @@
   :root{--bg:rgba(10,14,22,.88);--fg:#dde3ee;--mute:#8fa0b5;--acc:#ffb347}
   html,body{margin:0;height:100%;background:#0b0f17;color:var(--fg);font-family:system-ui,"Noto Sans TC",sans-serif;overflow:hidden;-webkit-text-size-adjust:100%}
   #app{position:fixed;inset:0}
-  button,select,#depthEntry{font:inherit;color:var(--fg);background:#1c2433;border:1px solid #33405a;border-radius:6px;padding:4px 10px;cursor:pointer}
-  button:hover,select:hover,#depthEntry:hover{border-color:#5b6f94}
+  button,select,#recordsEntry{font:inherit;color:var(--fg);background:#1c2433;border:1px solid #33405a;border-radius:6px;padding:4px 10px;cursor:pointer}
+  button:hover,select:hover,#recordsEntry:hover{border-color:#5b6f94}
   .card{position:fixed;background:var(--bg);border-radius:10px;font-size:13px;line-height:1.5;box-shadow:0 2px 12px rgba(0,0,0,.4);z-index:9}
   #grip{display:none;order:9;width:100%;margin-top:10px;padding:10px 0;text-align:center;font-size:14px;color:inherit;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:8px;cursor:pointer}
   .lbl{color:var(--mute);font-size:12px;margin-bottom:2px}
@@ -137,7 +137,7 @@
   #phead h1{font-size:16px;margin:0;letter-spacing:.5px}
   #phead .sub{font-size:11px;color:var(--mute);margin-top:1px}
   #phead .actions{display:flex;flex:none;flex-direction:column;gap:4px}
-  #depthEntry{font-size:12.5px;text-decoration:none;text-align:center;white-space:nowrap}
+  #recordsEntry{font-size:12.5px;text-decoration:none;text-align:center;white-space:nowrap}
   #collapse{flex:none;font-size:12.5px;padding:4px 10px}
   #panel.collapsed #body{display:none}
   #panel.collapsed #phead{border-bottom:0}
@@ -294,7 +294,7 @@ window.__introState='showing';fb=setTimeout(function(){window.__introDone()},150
   <header id="phead">
     <div class="tt"><h1>3D 台灣地震時空圖譜</h1><div class="sub">個人製作的教育視覺化・非官方</div></div>
     <div class="actions">
-      <a id="depthEntry" href="./depth-compare.html" target="_blank" rel="noopener">深度示意</a>
+      <a id="recordsEntry" href="./records.html" target="_blank" rel="noopener">觀測紀錄</a>
       <button id="collapse" aria-label="收合或展開設定">收合</button>
     </div>
   </header>
@@ -369,6 +369,7 @@ window.__introState='showing';fb=setTimeout(function(){window.__introDone()},150
       <p><b>隱沒板塊</b>：USGS Slab2（Hayes et al., 2018, <a href="https://doi.org/10.5066/F7PV6JNV" target="_blank" rel="noopener">doi:10.5066/F7PV6JNV</a>），公有領域。</p>
       <p><b>板塊邊界</b>：PB2002（Bird, 2003, doi:10.1029/2001GC000252），GeoJSON 由 Hugo Ahlenius、Nordpil 與 Peter Bird 提供，<a href="https://github.com/fraxen/tectonicplates" target="_blank" rel="noopener">fraxen/tectonicplates</a>，授權 ODC-BY 1.0。全球尺度，台灣附近僅供示意。</p>
       <p><b>程式庫</b>：three.js（MIT）。</p>
+      <p>本站資料為個人整理自中央氣象署等官方與學術機構的公開資料，經程式轉換與視覺化處理，可能有擷取、轉換或更新延遲上的誤差，並非官方正式發布。內容僅供學習與參考，請勿作為防災決策、工程設計、學術引用或任何正式用途的依據；正式資訊請以中央氣象署（<a href="https://www.cwa.gov.tw/" target="_blank" rel="noopener">https://www.cwa.gov.tw/</a>）公告為準。</p>
     </details>
     <div id="status"></div>
     <footer class="foot">個人教育作品・非官方・不提供即時地震資訊</footer>
