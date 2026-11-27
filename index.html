@@ -9,8 +9,8 @@
   :root{--bg:rgba(10,14,22,.88);--fg:#dde3ee;--mute:#8fa0b5;--acc:#ffb347}
   html,body{margin:0;height:100%;background:#0b0f17;color:var(--fg);font-family:system-ui,"Noto Sans TC",sans-serif;overflow:hidden;-webkit-text-size-adjust:100%}
   #app{position:fixed;inset:0}
-  button,select,#recordsEntry{font:inherit;color:var(--fg);background:#1c2433;border:1px solid #33405a;border-radius:6px;padding:4px 10px;cursor:pointer}
-  button:hover,select:hover,#recordsEntry:hover{border-color:#5b6f94}
+  button,select{font:inherit;color:var(--fg);background:#1c2433;border:1px solid #33405a;border-radius:6px;padding:4px 10px;cursor:pointer}
+  button:hover,select:hover{border-color:#5b6f94}
   .card{position:fixed;background:var(--bg);border-radius:10px;font-size:13px;line-height:1.5;box-shadow:0 2px 12px rgba(0,0,0,.4);z-index:9}
   #grip{display:none;order:9;width:100%;margin-top:10px;padding:10px 0;text-align:center;font-size:14px;color:inherit;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:8px;cursor:pointer}
   .lbl{color:var(--mute);font-size:12px;margin-bottom:2px}
@@ -136,8 +136,6 @@
   #phead{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px 9px;background:rgba(12,16,25,.98);border-bottom:1px solid rgba(255,255,255,.08)}
   #phead h1{font-size:16px;margin:0;letter-spacing:.5px}
   #phead .sub{font-size:11px;color:var(--mute);margin-top:1px}
-  #phead .actions{display:flex;flex:none;flex-direction:column;gap:4px}
-  #recordsEntry{font-size:12.5px;text-decoration:none;text-align:center;white-space:nowrap}
   #collapse{flex:none;font-size:12.5px;padding:4px 10px}
   #panel.collapsed #body{display:none}
   #panel.collapsed #phead{border-bottom:0}
@@ -192,7 +190,6 @@
     #phead{background:#283650;border-bottom-color:rgba(156,195,255,.22)}
     #panel .acc+.acc{border-top-color:rgba(255,255,255,.12)}
     #phead{padding:8px 10px}
-    #phead .actions{flex-direction:row;align-items:center}
     #body{padding:0 10px 10px}
     #phead .sub{font-size:10.5px}
     #panel header{touch-action:none}
@@ -294,10 +291,7 @@ window.__introState='showing';fb=setTimeout(function(){window.__introDone()},150
 <div id="panel" class="card">
   <header id="phead">
     <div class="tt"><h1>3D 台灣地震時空圖譜</h1><div class="sub">個人製作的教育視覺化・非官方</div></div>
-    <div class="actions">
-      <a id="recordsEntry" href="./records.html" target="_blank" rel="noopener">觀測紀錄</a>
-      <button id="collapse" aria-label="收合或展開設定">收合</button>
-    </div>
+    <button id="collapse" aria-label="收合或展開設定">收合</button>
   </header>
   <div id="body">
     <details class="acc" open>
@@ -351,6 +345,7 @@ window.__introState='showing';fb=setTimeout(function(){window.__introDone()},150
     </details>
     <details class="acc" id="edu">
       <summary>地震小知識</summary>
+      <p><a href="./depth-compare.html" target="_blank" rel="noopener">312 公里有多深？</a></p>
       <div id="eduList"></div>
     </details>
     <details class="acc" id="sources">
